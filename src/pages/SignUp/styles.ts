@@ -4,7 +4,8 @@ import { shade } from "polished";
 export const Container = styled.div`
   height: 100vh;
   display: flex;
-  align-items: stretch;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const Content = styled.div`
@@ -12,9 +13,7 @@ export const Content = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
-  width: 100%;
-  max-width: 100%;
+  width: 50%;
 `;
 
 const appearFromRight = keyframes`
