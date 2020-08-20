@@ -28,6 +28,7 @@ const appearFromRight = keyframes`
 `;
 
 export const AnimationContainer = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -36,12 +37,19 @@ export const AnimationContainer = styled.div`
   animation: ${appearFromRight} 1s;
 
   form {
-    margin: 80px 0;
-    width: 340px;
+    margin: 20px 0;
+    width: 900px;
     text-align: center;
+    margin-top: 60px;
 
     h1 {
-      margin-bottom: 24px;
+      margin-bottom: 40px;
+    }
+
+    div {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
     }
 
     a {
@@ -60,7 +68,7 @@ export const AnimationContainer = styled.div`
   > a {
     color: #131313;
     display: block;
-    margin-top: 24px;
+
     text-decoration: none;
     transition: color 0.2s;
 
