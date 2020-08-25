@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from "react";
+import React, { useRef, useCallback, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import * as Yup from "yup";
 import {
@@ -18,12 +18,14 @@ import getValidationErrors from "../../utils/getValidationErros";
 import { useToast } from "../../components/Toast";
 
 import { Container, Content, AnimationContainer } from "./styles";
-import { api } from "../../services/api";
+import { api, apiCep } from "../../services/api";
 
 import LogoImg from "../../assets/logo.svg";
 
 import InputRow from "../../components/InputRow";
 import Button from "../../components/Button";
+
+import LoadProgress from "../../components/LoadProgress";
 
 interface SignUpFormData {
   first_name: string;
@@ -43,6 +45,7 @@ interface SignUpFormData {
 const SignUp: React.FC = () => {
   const FormRef = useRef<FormHandles>(null);
   const { addToast } = useToast();
+  const [loading, setLoading] = useState(true);
   const history = useHistory();
 
   const handleSubmit = useCallback(
@@ -68,6 +71,8 @@ const SignUp: React.FC = () => {
           abortEarly: false,
         });
 
+        setLoading(false);
+
         const users = {
           first_name: data.first_name,
           second_name: data.second_name,
@@ -75,7 +80,7 @@ const SignUp: React.FC = () => {
           password: data.password,
           phone: data.contact,
           city: data.city,
-          uf: data.uf,
+          f: data.uf,
           cep: data.cep,
           address: data.address,
           number: data.number,
@@ -98,6 +103,8 @@ const SignUp: React.FC = () => {
           return;
         }
 
+        setLoading(true);
+
         addToast({
           title: "Erro",
           description:
@@ -107,7 +114,30 @@ const SignUp: React.FC = () => {
       }
     },
 
-    [addToast]
+    [addToast, history]
+  );
+
+  const handleCep = useCallback(
+    async (event: React.ChangeEvent<HTMLInputElement>) => {
+      if (event.target.value.length >= 5 && event.target.value.length < 6) {
+        FormRef.current?.setFieldValue("cep", `${event.target.value}-`);
+        return;
+      }
+
+      if (event.target.value.length >= 9) {
+        const cepValue = event.target.value.replace("-", "");
+
+        const response = await apiCep.get(`${cepValue}/json`);
+        const { bairro, localidade, logradouro, uf } = response.data;
+
+        FormRef.current?.setFieldValue("neighborhood", bairro);
+        FormRef.current?.setFieldValue("city", localidade);
+        FormRef.current?.setFieldValue("address", logradouro);
+        FormRef.current?.setFieldValue("uf", uf);
+        return;
+      }
+    },
+    []
   );
 
   return (
@@ -119,74 +149,92 @@ const SignUp: React.FC = () => {
             <h1>Faça seu Cadastro</h1>
             <div>
               <InputRow
-                containerStyle={{ width: 440 }}
+                size={20}
+                containerStyle={{ width: 270 }}
                 name="first_name"
                 icon={FiUser}
                 placeholder="Primeiro nome"
               />
               <InputRow
-                containerStyle={{ width: 440 }}
+                containerStyle={{ width: 340 }}
                 name="second_name"
                 icon={FiUser}
                 placeholder="Segundo nome"
               />
               <InputRow
-                containerStyle={{ width: 350 }}
+                size={20}
+                containerStyle={{ width: 240 }}
                 name="contact"
                 icon={FiPhone}
                 placeholder="Contato"
               />
               <InputRow
-                containerStyle={{ width: 530 }}
+                size={20}
+                containerStyle={{ width: 280 }}
                 name="email"
                 icon={FiMail}
                 placeholder="E-mail"
+              />
+              <InputRow
+                size={20}
+                containerStyle={{ width: 300 }}
+                name="cep"
+                icon={FiMapPin}
+                placeholder="CEP"
+                onChange={(e) => handleCep(e)}
               />
               <InputRow
                 containerStyle={{ width: 270 }}
                 name="uf"
                 icon={FiMapPin}
                 placeholder="UF"
+                disabled={true}
               />
               <InputRow
                 containerStyle={{ width: 300 }}
                 name="city"
                 icon={FiMapPin}
                 placeholder="Cidade"
+                disabled={true}
               />
               <InputRow
-                containerStyle={{ width: 300 }}
-                name="cep"
-                icon={FiMapPin}
-                placeholder="CEP"
-              />
-              <InputRow
-                containerStyle={{ width: 300 }}
+                containerStyle={{ width: 410 }}
                 name="address"
                 icon={FiMap}
                 placeholder="Endereço"
               />
               <InputRow
-                containerStyle={{ width: 270 }}
+                size={10}
+                containerStyle={{ width: 140 }}
                 name="number"
                 icon={FiHome}
                 placeholder="N°"
               />
               <InputRow
-                containerStyle={{ width: 300 }}
+                size={8}
+                containerStyle={{ width: 190 }}
                 name="complement"
                 icon={FiHome}
                 placeholder="Complemento"
               />
               <InputRow
-                containerStyle={{ width: 300 }}
+                size={20}
+                containerStyle={{ width: 230 }}
+                name="neighborhood"
+                icon={FiMap}
+                placeholder="Bairro"
+              />
+              <InputRow
+                size={20}
+                containerStyle={{ width: 210 }}
                 name="password"
                 icon={FiLock}
                 type="password"
                 placeholder="Digite a senha"
               />
               <InputRow
-                containerStyle={{ width: 300 }}
+                size={20}
+                containerStyle={{ width: 210 }}
                 name="confirmation_password"
                 icon={FiLock}
                 type="password"
@@ -197,7 +245,13 @@ const SignUp: React.FC = () => {
               Cadastrar
             </Button>
           </Form>
-
+          <LoadProgress
+            visible={loading}
+            type="spin"
+            color="#fff"
+            height="20%"
+            width="20%"
+          />
           <Link to="/">
             <FiArrowLeft />
             Voltar para logon

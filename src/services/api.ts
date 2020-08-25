@@ -7,3 +7,7 @@ export const api = axios.create({
 export const apiIbge = axios.create({
   baseURL: "https://servicodados.ibge.gov.br/api/v1/localidades/estados",
 });
+
+export const apiCep = axios.create({
+  baseURL: "https://viacep.com.br/ws",
+});

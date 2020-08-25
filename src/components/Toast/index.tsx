@@ -6,7 +6,7 @@ import React, {
   useEffect,
 } from "react";
 import { useTransition } from "react-spring";
-import { uuid } from "uuidv4";
+import { v4 } from "uuid";
 import { FiInfo, FiXCircle } from "react-icons/fi";
 
 import { Container } from "./styles";
@@ -31,7 +31,7 @@ const Toast: React.FC = ({ children }) => {
 
   const addToast = useCallback(
     ({ type, title, description }: Omit<ToastMessage, "id">) => {
-      const id = uuid();
+      const id = v4();
       setId(id);
       const toast = {
         id,

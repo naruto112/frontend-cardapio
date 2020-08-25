@@ -19,6 +19,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 const InputRow: React.FC<InputProps> = ({
+  size,
   name,
   containerStyle = {},
   icon: Icon,
@@ -55,6 +56,7 @@ const InputRow: React.FC<InputProps> = ({
     >
       {Icon && <Icon size={20} />}
       <input
+        style={{ width: size }}
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
         defaultValue={defaultValue}
