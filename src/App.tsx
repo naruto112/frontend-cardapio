@@ -12,6 +12,7 @@ function App() {
       <AppProvider>
         <Routes />
       </AppProvider>
+
       <GlobalStyle />
     </Router>
   );
