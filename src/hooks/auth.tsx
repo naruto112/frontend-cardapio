@@ -3,8 +3,16 @@ import { api } from "../services/api";
 
 interface User {
   id: string;
-  name: string;
+  first_name: string;
+  second_name: string;
   email: string;
+  city: string;
+  uf: string;
+  cep: string;
+  address: string;
+  neighborhood: string;
+  number: string;
+  complement: string;
   avatar_url: string;
 }
 

@@ -29,4 +29,17 @@ export default createGlobalStyle`
         cursor: pointer;
     }
 
+    .logo {
+        width: 300px;
+    }
+
+    .logo-header {
+        width: 180px;
+    }
+
+    a {
+        text-decoration: none;
+        color: #545454;
+    }
+
 `;

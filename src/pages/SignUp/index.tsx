@@ -144,7 +144,7 @@ const SignUp: React.FC = () => {
     <Container>
       <Content>
         <AnimationContainer>
-          <img src={LogoImg} alt="Cardapio Digital" />
+          <img className="logo" src={LogoImg} alt="Cardapio Digital" />
           <Form ref={FormRef} onSubmit={handleSubmit}>
             <h1>Faça seu Cadastro</h1>
             <div>

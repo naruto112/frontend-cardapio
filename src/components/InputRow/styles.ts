@@ -22,7 +22,7 @@ export const Container = styled.div<ContainerProps>`
 
   margin-bottom: 20px;
   margin-left: 10px;
-  
+
   ${(props) =>
     props.isErrored &&
     css`
@@ -46,10 +46,14 @@ export const Container = styled.div<ContainerProps>`
     flex: 1;
     background: transparent;
     border: 0;
-    color: #f4ede8;
+    color: #484848;
+    font-weight: 600;
+    font-size: 14px;
 
     &::placeholder {
-      color: #312e38;
+      color: #f4ede8;
+      font-weight: 500;
+      font-size: 16px;
     }
   }
 
