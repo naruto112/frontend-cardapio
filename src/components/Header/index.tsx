@@ -39,7 +39,9 @@ const Header: React.FC<IProps> = ({ route }) => {
           <div>
             <span>Bem-vindo,</span>
             <Link to="/profile">
-              <strong>Renato Souza</strong>
+              <strong>
+                {user.first_name} {user.second_name}
+              </strong>
             </Link>
           </div>
           {user.avatar_url !== null ? (
