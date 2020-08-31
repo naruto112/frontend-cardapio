@@ -178,10 +178,10 @@ const Profile: React.FC = () => {
           onSubmit={handleSubmit}
         >
           <AvatarInput>
-            {user.avatar_url !== null ? (
+            {user.avatar_url !== "" ? (
               <img src={user.avatar_url} alt="Avatar" />
             ) : (
-              <img src={PlaceholderUser} alt="Avatar" />
+              <img src={PlaceholderUser} alt="Avatar Placeholder" />
             )}
 
             <label htmlFor="avatar">

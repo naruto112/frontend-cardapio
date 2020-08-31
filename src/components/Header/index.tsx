@@ -44,7 +44,7 @@ const Header: React.FC<IProps> = ({ route }) => {
               </strong>
             </Link>
           </div>
-          {user.avatar_url !== null ? (
+          {user.avatar_url !== "" ? (
             <img src={user.avatar_url} alt="User PlaceHolder" />
           ) : (
             <img src={PlaceholderUser} alt="User PlaceHolder" />
