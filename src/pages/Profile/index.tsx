@@ -18,7 +18,7 @@ import { useToast } from "../../components/Toast";
 import { useAuth } from "../../hooks/auth";
 import PlaceholderUser from "../../assets/placeholder.svg";
 
-import { api } from "../../services/api";
+import { api, apiCep } from "../../services/api";
 
 import { Content, AvatarInput } from "./styles";
 import InputRow from "../../components/InputRow";
@@ -33,8 +33,9 @@ interface ProfileFormData {
   uf: string;
   city: string;
   cep: string;
-  address: string;
   number: string;
+  neighborhood: string;
+  address: string;
   complement?: string;
   password: string;
   old_password: string;
@@ -74,11 +75,17 @@ const Profile: React.FC = () => {
         const schema = Yup.object().shape({
           first_name: Yup.string().required("Nome obrigatório"),
           second_name: Yup.string().required("Segundo nome obrigatório"),
-          // contact: Yup.string().required("Telefone de contato obrigatório"),
-          cep: Yup.string().required().min(7),
+          contact: Yup.string(),
           email: Yup.string()
             .required("E-mail obrigatório")
             .email("Digite um e-mail válido"),
+          cep: Yup.string().required().min(7),
+          uf: Yup.string().required(),
+          city: Yup.string().required(),
+          address: Yup.string().required(),
+          number: Yup.string().required(),
+          complement: Yup.string(),
+          neighborhood: Yup.string(),
           old_password: Yup.string(),
           password: Yup.string().when("old_password", {
             is: (val) => !!val.length,
@@ -102,8 +109,14 @@ const Profile: React.FC = () => {
           first_name,
           second_name,
           contact,
-          cep,
           email,
+          cep,
+          uf,
+          city,
+          address,
+          number,
+          complement,
+          neighborhood,
           old_password,
           password,
           confirmation_password,
@@ -116,6 +129,12 @@ const Profile: React.FC = () => {
             contact,
             cep,
             email,
+            uf,
+            city,
+            address,
+            number,
+            complement,
+            neighborhood,
           },
           old_password
             ? {
@@ -157,6 +176,33 @@ const Profile: React.FC = () => {
     [addToast, history, updateUser]
   );
 
+  const handleCep = useCallback(
+    async (event: React.ChangeEvent<HTMLInputElement>) => {
+      const value = event.target.value.replace("_", "");
+      if (value.length >= 9) {
+        const cepValue = value.replace("-", "");
+
+        const response = await apiCep.get(`${cepValue}/json`);
+        const { bairro, localidade, logradouro, uf } = response.data;
+
+        if (!bairro) {
+          addToast({
+            type: "error",
+            title: "Erro CEP",
+            description: "CEP Não localizado em nossa base, tente novamente",
+          });
+          return;
+        }
+
+        FormRef.current?.setFieldValue("neighborhood", bairro);
+        FormRef.current?.setFieldValue("city", localidade);
+        FormRef.current?.setFieldValue("address", logradouro);
+        FormRef.current?.setFieldValue("uf", uf);
+      }
+    },
+    [addToast]
+  );
+
   return (
     <>
       <Header route="profile" />
@@ -166,6 +212,7 @@ const Profile: React.FC = () => {
           initialData={{
             first_name: user.first_name,
             second_name: user.second_name,
+            contact: user.phone,
             email: user.email,
             cep: user.cep,
             uf: user.uf,
@@ -218,12 +265,13 @@ const Profile: React.FC = () => {
               placeholder="E-mail"
             />
             <InputRow
+              mask="99999-999"
               size={20}
               containerStyle={{ width: 300 }}
               name="cep"
               icon={FiMapPin}
               placeholder="CEP"
-              // onChange={(e) => handleCep(e)}
+              onChange={(e) => handleCep(e)}
             />
             <InputRow
               containerStyle={{ width: 270 }}

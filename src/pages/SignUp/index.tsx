@@ -176,6 +176,7 @@ const SignUp: React.FC = () => {
                 placeholder="E-mail"
               />
               <InputRow
+                mask="99999-999"
                 size={20}
                 containerStyle={{ width: 300 }}
                 name="cep"
