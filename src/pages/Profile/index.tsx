@@ -79,7 +79,7 @@ const Profile: React.FC = () => {
           email: Yup.string()
             .required("E-mail obrigatório")
             .email("Digite um e-mail válido"),
-          cep: Yup.string().required().min(7),
+          cep: Yup.string(),
           uf: Yup.string().required(),
           city: Yup.string().required(),
           address: Yup.string().required(),
