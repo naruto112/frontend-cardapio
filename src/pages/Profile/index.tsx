@@ -1,4 +1,4 @@
-import React, { useRef, useCallback, ChangeEvent } from "react";
+import React, { useRef, useCallback, ChangeEvent, useState } from "react";
 import {
   FiUser,
   FiMail,
@@ -44,6 +44,7 @@ interface ProfileFormData {
 
 const Profile: React.FC = () => {
   const FormRef = useRef<FormHandles>(null);
+  const [loading, setLoading] = useState("Confirmar mudanças");
   const { addToast } = useToast();
   const history = useHistory();
 
@@ -104,6 +105,8 @@ const Profile: React.FC = () => {
         await schema.validate(data, {
           abortEarly: false,
         });
+
+        setLoading("Salvando...");
 
         const {
           first_name,
@@ -166,6 +169,8 @@ const Profile: React.FC = () => {
           return;
         }
 
+        setLoading("Confirmar mudanças");
+
         addToast({
           type: "error",
           title: "Erro na atualização",
@@ -186,12 +191,7 @@ const Profile: React.FC = () => {
         const { bairro, localidade, logradouro, uf } = response.data;
 
         if (!bairro) {
-          addToast({
-            type: "error",
-            title: "Erro CEP",
-            description: "CEP Não localizado em nossa base, tente novamente",
-          });
-          return;
+          throw new Error("");
         }
 
         FormRef.current?.setFieldValue("neighborhood", bairro);
@@ -200,7 +200,7 @@ const Profile: React.FC = () => {
         FormRef.current?.setFieldValue("uf", uf);
       }
     },
-    [addToast]
+    []
   );
 
   return (
@@ -342,7 +342,7 @@ const Profile: React.FC = () => {
             />
           </div>
           <Button containerStyle={{ width: 300 }} type="submit">
-            Confirmar mudanças
+            {loading}
           </Button>
         </Form>
       </Content>

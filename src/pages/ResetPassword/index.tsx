@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from "react";
+import React, { useRef, useCallback, useState } from "react";
 import { useHistory, useLocation, Link } from "react-router-dom";
 import { FiLock, FiLogIn } from "react-icons/fi";
 import { Form } from "@unform/web";
@@ -21,6 +21,7 @@ interface ResetPasswordFormData {
 
 const ResetPassword: React.FC = (params) => {
   const FormRef = useRef<FormHandles>(null);
+  const [loading, setLoading] = useState("Alterar senha");
 
   const { addToast } = useToast();
   const history = useHistory();
@@ -42,6 +43,8 @@ const ResetPassword: React.FC = (params) => {
           abortEarly: false,
         });
 
+        setLoading("Alterando...");
+
         const { password, password_confirmation } = data;
         const token = location.search.replace("?token=", "");
 
@@ -56,6 +59,12 @@ const ResetPassword: React.FC = (params) => {
         });
 
         history.push("/");
+
+        addToast({
+          type: "success",
+          title: "Recuperação de senha",
+          description: "O reset de sua senha foi efetuado com sucesso.",
+        });
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
@@ -64,6 +73,8 @@ const ResetPassword: React.FC = (params) => {
 
           return;
         }
+
+        setLoading("Alterar senha");
 
         addToast({
           type: "error",
@@ -97,7 +108,7 @@ const ResetPassword: React.FC = (params) => {
               placeholder="Confirmação da senha"
             />
 
-            <Button type="submit">Alterar senha</Button>
+            <Button type="submit">{loading}</Button>
           </Form>
 
           <Link to="/">

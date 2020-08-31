@@ -25,8 +25,6 @@ import LogoImg from "../../assets/logo.svg";
 import InputRow from "../../components/InputRow";
 import Button from "../../components/Button";
 
-import LoadProgress from "../../components/LoadProgress";
-
 interface SignUpFormData {
   first_name: string;
   second_name: string;
@@ -45,7 +43,7 @@ interface SignUpFormData {
 const SignUp: React.FC = () => {
   const FormRef = useRef<FormHandles>(null);
   const { addToast } = useToast();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState("Cadastrar");
   const history = useHistory();
 
   const handleSubmit = useCallback(
@@ -71,7 +69,7 @@ const SignUp: React.FC = () => {
           abortEarly: false,
         });
 
-        setLoading(false);
+        setLoading("Carregando...");
 
         const users = {
           first_name: data.first_name,
@@ -103,7 +101,7 @@ const SignUp: React.FC = () => {
           return;
         }
 
-        setLoading(true);
+        setLoading("Cadastrar");
 
         addToast({
           title: "Erro",
@@ -243,16 +241,9 @@ const SignUp: React.FC = () => {
               />
             </div>
             <Button containerStyle={{ width: 300 }} type="submit">
-              Cadastrar
+              {loading}
             </Button>
           </Form>
-          <LoadProgress
-            visible={loading}
-            type="spin"
-            color="#fff"
-            height="20%"
-            width="20%"
-          />
           <Link to="/">
             <FiArrowLeft />
             Voltar para logon
