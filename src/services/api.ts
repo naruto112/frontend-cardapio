@@ -11,3 +11,4 @@ export const apiIbge = axios.create({
 export const apiCep = axios.create({
   baseURL: "https://viacep.com.br/ws",
 });
+ex;
