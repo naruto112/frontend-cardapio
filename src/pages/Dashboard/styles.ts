@@ -94,3 +94,21 @@ export const FilterContainer = styled.div`
     }
   }
 `;
+
+export const Section = styled.div`
+  display: flex;
+  margin-top: 80px;
+  width: 100%;
+`;
+
+export const Category = styled.div`
+  display: flex;
+  width: 100%;
+  margin-left: 120px;
+  margin-right: 100px;
+
+  h1 {
+    font-size: 26px;
+    color: #9195a1;
+  }
+`;

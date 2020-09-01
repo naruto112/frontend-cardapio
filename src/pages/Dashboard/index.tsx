@@ -9,6 +9,8 @@ import {
   SearchContainer,
   FilterContainer,
   FilterTitle,
+  Section,
+  Category,
 } from "./styles";
 import Header from "../../components/Header";
 import Button from "../../components/Button";
@@ -59,6 +61,12 @@ const Dashboard: React.FC = () => {
           </button>
         </div>
       </FilterContainer>
+      <Section>
+        <Category>
+          <h1>Lanches</h1>
+          <aside></aside>
+        </Category>
+      </Section>
     </Container>
   );
 };
