@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-
+import React, { useState, useCallback } from "react";
+import update from "immutability-helper";
 import { FiPlus } from "react-icons/fi";
 
 import {
@@ -11,25 +11,100 @@ import {
   FilterTitle,
   Section,
   Category,
-  CardProduct,
-  ContentProduct,
+  Product,
 } from "./styles";
 import Header from "../../components/Header";
 import Button from "../../components/Button";
 import SearchInput from "../../components/SearchInput";
+import CardProduct from "../../components/CardProduct";
 
 import LancheImg from "../../assets/lanche.svg";
 import BebidasImg from "../../assets/bebidas.svg";
 import SobremesaImg from "../../assets/sobremesa.svg";
-import Burger from "../../assets/bg.png";
-import Burger2 from "../../assets/bg.jpg";
+
+interface ICardProduct {
+  id: number;
+  name: string;
+  quantity: string;
+  description: string;
+  price: string;
+}
 
 const Dashboard: React.FC = () => {
-  const [isAvailable, setIsAvailable] = useState(true);
+  const CardaProduct: ICardProduct[] = [
+    {
+      id: 1,
+      name: "Mister 1",
+      quantity: "12 itens",
+      description: "Ovo de 150gm com cebola caramelizada e um toque de pimenta",
+      price: "28.90",
+    },
+    {
+      id: 2,
+      name: "Mister 2",
+      quantity: "17 itens",
+      description:
+        "Carne de 150gm com cebola caramelizada e um toque de pimenta",
+      price: "17.80",
+    },
+    {
+      id: 3,
+      name: "Mister 3",
+      quantity: "17 itens",
+      description:
+        "Carne de 150gm com cebola caramelizada e um toque de pimenta",
+      price: "17.80",
+    },
+    {
+      id: 4,
+      name: "Mister 4",
+      quantity: "17 itens",
+      description:
+        "Carne de 150gm com cebola caramelizada e um toque de pimenta",
+      price: "17.80",
+    },
+    {
+      id: 5,
+      name: "Mister 5",
+      quantity: "17 itens",
+      description:
+        "Carne de 150gm com cebola caramelizada e um toque de pimenta",
+      price: "17.80",
+    },
+    {
+      id: 6,
+      name: "Mister 6",
+      quantity: "17 itens",
+      description:
+        "Carne de 150gm com cebola caramelizada e um toque de pimenta",
+      price: "17.80",
+    },
+    {
+      id: 7,
+      name: "Mister 7",
+      quantity: "17 itens",
+      description:
+        "Carne de 150gm com cebola caramelizada e um toque de pimenta",
+      price: "17.80",
+    },
+  ];
 
-  async function toggleAvailable(): Promise<void> {
-    setIsAvailable(!isAvailable);
-  }
+  const [list, setLists] = useState(CardaProduct);
+
+  const moveCard = useCallback(
+    (dragIndex: number, hoverIndex: number) => {
+      const dragCard = list[dragIndex];
+      setLists(
+        update(list, {
+          $splice: [
+            [dragIndex, 1],
+            [hoverIndex, 0, dragCard],
+          ],
+        })
+      );
+    },
+    [list]
+  );
 
   return (
     <Container>
@@ -74,35 +149,20 @@ const Dashboard: React.FC = () => {
       <Section>
         <Category>
           <h1>Lanches</h1>
-          <CardProduct>
-            <header>
-              <img src={Burger} alt="Burger" />
-            </header>
-            <ContentProduct>
-              <div className="top-card">
-                <h2>Mister Buerger</h2>
-                <strong>16 itens</strong>
-              </div>
-              <div className="middle-card">
-                <article>
-                  Carne de 150gm com cebola caramelizada e um toque de pimenta
-                </article>
-              </div>
-              <div className="bottom-card">
-                <span>R$ 27,90</span>
-                <div className="availability-container">
-                  <label className="switch">
-                    <input
-                      type="checkbox"
-                      checked={isAvailable}
-                      onChange={toggleAvailable}
-                    />
-                    <span className="slider" />
-                  </label>
-                </div>
-              </div>
-            </ContentProduct>
-          </CardProduct>
+          <Product>
+            {list.map((product, index) => (
+              <CardProduct
+                index={index}
+                id={product.id}
+                key={product.id}
+                name={product.name}
+                quantity={product.quantity}
+                description={product.description}
+                price={product.price}
+                moveCard={moveCard}
+              />
+            ))}
+          </Product>
         </Category>
       </Section>
     </Container>
