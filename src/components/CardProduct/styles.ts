@@ -16,7 +16,10 @@ export const Container = styled.div`
   height: 151px;
   border-radius: 9px;
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.05);
+  transition: 0.4s;
+
   &:hover {
+    box-shadow: 1px 1px 1px rgba(0.2, 0.2, 0.2, 0.2);
     background: ${shade(0.01, "#fff")};
   }
 

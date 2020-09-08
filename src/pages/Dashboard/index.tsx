@@ -112,11 +112,11 @@ const Dashboard: React.FC = () => {
       <ContentButtonHeader>
         <div>
           <Button>
-            <FiPlus />
+            <FiPlus size={20} />
             <span>Criar Categoria</span>
           </Button>
           <Button>
-            <FiPlus />
+            <FiPlus size={20} />
             <span>Adicionar Produto</span>
           </Button>
         </div>

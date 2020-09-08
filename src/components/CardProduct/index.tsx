@@ -4,6 +4,7 @@ import Burger from "../../assets/bg.png";
 import Burger2 from "../../assets/bg.jpg";
 
 import { Container, ContentProduct } from "./styles";
+import { Link } from "react-router-dom";
 
 interface ICardProduct {
   index: number;
@@ -83,33 +84,35 @@ const CardProduct: React.FC<ICardProduct> = ({
   const opacity = isDragging ? 0 : 1;
 
   return (
-    <Container ref={ref} style={{ opacity }}>
-      <header>
-        <img src={Burger2} alt="Burger" />
-      </header>
-      <ContentProduct>
-        <div className="top-card">
-          <h2>{name}</h2>
-          <strong>{quantity}</strong>
-        </div>
-        <div className="middle-card">
-          <article>{description}</article>
-        </div>
-        <div className="bottom-card">
-          <span>R$ {price}</span>
-          <div className="availability-container">
-            <label className="switch">
-              <input
-                type="checkbox"
-                checked={isAvailable}
-                onChange={toggleAvailable}
-              />
-              <span className="slider" />
-            </label>
+    <Link to="/detail">
+      <Container ref={ref} style={{ opacity }}>
+        <header>
+          <img src={Burger2} alt="Burger" />
+        </header>
+        <ContentProduct>
+          <div className="top-card">
+            <h2>{name}</h2>
+            <strong>{quantity}</strong>
           </div>
-        </div>
-      </ContentProduct>
-    </Container>
+          <div className="middle-card">
+            <article>{description}</article>
+          </div>
+          <div className="bottom-card">
+            <span>R$ {price}</span>
+            <div className="availability-container">
+              <label className="switch">
+                <input
+                  type="checkbox"
+                  checked={isAvailable}
+                  onChange={toggleAvailable}
+                />
+                <span className="slider" />
+              </label>
+            </div>
+          </div>
+        </ContentProduct>
+      </Container>
+    </Link>
   );
 };
 
