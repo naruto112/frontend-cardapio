@@ -7,7 +7,7 @@ interface ContainerProps {
 }
 
 export const Container = styled.div<ContainerProps>`
-  background: #b5b5b5;
+  background: #fff;
   border-radius: 10px;
   padding: 16px;
   width: 100%;
@@ -21,7 +21,7 @@ export const Container = styled.div<ContainerProps>`
   & + div {
     margin-top: 8px;
   }
-  
+
   ${(props) =>
     props.isErrored &&
     css`
@@ -46,7 +46,7 @@ export const Container = styled.div<ContainerProps>`
     background: transparent;
     border: 0;
     color: #312e38;
-    font-family: 'Roboto Slab',serif;
+    font-family: "Roboto Slab", serif;
     font-size: 16px;
   }
 

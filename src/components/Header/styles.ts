@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const HeaderBody = styled.header`
   width: auto;
-  padding: 24px 0;
+  padding: 10px 0;
   background: #ffffff;
   filter: drop-shadow(0px 4px 2px rgba(0, 0, 0, 0.04));
 `;

@@ -1,6 +1,5 @@
 import React, { useState, useRef } from "react";
 import { useDrag, useDrop, DropTargetMonitor } from "react-dnd";
-import Burger from "../../assets/bg.png";
 import Burger2 from "../../assets/bg.jpg";
 
 import { Container, ContentProduct } from "./styles";
@@ -57,7 +56,7 @@ const CardProduct: React.FC<ICardProduct> = ({
 
       const targetSize = ref.current?.getBoundingClientRect();
       if (targetSize) {
-        const targetCenter = (targetSize?.right - targetSize?.left) / 2;
+        const targetCenter = (targetSize?.top - targetSize?.bottom) / 2;
 
         const draggedOffset = monitor.getClientOffset();
         if (draggedOffset) {

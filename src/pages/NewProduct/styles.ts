@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { shade } from "polished";
 
 export const Container = styled.div`
   max-width: auto;
@@ -51,6 +52,20 @@ export const ProductFooter = styled.footer`
   border-radius: 0px 0px 8px 8px;
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.05);
 
+  .btn-save {
+    background: #2e7735;
+    &:hover {
+      background: ${shade(0.2, "#2e7735")};
+    }
+  }
+
+  .btn-trash {
+    background: #bc4722;
+    &:hover {
+      background: ${shade(0.2, "#bc4722")};
+    }
+  }
+
   div {
     display: flex;
     justify-content: flex-end;
@@ -60,6 +75,7 @@ export const ProductFooter = styled.footer`
 
     button {
       display: flex;
+      margin-left: 10px;
       justify-content: center;
       align-items: center;
       width: 250px;

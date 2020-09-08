@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from "react";
+import { useHistory } from "react-router-dom";
 import update from "immutability-helper";
 import { FiPlus } from "react-icons/fi";
 
@@ -87,9 +88,42 @@ const Dashboard: React.FC = () => {
         "Carne de 150gm com cebola caramelizada e um toque de pimenta",
       price: "17.80",
     },
+    {
+      id: 8,
+      name: "Mister 8",
+      quantity: "17 itens",
+      description:
+        "Carne de 150gm com cebola caramelizada e um toque de pimenta",
+      price: "17.80",
+    },
+    {
+      id: 9,
+      name: "Mister 9",
+      quantity: "17 itens",
+      description:
+        "Carne de 150gm com cebola caramelizada e um toque de pimenta",
+      price: "17.80",
+    },
+    {
+      id: 10,
+      name: "Mister 10",
+      quantity: "17 itens",
+      description:
+        "Carne de 150gm com cebola caramelizada e um toque de pimenta",
+      price: "17.80",
+    },
+    {
+      id: 11,
+      name: "Mister 11",
+      quantity: "17 itens",
+      description:
+        "Carne de 150gm com cebola caramelizada e um toque de pimenta",
+      price: "17.80",
+    },
   ];
 
   const [list, setLists] = useState(CardaProduct);
+  const history = useHistory();
 
   const moveCard = useCallback(
     (dragIndex: number, hoverIndex: number) => {
@@ -106,6 +140,13 @@ const Dashboard: React.FC = () => {
     [list]
   );
 
+  const location = useCallback(
+    (href: string) => {
+      history.push(href);
+    },
+    [history]
+  );
+
   return (
     <Container>
       <Header route="dashboard" />
@@ -115,7 +156,7 @@ const Dashboard: React.FC = () => {
             <FiPlus size={20} />
             <span>Criar Categoria</span>
           </Button>
-          <Button>
+          <Button onClick={() => location("/new-product")}>
             <FiPlus size={20} />
             <span>Adicionar Produto</span>
           </Button>

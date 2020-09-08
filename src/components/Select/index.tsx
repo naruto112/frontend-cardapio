@@ -12,8 +12,9 @@ interface IStates {
 interface InputProps {
   containerStyle?: object;
   name: string;
-  icon: React.ComponentType<IconBaseProps>;
+  icon?: React.ComponentType<IconBaseProps>;
   placeholder: string;
+  size?: number;
   value: IStates[];
   changed?: boolean;
 }
@@ -45,34 +46,19 @@ const Select: React.FC<InputProps> = ({
   return (
     <Container style={containerStyle} isFocused={isFocused} isFilled={isFilled}>
       {Icon && <Icon size={20} />}
-      {Changed && (
-        <select
-          onFocus={handleInputFocus}
-          onBlur={handleInputBlur}
-          defaultValue={Placeholder}
-          ref={selectRef}
-          onChange={handleChanged}
-        >
-          <option>{Placeholder}</option>
-          {Value.map((item) => (
-            <option key={item.id}>{item.nome}</option>
-          ))}
-        </select>
-      )}
-
-      {!Changed && (
-        <select
-          onFocus={handleInputFocus}
-          onBlur={handleInputBlur}
-          defaultValue={Placeholder}
-          ref={selectRef}
-        >
-          <option>Selecione UF</option>
-          {Value.map((item) => (
-            <option key={item.id}>{item.nome}</option>
-          ))}
-        </select>
-      )}
+      <select
+        style={containerStyle}
+        onFocus={handleInputFocus}
+        onBlur={handleInputBlur}
+        defaultValue={Placeholder}
+        ref={selectRef}
+        onChange={handleChanged}
+      >
+        <option>{Placeholder}</option>
+        {Value.map((item) => (
+          <option key={item.id}>{item.nome}</option>
+        ))}
+      </select>
     </Container>
   );
 };

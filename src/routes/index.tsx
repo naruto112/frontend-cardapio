@@ -10,6 +10,7 @@ import Detail from "../pages/Detail";
 import ForgotPassowrd from "../pages/ForgotPassword";
 import ResetPassword from "../pages/ResetPassword";
 import Dashboard from "../pages/Dashboard";
+import NewProduct from "../pages/NewProduct";
 
 const Routes: React.FC = () => (
   <Switch>
@@ -21,6 +22,7 @@ const Routes: React.FC = () => (
     <Route path="/dashboard" component={Dashboard} isPrivate />
     <Route path="/profile" component={Profile} isPrivate />
     <Route path="/detail" component={Detail} isPrivate />
+    <Route path="/new-product" component={NewProduct} isPrivate />
   </Switch>
 );
 

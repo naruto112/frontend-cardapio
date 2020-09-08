@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { FiSave } from "react-icons/fi";
+import { FiSave, FiTrash } from "react-icons/fi";
 import { FormHandles } from "@unform/core";
 import { Form } from "@unform/web";
 
@@ -17,7 +17,7 @@ import Dropzone from "../../components/Dropzone";
 import Select from "../../components/Select";
 import TextArea from "../../components/Textarea";
 
-const Detail: React.FC = () => {
+const NewProduct: React.FC = () => {
   const FormRef = useRef<FormHandles>(null);
   const [selectedFile, setSelectedFile] = useState<File>();
 
@@ -89,9 +89,13 @@ const Detail: React.FC = () => {
         </ProductDetail>
         <ProductFooter>
           <div>
-            <Button>
+            <Button className="btn-save">
               <FiSave size={20} />
-              <span>Salvar mudanças</span>
+              <span>Salvar</span>
+            </Button>
+            <Button className="btn-trash">
+              <FiTrash size={20} />
+              <span>Descartar</span>
             </Button>
           </div>
         </ProductFooter>
@@ -100,4 +104,4 @@ const Detail: React.FC = () => {
   );
 };
 
-export default Detail;
+export default NewProduct;
