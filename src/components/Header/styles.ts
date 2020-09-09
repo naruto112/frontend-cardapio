@@ -28,6 +28,12 @@ export const HeaderContent = styled.div`
       height: 80px;
       width: 240px;
     }
+
+    .circle {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+    }
   }
 `;
 

@@ -1,4 +1,5 @@
 import React, { useCallback } from "react";
+import Image, { Shimmer } from "react-shimmer";
 
 import { HeaderBody, HeaderContent, Profile, Division } from "./styles";
 import { useAuth } from "../../hooks/auth";
@@ -45,9 +46,15 @@ const Header: React.FC<IProps> = ({ route }) => {
             </Link>
           </div>
           {user.avatar_url !== "" ? (
-            <img src={user.avatar_url} alt="User PlaceHolder" />
+            <Image
+              src={user.avatar_url}
+              fallback={<Shimmer className="circle" width={56} height={56} />}
+            />
           ) : (
-            <img src={PlaceholderUser} alt="User PlaceHolder" />
+            <Image
+              src={PlaceholderUser}
+              fallback={<Shimmer className="circle" width={56} height={56} />}
+            />
           )}
           <Division />
           <FiLogOut onClick={handleSignOut} />
