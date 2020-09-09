@@ -48,12 +48,26 @@ const Header: React.FC<IProps> = ({ route }) => {
           {user.avatar_url !== "" ? (
             <Image
               src={user.avatar_url}
-              fallback={<Shimmer className="circle" width={56} height={56} />}
+              fallback={
+                <Shimmer
+                  duration={800}
+                  className="circle"
+                  width={56}
+                  height={56}
+                />
+              }
             />
           ) : (
             <Image
               src={PlaceholderUser}
-              fallback={<Shimmer className="circle" width={56} height={56} />}
+              fallback={
+                <Shimmer
+                  duration={800}
+                  className="circle"
+                  width={56}
+                  height={56}
+                />
+              }
             />
           )}
           <Division />
