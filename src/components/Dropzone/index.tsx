@@ -5,12 +5,18 @@ import { FiUpload } from "react-icons/fi";
 import { Container } from "./styles";
 
 interface Props {
+  title: string;
   width: string;
   height: string;
   onFileUploaded: (file: File) => void;
 }
 
-const Dropzone: React.FC<Props> = ({ onFileUploaded, width, height }) => {
+const Dropzone: React.FC<Props> = ({
+  onFileUploaded,
+  width,
+  height,
+  title,
+}) => {
   console.log(onFileUploaded);
   const [selectedFileUrl, setSelectedFileUrl] = useState("");
 
@@ -40,7 +46,7 @@ const Dropzone: React.FC<Props> = ({ onFileUploaded, width, height }) => {
       ) : (
         <p>
           <FiUpload />
-          Image do produto
+          {title}
         </p>
       )}
     </Container>

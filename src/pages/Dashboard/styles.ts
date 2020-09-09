@@ -43,8 +43,8 @@ export const SearchContainer = styled.div`
   display: flex;
   width: 100%;
   justify-content: center;
-  margin-top: 40px;
-  margin-bottom: 40px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 
   div {
     display: flex;

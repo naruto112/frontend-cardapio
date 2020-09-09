@@ -18,6 +18,7 @@ import Header from "../../components/Header";
 import Button from "../../components/Button";
 import SearchInput from "../../components/SearchInput";
 import CardProduct from "../../components/CardProduct";
+import ModalAddCategory from "../../components/ModalAddCategory";
 
 import LancheImg from "../../assets/lanche.svg";
 import BebidasImg from "../../assets/bebidas.svg";
@@ -123,6 +124,7 @@ const Dashboard: React.FC = () => {
   ];
 
   const [list, setLists] = useState(CardaProduct);
+  const [modalOpen, setModalOpen] = useState(false);
   const history = useHistory();
 
   const moveCard = useCallback(
@@ -147,12 +149,21 @@ const Dashboard: React.FC = () => {
     [history]
   );
 
+  const toggleModal = (): void => {
+    setModalOpen(!modalOpen);
+  };
+
   return (
     <Container>
       <Header route="dashboard" />
+      <ModalAddCategory
+        isOpen={modalOpen}
+        setIsOpen={toggleModal}
+        handleAddProduct={() => {}}
+      />
       <ContentButtonHeader>
         <div>
-          <Button>
+          <Button onClick={() => setModalOpen(true)}>
             <FiPlus size={20} />
             <span>Criar Categoria</span>
           </Button>

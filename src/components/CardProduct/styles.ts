@@ -27,7 +27,6 @@ export const Container = styled.div`
     border-radius: 9px 0px 0px 9px;
     width: 156px;
     height: 151px;
-    z-index: 1;
     overflow: hidden;
 
     img {

@@ -28,16 +28,19 @@ const Detail: React.FC = () => {
         <ProductDetail>
           <div className="dropzone">
             <Dropzone
+              title="Imagem do Produto"
               width="353px"
               height="241px"
               onFileUploaded={setSelectedFile}
             />
             <Dropzone
+              title="Imagem do Produto"
               width="353px"
               height="241px"
               onFileUploaded={setSelectedFile}
             />
             <Dropzone
+              title="Imagem do Produto"
               width="353px"
               height="241px"
               onFileUploaded={setSelectedFile}
