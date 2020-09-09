@@ -30,6 +30,7 @@ export const HeaderContent = styled.div`
     }
 
     .circle {
+      margin-right: 0px;
       width: 56px;
       height: 56px;
       border-radius: 50%;

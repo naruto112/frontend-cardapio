@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import { useDrag, useDrop, DropTargetMonitor } from "react-dnd";
+import Image, { Shimmer } from "react-shimmer";
 import Burger2 from "../../assets/bg.jpg";
 
 import { Container, ContentProduct } from "./styles";
@@ -86,18 +87,29 @@ const CardProduct: React.FC<ICardProduct> = ({
     <Link to="/detail">
       <Container ref={ref} style={{ opacity }}>
         <header>
-          <img src={Burger2} alt="Burger" />
+          <Image
+            src={Burger2}
+            fallback={<Shimmer width={800} height={600} />}
+          />
+          {/* <img src={Burger2} alt="Burger" /> */}
+          {/* <Shimmer width={800} height={600} /> */}
         </header>
         <ContentProduct>
           <div className="top-card">
-            <h2>{name}</h2>
-            <strong>{quantity}</strong>
+            <h2>{!name ? <Shimmer width={100} height={15} /> : name}</h2>
+            <strong>
+              {!quantity ? <Shimmer width={50} height={15} /> : quantity}
+            </strong>
           </div>
           <div className="middle-card">
-            <article>{description}</article>
+            <article>
+              {!description ? <Shimmer width={210} height={15} /> : description}
+            </article>
           </div>
           <div className="bottom-card">
-            <span>R$ {price}</span>
+            <span>
+              {!price ? <Shimmer width={70} height={20} /> : `R$ ${price}`}{" "}
+            </span>
             <div className="availability-container">
               <label className="switch">
                 <input
