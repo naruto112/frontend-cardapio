@@ -1,5 +1,6 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import Image, { Shimmer } from "react-shimmer";
+import CopyToClipboard from "react-copy-to-clipboard";
 
 import { HeaderBody, HeaderContent, Profile, Division } from "./styles";
 import { useAuth } from "../../hooks/auth";
@@ -7,15 +8,24 @@ import { useAuth } from "../../hooks/auth";
 import logoImg from "../../assets/logo.svg";
 import PlaceholderUser from "../../assets/placeholder.svg";
 
-import { FiArrowLeft, FiLogOut } from "react-icons/fi";
+import { FiArrowLeft, FiLogOut, FiLink } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
 interface IProps {
   route: string;
 }
 
+interface IClipBoard {
+  value: string;
+  copied: boolean;
+}
+
 const Header: React.FC<IProps> = ({ route }) => {
   const { signOut, user } = useAuth();
+  const [copyToClipBoard, setCopyToClipBoard] = useState<IClipBoard>({
+    value: user.shop ? process.env.REACT_APP_URL+user.shop : 'Cadastrar o nome do seu cardápio',
+    copied: false,
+  });
 
   const handleSignOut = useCallback(() => {
     signOut();
@@ -35,6 +45,32 @@ const Header: React.FC<IProps> = ({ route }) => {
               </Link>
             </aside>
           )}
+          <div className="link-cardapio">
+            <FiLink />
+            <div
+              onChange={() =>
+                setCopyToClipBoard({
+                  value: process.env.REACT_APP_URL+user.shop,
+                  copied: false,
+                })
+              }
+            >
+              <CopyToClipboard
+                text={copyToClipBoard.value}
+                onCopy={() =>
+                  setCopyToClipBoard({
+                    value: process.env.REACT_APP_URL+user.shop,
+                    copied: true,
+                  })
+                }
+              >
+                <span>Link do seu cardápio</span>
+              </CopyToClipboard>
+            </div>
+            {copyToClipBoard.copied && (
+              <span style={{ color: "green", fontSize: 12 }}>Copiado!</span>
+            )}
+          </div>
         </div>
         <Profile>
           <div>

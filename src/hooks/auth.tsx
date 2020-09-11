@@ -12,6 +12,7 @@ interface User {
   cep: string;
   address: string;
   neighborhood: string;
+  shop: string;
   number: string;
   complement: string;
   avatar_url: string;

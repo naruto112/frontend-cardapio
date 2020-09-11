@@ -165,11 +165,15 @@ const Dashboard: React.FC = () => {
         <div>
           <Button onClick={() => setModalOpen(true)}>
             <FiPlus size={20} />
-            <span>Criar Categoria</span>
+            <span>Categoria</span>
           </Button>
-          <Button onClick={() => location("/new-product")}>
+          <Button onClick={() => setModalOpen(true)}>
             <FiPlus size={20} />
-            <span>Adicionar Produto</span>
+            <span>Adicionais</span>
+          </Button>
+          <Button onClick={() => location("/product/new")}>
+            <FiPlus size={20} />
+            <span>Produto</span>
           </Button>
         </div>
       </ContentButtonHeader>

@@ -1,4 +1,5 @@
 import React, { useRef, useCallback, ChangeEvent, useState } from "react";
+import Image, { Shimmer } from "react-shimmer";
 import {
   FiUser,
   FiMail,
@@ -8,6 +9,7 @@ import {
   FiLock,
   FiPhone,
   FiCamera,
+  FiLink,
 } from "react-icons/fi";
 import { FormHandles } from "@unform/core";
 import { Form } from "@unform/web";
@@ -35,6 +37,7 @@ interface ProfileFormData {
   cep: string;
   number: string;
   neighborhood: string;
+  shop: string;
   address: string;
   complement?: string;
   password: string;
@@ -87,6 +90,7 @@ const Profile: React.FC = () => {
           number: Yup.string().required(),
           complement: Yup.string(),
           neighborhood: Yup.string(),
+          shop: Yup.string().required("Coloque o nome de seu cardápio"),
           old_password: Yup.string(),
           password: Yup.string().when("old_password", {
             is: (val) => !!val.length,
@@ -120,6 +124,7 @@ const Profile: React.FC = () => {
           number,
           complement,
           neighborhood,
+          shop,
           old_password,
           password,
           confirmation_password,
@@ -138,6 +143,7 @@ const Profile: React.FC = () => {
             number,
             complement,
             neighborhood,
+            shop,
           },
           old_password
             ? {
@@ -221,12 +227,23 @@ const Profile: React.FC = () => {
             number: user.number,
             complement: user.complement,
             neighborhood: user.neighborhood,
+            shop: user.shop,
           }}
           onSubmit={handleSubmit}
         >
           <AvatarInput>
             {user.avatar_url !== "" ? (
-              <img src={user.avatar_url} alt="Avatar" />
+              <Image
+                src={user.avatar_url}
+                fallback={
+                  <Shimmer
+                    duration={800}
+                    className="circle"
+                    width={186}
+                    height={186}
+                  />
+                }
+              />
             ) : (
               <img src={PlaceholderUser} alt="Avatar Placeholder" />
             )}
@@ -302,17 +319,24 @@ const Profile: React.FC = () => {
             />
             <InputRow
               size={8}
-              containerStyle={{ width: 500 }}
+              containerStyle={{ width: 290 }}
               name="complement"
               icon={FiHome}
               placeholder="Complemento"
             />
             <InputRow
               size={20}
-              containerStyle={{ width: 360 }}
+              containerStyle={{ width: 260 }}
               name="neighborhood"
               icon={FiMap}
               placeholder="Bairro"
+            />
+            <InputRow
+              size={8}
+              containerStyle={{ width: 300 }}
+              name="shop"
+              icon={FiLink}
+              placeholder="Nome Cardapio"
             />
           </div>
           <div>

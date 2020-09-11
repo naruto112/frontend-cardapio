@@ -23,6 +23,16 @@ export const HeaderContent = styled.div`
       }
     }
 
+    .link-cardapio {
+      padding-left: 70px;
+      span {
+        margin-left: 10px;
+      }
+      div {
+        cursor: pointer;
+      }
+    }
+
     .logo {
       margin-left: 80px;
       height: 80px;

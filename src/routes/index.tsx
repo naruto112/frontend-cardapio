@@ -1,5 +1,6 @@
 import React from "react";
 import { Switch } from "react-router-dom";
+import { useAuth } from "../hooks/auth";
 
 import Route from "./Routes";
 
@@ -11,19 +12,24 @@ import ForgotPassowrd from "../pages/ForgotPassword";
 import ResetPassword from "../pages/ResetPassword";
 import Dashboard from "../pages/Dashboard";
 import NewProduct from "../pages/NewProduct";
+import Shop from "../pages/Shop/Home";
 
-const Routes: React.FC = () => (
-  <Switch>
-    <Route path="/" exact component={SignIn} />
-    <Route path="/signup" component={SignUp} />
-    <Route path="/forgot-password" component={ForgotPassowrd} />
-    <Route path="/reset-password" component={ResetPassword} />
+const Routes: React.FC = () => {
+  return (
+    <Switch>
+      <Route path="/" exact component={SignIn} />
+      <Route path="/signup" component={SignUp} />
+      <Route path="/forgot-password" component={ForgotPassowrd} />
+      <Route path="/reset-password" component={ResetPassword} />
 
-    <Route path="/dashboard" component={Dashboard} isPrivate />
-    <Route path="/profile" component={Profile} isPrivate />
-    <Route path="/detail" component={Detail} isPrivate />
-    <Route path="/new-product" component={NewProduct} isPrivate />
-  </Switch>
-);
+      <Route path="/cardapio/:shop" component={Shop} isPath />
+
+      <Route path="/dashboard" component={Dashboard} isPrivate />
+      <Route path="/profile" component={Profile} isPrivate />
+      <Route path="/product/detail" component={Detail} isPrivate />
+      <Route path="/product/new" component={NewProduct} isPrivate />
+    </Switch>
+  );
+};
 
 export default Routes;

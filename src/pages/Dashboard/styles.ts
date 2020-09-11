@@ -18,7 +18,7 @@ export const ContentButtonHeader = styled.div`
     button {
       display: flex;
       align-items: center;
-      width: 200px;
+      width: 160px;
       margin-right: 48px;
       margin-top: 48px;
 

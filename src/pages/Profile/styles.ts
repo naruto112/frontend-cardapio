@@ -70,6 +70,12 @@ export const AvatarInput = styled.div`
     border-radius: 50%;
   }
 
+  .circle {
+    width: 186px;
+    height: 186px;
+    border-radius: 50%;
+  }
+
   label {
     right: 23em !important;
     position: absolute;

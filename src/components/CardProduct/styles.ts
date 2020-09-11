@@ -11,7 +11,7 @@ export const Container = styled.div`
 
   margin-bottom: 20px;
   background: #fff;
-  width: 380px;
+  width: 360px;
   margin-left: 30px;
   height: 151px;
   border-radius: 9px;
@@ -91,6 +91,10 @@ export const ContentProduct = styled.div`
       font-weight: 600;
       font-size: 18px;
       color: #4e4e4e;
+    }
+
+    svg {
+      margin-right: 20px;
     }
   }
 
