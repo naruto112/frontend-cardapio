@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { FormHandles } from "@unform/core";
 import Modal from "../Modal";
 
-import { Form, ContentInformation } from "./styles";
+import { Form, ContentInformation, TicketInfo, Observation } from "./styles";
 import { FiCheckSquare } from "react-icons/fi";
 import InputRow from "../InputRow";
 
@@ -37,6 +37,9 @@ const ModalShopAdditional: React.FC<IModalProps> = ({
             Macarrão com pimentão, ervilha e ervas finas colhidas no himalaia.
           </main>
         </ContentInformation>
+        <TicketInfo>
+          <span>Adicionais</span>
+        </TicketInfo>
         <div className="additional">
           <div>TESTE</div>
           <div>TESTE</div>
@@ -77,6 +80,12 @@ const ModalShopAdditional: React.FC<IModalProps> = ({
           <div>TESTE</div>
           <div>TESTE</div>
         </div>
+        <TicketInfo>
+          <span>Observação</span>
+        </TicketInfo>
+        <Observation>
+          <textarea placeholder="Ex: tirar a cebola, maionese ou alface"></textarea>
+        </Observation>
       </Form>
     </Modal>
   );
