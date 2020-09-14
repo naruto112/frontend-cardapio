@@ -1,4 +1,4 @@
-import React, { useRef, useCallback, useState } from "react";
+import React, { useRef, useState } from "react";
 import Modal from "../Modal";
 
 import Dropzone from "../../components/Dropzone";

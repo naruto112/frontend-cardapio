@@ -13,12 +13,14 @@ import {
   Section,
   Category,
   Product,
+  Scroll,
 } from "./styles";
 import Header from "../../components/Header";
 import Button from "../../components/Button";
 import SearchInput from "../../components/SearchInput";
 import CardProduct from "../../components/CardProduct";
 import ModalAddCategory from "../../components/ModalAddCategory";
+import FilterCategory from "../../components/FilterCategory";
 
 import LancheImg from "../../assets/lanche.svg";
 import BebidasImg from "../../assets/bebidas.svg";
@@ -187,20 +189,34 @@ const Dashboard: React.FC = () => {
         <strong>Filtros</strong>
       </FilterTitle>
       <FilterContainer>
-        <div>
-          <button>
-            <img src={LancheImg} alt="Lanches" />
-            <span>Lanches</span>
-          </button>
-          <button>
-            <img src={BebidasImg} alt="Bebidas" />
-            <span>Bebidas</span>
-          </button>
-          <button>
-            <img src={SobremesaImg} alt="Sobremesas" />
-            <span>Sobremesas</span>
-          </button>
-        </div>
+        <Scroll>
+          <FilterCategory img={LancheImg} title="Lanches" />
+          <FilterCategory img={BebidasImg} title="Bebidas" />
+          <FilterCategory img={SobremesaImg} title="Sobremesa" />
+          <FilterCategory img={SobremesaImg} title="Sobremesa" />
+          <FilterCategory img={SobremesaImg} title="Sobremesa" />
+          <FilterCategory img={BebidasImg} title="Bebidas" />
+          <FilterCategory img={SobremesaImg} title="Sobremesa" />
+          <FilterCategory img={BebidasImg} title="Bebidas" />
+          <FilterCategory img={SobremesaImg} title="Sobremesa" />
+          <FilterCategory img={SobremesaImg} title="Sobremesa" />
+          <FilterCategory img={BebidasImg} title="Bebidas" />
+          <FilterCategory img={SobremesaImg} title="Sobremesa" />
+          <FilterCategory img={BebidasImg} title="Bebidas" />
+          <FilterCategory img={SobremesaImg} title="Sobremesa" />
+          <FilterCategory img={BebidasImg} title="Bebidas" />
+          <FilterCategory img={SobremesaImg} title="Sobremesa" />
+          <FilterCategory img={BebidasImg} title="Bebidas" />
+          <FilterCategory img={SobremesaImg} title="Sobremesa" />
+          <FilterCategory img={BebidasImg} title="Bebidas" />
+          <FilterCategory img={SobremesaImg} title="Sobremesa" />
+          <FilterCategory img={SobremesaImg} title="Sobremesa" />
+          <FilterCategory img={SobremesaImg} title="Sobremesa" />
+          <FilterCategory img={SobremesaImg} title="Sobremesa" />
+          <FilterCategory img={BebidasImg} title="Bebidas" />
+          <FilterCategory img={SobremesaImg} title="Sobremesa" />
+          <FilterCategory img={SobremesaImg} title="Sobremesa" />
+        </Scroll>
       </FilterContainer>
       <Section>
         <Category>
