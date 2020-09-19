@@ -5,18 +5,61 @@ export const Form = styled(Unform)`
   img {
     object-fit: cover;
     width: 100%;
-    height: 180px;
+    height: 140px;
     border-radius: 5px 5px 0px 0px;
     margin-bottom: 10px;
   }
 
   div.additional {
-    margin-top: 20px;
+    margin-top: 10px;
     padding-left: 10px;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     height: 150px;
     overflow-x: hidden;
     overflow-y: scroll;
+
+    .add-subcategory {
+      display: flex;
+      flex-direction: row;
+      margin-bottom: 10px;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+
+      .label-subcategory {
+        display: flex;
+        flex-direction: column;
+
+        span {
+          font-size: 18px;
+          color: #3d3d4d;
+        }
+
+        label {
+          font-weight: 600;
+          font-size: 12px;
+          color: #ea1d2c;
+        }
+      }
+
+      .btn-subcategory {
+        display: flex;
+        align-items: center;
+
+        button {
+          align-items: center;
+          margin-left: 10px;
+          margin-right: 10px;
+          background: transparent;
+          border: none;
+        }
+      }
+
+      span {
+        font-size: 1.145rem;
+        font-weight: 500;
+      }
+    }
   }
 `;
 
@@ -60,14 +103,13 @@ export const TicketInfo = styled.div`
   }
 `;
 
-
 export const Observation = styled.div`
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 
   textarea {
-    height: calc(4em + 40px);
-    min-height: calc(4em + 40px);
-    padding: 20px;
+    height: calc(3em + 30px);
+    min-height: calc(3em + 30px);
+    padding: 10px;
     border-radius: 4px;
     border: 1px solid #dcdcdc;
     background-color: #fff;
@@ -79,5 +121,30 @@ export const Observation = styled.div`
     color: #717171;
     font-weight: 400;
     resize: none;
+  }
+`;
+
+export const Footer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+
+  .btn-subcategory-footer {
+    display: flex;
+    align-items: center;
+
+    button {
+      align-items: center;
+      margin-left: 10px;
+      margin-right: 10px;
+      background: transparent;
+      border: none;
+    }
+
+    span {
+      font-size: 24px;
+      margin-left: 40px;
+      margin-right: 40px;
+    }
   }
 `;

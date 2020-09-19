@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-//import { useParams } from "react-router";
+import { CarouselProvider, Slider } from "pure-react-carousel";
+import "pure-react-carousel/dist/react-carousel.es.css";
+import { Link } from "react-router-dom";
+import { useParams } from "react-router";
 import { FiMapPin, FiShoppingCart } from "react-icons/fi";
 
 import {
@@ -8,7 +11,6 @@ import {
   HeaderContent,
   ItemCart,
   HeaderFooter,
-  Scroll,
   FilterContainer,
   FoodContainer,
 } from "./styles";
@@ -37,7 +39,7 @@ interface IFoodPlate {
 }
 
 const Shop: React.FC = () => {
-  //const { shop } = useParams<MatchProps>();
+  const { shop } = useParams<MatchProps>();
 
   const foods: IFoodPlate[] = [
     {
@@ -102,7 +104,13 @@ const Shop: React.FC = () => {
               <h1>I Love Burger</h1>
             </div>
             <div>
-              <ButtonShop icon={FiShoppingCart} />
+              <Link
+                to={{
+                  pathname: `${shop}/order`,
+                }}
+              >
+                <ButtonShop icon={FiShoppingCart} title="Ver pedido" />
+              </Link>
               <ItemCart>
                 <span>8</span>
               </ItemCart>
@@ -119,13 +127,65 @@ const Shop: React.FC = () => {
         </Header>
       </Container>
       <FilterContainer>
-        <Scroll>
-          <FilterCategory img={LancheImg} title="Lanches" />
-          <FilterCategory img={BebidasImg} title="Bebidas" />
-          <FilterCategory img={SobremesaImg} title="Sobremesa" />
-          <FilterCategory img={BebidasImg} title="Bebidas" />
-          <FilterCategory img={LancheImg} title="Lanches" />
-        </Scroll>
+        <CarouselProvider
+          className="carosel"
+          naturalSlideWidth={1}
+          naturalSlideHeight={2}
+          totalSlides={4}
+        >
+          <Slider className="filter-category">
+            <FilterCategory
+              img={LancheImg}
+              title="Lanches"
+              style={{ marginRight: 30 }}
+            />
+            <FilterCategory
+              img={BebidasImg}
+              title="Bebidas"
+              style={{ marginRight: 30 }}
+            />
+            <FilterCategory
+              img={SobremesaImg}
+              title="Sobremesa"
+              style={{ marginRight: 30 }}
+            />
+            <FilterCategory
+              img={BebidasImg}
+              title="Bebidas"
+              style={{ marginRight: 30 }}
+            />
+            <FilterCategory
+              img={BebidasImg}
+              title="Bebidas"
+              style={{ marginRight: 30 }}
+            />
+            <FilterCategory
+              img={SobremesaImg}
+              title="Sobremesa"
+              style={{ marginRight: 30 }}
+            />
+            <FilterCategory
+              img={BebidasImg}
+              title="Bebidas"
+              style={{ marginRight: 30 }}
+            />
+            <FilterCategory
+              img={SobremesaImg}
+              title="Sobremesa"
+              style={{ marginRight: 30 }}
+            />
+            <FilterCategory
+              img={SobremesaImg}
+              title="Sobremesa"
+              style={{ marginRight: 30 }}
+            />
+            <FilterCategory
+              img={BebidasImg}
+              title="Bebidas"
+              style={{ marginRight: 30 }}
+            />
+          </Slider>
+        </CarouselProvider>
       </FilterContainer>
       <FoodContainer>
         {foods.map((food, index) => (

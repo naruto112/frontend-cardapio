@@ -3,7 +3,7 @@ import { shade } from "polished";
 
 export const Container = styled.div`
   display: flex;
-  margin-right: 40px;
+  /* margin-right: 30px; */
 
   button {
     width: 120px;

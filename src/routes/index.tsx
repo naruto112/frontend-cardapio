@@ -13,6 +13,7 @@ import ResetPassword from "../pages/ResetPassword";
 import Dashboard from "../pages/Dashboard";
 import NewProduct from "../pages/NewProduct";
 import Shop from "../pages/Shop/Home";
+import Purchase from "../pages/Shop/Purchase";
 
 const Routes: React.FC = () => {
   return (
@@ -22,7 +23,8 @@ const Routes: React.FC = () => {
       <Route path="/forgot-password" component={ForgotPassowrd} />
       <Route path="/reset-password" component={ResetPassword} />
 
-      <Route path="/cardapio/:shop" component={Shop} isPath />
+      <Route path="/cardapio/:shop" exact component={Shop} isPath />
+      <Route path="/cardapio/:shop/order" component={Purchase} isPath />
 
       <Route path="/dashboard" component={Dashboard} isPrivate />
       <Route path="/profile" component={Profile} isPrivate />

@@ -66,20 +66,25 @@ export const FilterContainer = styled.div`
   display: flex;
   width: 100%;
   justify-content: center;
-`;
 
-export const Scroll = styled.div`
-  display: flex;
-  flex-direction: row;
+  .carosel {
+    display: flex;
+    flex-direction: row;
+    width: 50%;
 
-  max-width: 60%;
-  max-height: 170px;
-  position: relative;
-  overflow-x: scroll;
-  overflow-y: hidden;
+    .filter-category {
+      display: flex;
+      width: 100%;
 
-  div {
-    flex: 0 0 auto;
+      div {
+        width: 100%;
+        display: flex;
+
+        ul {
+          display: flex;
+        }
+      }
+    }
   }
 `;
 

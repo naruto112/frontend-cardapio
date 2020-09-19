@@ -1,24 +1,28 @@
-import React from 'react';
+import React, { ButtonHTMLAttributes } from "react";
 
-import { Container } from './styles';
+import { Container } from "./styles";
 
-interface IPropsCategory {
-    img: string;
-    title: string;
+interface IPropsCategory extends ButtonHTMLAttributes<HTMLButtonElement> {
+  img: string;
+  title: string;
+  containerStyle?: object;
 }
 
 const FilterCategory: React.FC<IPropsCategory> = ({
-    img,
-    title
+  img,
+  title,
+  containerStyle = {},
+  ...rest
 }) => {
+  console.log(containerStyle);
   return (
     <Container>
-          <button>
-            <img src={img} alt={title} />
-            <span>{title}</span>
-          </button>
+      <button style={containerStyle} {...rest}>
+        <img src={img} alt={title} />
+        <span>{title}</span>
+      </button>
     </Container>
-    );
-}
+  );
+};
 
 export default FilterCategory;

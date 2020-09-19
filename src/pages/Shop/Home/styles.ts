@@ -38,7 +38,6 @@ export const ItemCart = styled.div`
   position: absolute;
   margin-left: 177px;
   margin-top: -55px;
-  z-index: 1;
   min-width: 26px;
   height: 18px;
   line-height: 16px;
@@ -71,23 +70,27 @@ export const HeaderFooter = styled.div`
 
 export const FilterContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: center;
   width: 100%;
-`;
+  justify-content: center;
 
-export const Scroll = styled.div`
-  display: flex;
-  flex-direction: row;
+  .carosel {
+    display: flex;
+    flex-direction: row;
+    width: 650px;
 
-  max-width: 60%;
-  max-height: 170px;
-  position: relative;
-  overflow-x: hidden;
-  overflow-y: hidden;
+    .filter-category {
+      display: flex;
+      width: 100%;
 
-  div {
-    flex: 0 0 auto;
+      div {
+        width: 100%;
+        display: flex;
+
+        ul {
+          display: flex;
+        }
+      }
+    }
   }
 `;
 
