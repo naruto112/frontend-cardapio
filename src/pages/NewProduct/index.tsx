@@ -92,13 +92,13 @@ const NewProduct: React.FC = () => {
         </ProductDetail>
         <ProductFooter>
           <div>
-            <Button className="btn-save">
-              <FiSave size={20} />
-              <span>Salvar</span>
-            </Button>
             <Button className="btn-trash">
               <FiTrash size={20} />
               <span>Descartar</span>
+            </Button>
+            <Button className="btn-save">
+              <FiSave size={20} />
+              <span>Salvar</span>
             </Button>
           </div>
         </ProductFooter>

@@ -7,6 +7,7 @@ export const Container = styled.div`
 export const ContentButtonHeader = styled.div`
   display: flex;
   justify-content: flex-end;
+  margin-bottom: 30px;
   width: 100%;
 
   div {

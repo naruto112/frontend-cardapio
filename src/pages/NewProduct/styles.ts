@@ -71,7 +71,7 @@ export const ProductFooter = styled.footer`
     justify-content: flex-end;
     width: 100%;
     margin-left: 100px;
-    margin-right: 100px;
+    margin-right: 50px;
 
     button {
       display: flex;
