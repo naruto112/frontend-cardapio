@@ -1,11 +1,15 @@
 import React from "react";
 
+import { Container } from "./styles";
+import NotFoundImg from "../../assets/erro-404.svg";
+
 const NotFound: React.FC = () => {
   return (
-    <div>
-      <h3>404 não encontrado</h3>
-      <p>Desculpe oque você procura aqui não foi encontrado.</p>
-    </div>
+    <Container>
+      <img src={NotFoundImg} alt="Not Found" />
+      <h3>Não encontrou !</h3>
+      <p>Desculpe oque você procura aqui não existe.</p>
+    </Container>
   );
 };
 
