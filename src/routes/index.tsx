@@ -15,6 +15,8 @@ import NewProduct from "../pages/NewProduct";
 import Shop from "../pages/Shop/Home";
 import Purchase from "../pages/Shop/Purchase";
 
+import NotFound from "../components/NotFound";
+
 const Routes: React.FC = () => {
   return (
     <Switch>
@@ -30,6 +32,8 @@ const Routes: React.FC = () => {
       <Route path="/profile" component={Profile} isPrivate />
       <Route path="/product/detail" component={Detail} isPrivate />
       <Route path="/product/new" component={NewProduct} isPrivate />
+
+      <Route path="*" component={NotFound} />
     </Switch>
   );
 };
