@@ -19,7 +19,7 @@ import TextArea from "../../components/Textarea";
 
 const Detail: React.FC = () => {
   const FormRef = useRef<FormHandles>(null);
-  const [selectedFile, setSelectedFile] = useState<File>();
+  const [, setSelectedFile] = useState<File>();
 
   return (
     <Container>

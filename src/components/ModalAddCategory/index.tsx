@@ -24,7 +24,7 @@ const ModalAddCategory: React.FC<IModalProps> = ({
   handleAddProduct,
 }) => {
   const formRef = useRef<FormHandles>(null);
-  const [selectedFile, setSelectedFile] = useState<File>();
+  const [, setSelectedFile] = useState<File>();
 
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>

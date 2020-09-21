@@ -9,8 +9,7 @@ import {
   Observation,
   Footer,
 } from "./styles";
-import { FiCheckSquare, FiMinus, FiPlus, FiCheckCircle } from "react-icons/fi";
-import InputRow from "../InputRow";
+import { FiMinus, FiPlus, FiCheckCircle } from "react-icons/fi";
 import ButtonShop from "../../components/ButtonShop";
 
 import Burger2 from "../../assets/bg.jpg";

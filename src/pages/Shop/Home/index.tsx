@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { CarouselProvider, Slider } from "pure-react-carousel";
 import "pure-react-carousel/dist/react-carousel.es.css";
 import { Link } from "react-router-dom";
