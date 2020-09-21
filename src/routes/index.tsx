@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, HashRouter } from "react-router-dom";
+import { Switch } from "react-router-dom";
 
 import Route from "./Routes";
 
@@ -18,25 +18,23 @@ import NotFound from "../components/NotFound";
 
 const Routes: React.FC = () => {
   return (
-    <HashRouter>
-      <Switch>
-        <Route path="/" exact component={SignIn} />
+    <Switch>
+      <Route path="/" exact component={SignIn} />
 
-        <Route path="/signup" component={SignUp} />
-        <Route path="/forgot-password" component={ForgotPassowrd} />
-        <Route path="/reset-password" component={ResetPassword} />
+      <Route path="/signup" component={SignUp} />
+      <Route path="/forgot-password" component={ForgotPassowrd} />
+      <Route path="/reset-password" component={ResetPassword} />
 
-        <Route path="/cardapio/:shop" exact component={Shop} isPath />
-        <Route path="/cardapio/:shop/order" component={Purchase} isPath />
+      <Route path="/cardapio/:shop" exact component={Shop} isPath />
+      <Route path="/cardapio/:shop/order" component={Purchase} isPath />
 
-        <Route path="/dashboard" component={Dashboard} isPrivate />
-        <Route path="/profile" component={Profile} isPrivate />
-        <Route path="/product/detail" component={Detail} isPrivate />
-        <Route path="/product/new" component={NewProduct} isPrivate />
+      <Route path="/dashboard" component={Dashboard} isPrivate />
+      <Route path="/profile" component={Profile} isPrivate />
+      <Route path="/product/detail" component={Detail} isPrivate />
+      <Route path="/product/new" component={NewProduct} isPrivate />
 
-        <Route path="*" component={NotFound} />
-      </Switch>
-    </HashRouter>
+      <Route path="*" component={NotFound} />
+    </Switch>
   );
 };
 
