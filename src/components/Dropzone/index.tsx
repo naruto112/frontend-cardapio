@@ -17,7 +17,6 @@ const Dropzone: React.FC<Props> = ({
   height,
   title,
 }) => {
-  console.log(onFileUploaded);
   const [selectedFileUrl, setSelectedFileUrl] = useState("");
 
   const onDrop = useCallback(

@@ -14,7 +14,6 @@ const FilterCategory: React.FC<IPropsCategory> = ({
   containerStyle = {},
   ...rest
 }) => {
-  console.log(containerStyle);
   return (
     <Container>
       <button style={containerStyle} {...rest}>

@@ -51,8 +51,6 @@ describe("SignUP Page", () => {
       target: { value: "123@mudar123" },
     });
 
-    console.log(cepField.onchange);
-
     // continued;
   });
 });

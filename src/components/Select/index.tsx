@@ -39,9 +39,7 @@ const Select: React.FC<InputProps> = ({
     setIsFocused(true);
   }, []);
 
-  const handleChanged = useCallback(() => {
-    console.log("buscando cidades...");
-  }, []);
+  const handleChanged = useCallback(() => {}, []);
 
   return (
     <Container style={containerStyle} isFocused={isFocused} isFilled={isFilled}>
