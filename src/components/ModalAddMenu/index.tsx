@@ -18,27 +18,20 @@ interface IModalProps {
   handleAddProduct: (food: ICreateProductData) => void;
 }
 
-const ModalAddCategory: React.FC<IModalProps> = ({
+const ModalAddMenu: React.FC<IModalProps> = ({
   isOpen,
   setIsOpen,
   handleAddProduct,
 }) => {
   const formRef = useRef<FormHandles>(null);
-  const [, setSelectedFile] = useState<File>();
 
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
       <Form ref={formRef} onSubmit={() => {}}>
-        <h1>Nova Categoria</h1>
-        <Dropzone
-          title="SVG Categoria"
-          width="100%"
-          height="241px"
-          onFileUploaded={setSelectedFile}
-        />
-        <InputRow name="description" placeholder="Ex: Lanches" />
+        <h1>Nova Cardapio</h1>
+        <InputRow name="name_menu" placeholder="Ex: Almoço do mês" />
         <button type="submit">
-          <p className="text">Criar categoria</p>
+          <p className="text">Criar</p>
           <div className="icon">
             <FiCheckSquare size={24} />
           </div>
@@ -48,4 +41,4 @@ const ModalAddCategory: React.FC<IModalProps> = ({
   );
 };
 
-export default ModalAddCategory;
+export default ModalAddMenu;

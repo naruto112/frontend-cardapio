@@ -4,114 +4,117 @@ export const Container = styled.div`
   max-width: auto;
 `;
 
-export const ContentButtonHeader = styled.div`
+export const BodyContainer = styled.div`
   display: flex;
-  justify-content: flex-end;
-  margin-bottom: 30px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 100%;
+  height: 100%;
+`;
+
+export const HeaderBody = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
 
   div {
     display: flex;
-    flex-direction: row;
-    margin-right: 50px;
+    justify-content: space-between;
+    width: 700px;
+    height: 80px;
+
+    h2 {
+      display: flex;
+      align-items: center;
+      font-size: 34px;
+    }
 
     button {
       display: flex;
       align-items: center;
-      width: 160px;
-      margin-right: 48px;
-      margin-top: 48px;
+      width: 140px;
+      height: 40px;
 
       span {
-        margin-left: 20px;
+        margin-left: 10px;
       }
     }
   }
 `;
 
-export const TitlePage = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  width: 100%;
-
-  h1 {
-    margin-left: 125px;
-  }
+export const BodyMenu = styled.div`
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  padding-left: 20px;
+  padding-right: 20px;
+  width: 700px;
+  overflow-y: scroll;
+  height: 650px;
 `;
 
-export const SearchContainer = styled.div`
+export const CardMenu = styled.div`
   display: flex;
-  width: 100%;
-  justify-content: center;
-  margin-top: 10px;
-  margin-bottom: 10px;
-
-  div {
-    display: flex;
-    width: 400px;
-    align-items: center;
-  }
+  align-items: center;
+  margin-bottom: 5px;
+  border-radius: 2px;
+  box-shadow: rgba(0, 0, 0, 0.067) 0px 4px 8px;
+  background: #fff;
+  border-bottom: 1px solid #ccc;
+  padding: 14px;
 `;
 
-export const FilterTitle = styled.div`
-  display: flex;
-  width: 100%;
-
-  strong {
-    margin-left: 120px;
-    margin-bottom: 20px;
-  }
+export const View = styled.div`
+  margin-left: 10px;
+  width: 200px;
+  height: 100%;
 `;
 
-export const FilterContainer = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: center;
-
-  .carosel {
-    display: flex;
-    flex-direction: row;
-    width: 50%;
-
-    .filter-category {
-      display: flex;
-      width: 100%;
-
-      div {
-        width: 100%;
-        display: flex;
-
-        ul {
-          display: flex;
-        }
-      }
-    }
-  }
-`;
-
-export const Section = styled.div`
-  display: flex;
-  margin-top: 80px;
-  width: 100%;
-`;
-
-export const Category = styled.div`
+export const GroupOrder = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 10px;
   height: 100%;
-  margin-left: 120px;
-
-  h1 {
-    font-size: 26px;
-    color: #9195a1;
+  i {
+    width: 6px;
+    height: 6px;
+    background: #ccc;
+    margin-bottom: 2px;
+    &::before {
+      content: "";
+    }
   }
 `;
 
-export const Product = styled.div`
-  display: flex;
+export const PanelView = styled.div`
   width: 100%;
   height: 100%;
-  flex-direction: row;
-  flex-wrap: wrap;
+  margin-top: 10px;
+
+  span {
+    border-radius: 2px;
+    background-color: #d2d3d5;
+    color: #96979a;
+    font-style: italic;
+    padding: 2px 8px;
+    font-size: 0.8em;
+    line-height: 1.3em;
+    margin-bottom: 3px;
+    border: 1px solid #ccc;
+  }
+
+  span.edit-itens {
+    border-radius: 2px;
+    background-color: #fff;
+    color: #32323a;
+    font-style: italic;
+    padding: 2px 8px;
+    font-size: 0.8em;
+    line-height: 1.3em;
+    margin-bottom: 2px;
+    margin-left: 5px;
+    border: 1px solid #ccc;
+  }
 `;

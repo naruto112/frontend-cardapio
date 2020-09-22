@@ -23,7 +23,9 @@ interface IClipBoard {
 const Header: React.FC<IProps> = ({ route }) => {
   const { signOut, user } = useAuth();
   const [copyToClipBoard, setCopyToClipBoard] = useState<IClipBoard>({
-    value: user.shop ? process.env.REACT_APP_URL+user.shop : 'Cadastrar o nome do seu cardápio',
+    value: user.shop
+      ? process.env.REACT_APP_URL + user.shop
+      : "Cadastrar o nome do seu cardápio",
     copied: false,
   });
 
@@ -50,7 +52,7 @@ const Header: React.FC<IProps> = ({ route }) => {
             <div
               onChange={() =>
                 setCopyToClipBoard({
-                  value: process.env.REACT_APP_URL+user.shop,
+                  value: process.env.REACT_APP_URL + user.shop,
                   copied: false,
                 })
               }
@@ -59,7 +61,7 @@ const Header: React.FC<IProps> = ({ route }) => {
                 text={copyToClipBoard.value}
                 onCopy={() =>
                   setCopyToClipBoard({
-                    value: process.env.REACT_APP_URL+user.shop,
+                    value: process.env.REACT_APP_URL + user.shop,
                     copied: true,
                   })
                 }
@@ -72,6 +74,7 @@ const Header: React.FC<IProps> = ({ route }) => {
             )}
           </div>
         </div>
+
         <Profile>
           <div>
             <span>Bem-vindo,</span>

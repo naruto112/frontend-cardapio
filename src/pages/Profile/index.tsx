@@ -1,5 +1,6 @@
 import React, { useRef, useCallback, ChangeEvent, useState } from "react";
 import Image, { Shimmer } from "react-shimmer";
+import { SketchPicker, RGBColor, ColorResult } from "react-color";
 import {
   FiUser,
   FiMail,
@@ -22,7 +23,7 @@ import PlaceholderUser from "../../assets/placeholder.svg";
 
 import { api, apiCep } from "../../services/api";
 
-import { Content, AvatarInput } from "./styles";
+import { Content, AvatarInput, ColorPick } from "./styles";
 import InputRow from "../../components/InputRow";
 import Button from "../../components/Button";
 import Header from "../../components/Header";
@@ -47,6 +48,13 @@ interface ProfileFormData {
 
 const Profile: React.FC = () => {
   const FormRef = useRef<FormHandles>(null);
+  const [displayColorPicker, setDisplayColorPicker] = useState(false);
+  const [color, setColor] = useState<RGBColor>({
+    r: 241,
+    g: 112,
+    b: 19,
+    a: 1,
+  });
   const [loading, setLoading] = useState("Confirmar mudanças");
   const { addToast } = useToast();
   const history = useHistory();
@@ -71,6 +79,18 @@ const Profile: React.FC = () => {
     },
     [addToast, updateUser]
   );
+
+  const handleColorChange = useCallback((color: ColorResult) => {
+    setColor(color.rgb);
+  }, []);
+
+  const handleColorClick = useCallback(() => {
+    setDisplayColorPicker(!displayColorPicker);
+  }, [displayColorPicker]);
+
+  const handleColorClose = useCallback(() => {
+    setDisplayColorPicker(false);
+  }, []);
 
   const handleSubmit = useCallback(
     async (data: ProfileFormData) => {
@@ -253,6 +273,23 @@ const Profile: React.FC = () => {
               <input type="file" id="avatar" onChange={handleAvatarChange} />
             </label>
           </AvatarInput>
+          <ColorPick>
+            <strong>Cor do cardápio</strong>
+            <div
+              onClick={handleColorClick}
+              style={{
+                background: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+                width: 50,
+                height: 24,
+                borderRadius: 2,
+              }}
+            ></div>
+            {displayColorPicker ? (
+              <div className="pallete-color" onClick={handleColorClose}>
+                <SketchPicker color={color} onChange={handleColorChange} />
+              </div>
+            ) : null}
+          </ColorPick>
           <div>
             <InputRow
               size={20}

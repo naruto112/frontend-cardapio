@@ -108,3 +108,23 @@ export const AvatarInput = styled.div`
     }
   }
 `;
+
+export const ColorPick = styled.div`
+  display: flex;
+  align-items: center;
+
+  > div {
+    cursor: pointer;
+    margin-left: 20px;
+  }
+
+  justify-content: flex-end;
+
+  width: 100%;
+
+  .pallete-color {
+    cursor: pointer;
+    position: absolute;
+    margin-top: 20px;
+  }
+`;

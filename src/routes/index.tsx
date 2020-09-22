@@ -15,6 +15,7 @@ import Shop from "../pages/Shop/Home";
 import Purchase from "../pages/Shop/Purchase";
 
 import NotFound from "../components/NotFound";
+import Itens from "../pages/itens";
 
 const Routes: React.FC = () => {
   return (
@@ -29,6 +30,7 @@ const Routes: React.FC = () => {
       <Route path="/cardapio/:shop/order" component={Purchase} isPath />
 
       <Route path="/dashboard" component={Dashboard} isPrivate />
+      <Route path="/itens/:id" component={Itens} isPrivate />
       <Route path="/profile" component={Profile} isPrivate />
       <Route path="/product/detail" component={Detail} isPrivate />
       <Route path="/product/new" component={NewProduct} isPrivate />
