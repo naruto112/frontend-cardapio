@@ -1,5 +1,4 @@
-import React, { useState, useRef } from "react";
-import { useDrag, useDrop, DropTargetMonitor } from "react-dnd";
+import React, { useState } from "react";
 import Image, { Shimmer } from "react-shimmer";
 import Burger2 from "../../assets/bg.jpg";
 
@@ -25,67 +24,19 @@ interface DragItem {
 
 const CardProduct: React.FC<ICardProduct> = ({
   index,
-  id,
   name,
   quantity,
   description,
   price,
-  moveCard,
 }) => {
   const [isAvailable, setIsAvailable] = useState(true);
-  const ref = useRef<HTMLDivElement>(null);
 
   async function toggleAvailable(): Promise<void> {
     setIsAvailable(!isAvailable);
   }
 
-  const [{ isDragging }, dragRef] = useDrag({
-    item: { type: "CARD", index },
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
-  });
-
-  const [, dropRef] = useDrop({
-    accept: "CARD",
-    hover(item: DragItem, monitor: DropTargetMonitor) {
-      const draggedIndex = item.index;
-      const targetIndex = index;
-
-      if (draggedIndex === targetIndex) {
-        return;
-      }
-
-      const targetSize = ref.current?.getBoundingClientRect();
-      if (targetSize) {
-        const targetCenter = (targetSize?.top - targetSize?.bottom) / 2;
-
-        const draggedOffset = monitor.getClientOffset();
-        if (draggedOffset) {
-          const draggedTop = draggedOffset.y - targetSize.top;
-
-          if (draggedIndex < targetIndex && draggedTop < targetCenter) {
-            return;
-          }
-
-          if (draggedIndex > targetIndex && draggedTop > targetCenter) {
-            return;
-          }
-
-          moveCard(draggedIndex, targetIndex);
-
-          item.index = targetIndex;
-        }
-      }
-    },
-  });
-
-  dragRef(dropRef(ref));
-
-  const opacity = isDragging ? 0 : 1;
-
   return (
-    <Container ref={ref} style={{ opacity }}>
+    <Container>
       <header>
         <Image src={Burger2} fallback={<Shimmer width={800} height={600} />} />
       </header>

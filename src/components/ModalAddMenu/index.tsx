@@ -1,7 +1,6 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import Modal from "../Modal";
 
-import Dropzone from "../../components/Dropzone";
 import { FiCheckSquare } from "react-icons/fi";
 import { FormHandles } from "@unform/core";
 import InputRow from "../InputRow";

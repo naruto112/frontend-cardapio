@@ -37,7 +37,7 @@ interface ICardProduct {
 }
 
 const Itens: React.FC = () => {
-  const CardaProduct: ICardProduct[] = [
+  const CardByProduct: ICardProduct[] = [
     {
       id: 1,
       name: "Mister 1",
@@ -127,7 +127,7 @@ const Itens: React.FC = () => {
     },
   ];
 
-  const [list, setLists] = useState(CardaProduct);
+  const [list, setLists] = useState(CardByProduct);
   const [modalOpen, setModalOpen] = useState(false);
   const history = useHistory();
 
