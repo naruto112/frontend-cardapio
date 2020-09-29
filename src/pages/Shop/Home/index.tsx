@@ -13,6 +13,7 @@ import {
   HeaderFooter,
   FilterContainer,
   FoodContainer,
+  Title,
 } from "./styles";
 
 import ButtonShop from "../../../components/ButtonShop";
@@ -38,59 +39,81 @@ interface IFoodPlate {
   available: boolean;
 }
 
+interface IMenu {
+  id: number;
+  name: string;
+  product: IFoodPlate[];
+}
+
 const Shop: React.FC = () => {
   const { shop } = useParams<MatchProps>();
 
-  const foods: IFoodPlate[] = [
+  const menu: IMenu[] = [
     {
-      image: `${Burger2}`,
-      name: "Veggie",
-      price: "21.89",
-      description:
-        "Macarrão com pimentão, ervilha e ervas finas colhidas no himalaia.",
+      id: 1,
+      name: "Cardapio mês",
+      product: [
+        {
+          image: `${Burger2}`,
+          name: "Veggie",
+          price: "21.89",
+          description:
+            "Macarrão com pimentão, ervilha e ervas finas colhidas no himalaia.",
+          id: 2,
+          available: true,
+        },
+        {
+          id: 3,
+          name: "A la Camarón",
+          description:
+            "Macarrão com vegetais de primeira linha e camarão dos 7 mares.",
+          price: "25.90",
+          available: true,
+          image: `${Burger2}`,
+        },
+        {
+          id: 1,
+          name: "A la Camarón",
+          description:
+            "Macarrão com vegetais de primeira linha e camarão dos 7 mares.",
+          price: "25.90",
+          available: true,
+          image: `${Burger2}`,
+        },
+      ],
+    },
+    {
       id: 2,
-      available: true,
-    },
-    {
-      id: 3,
-      name: "A la Camarón",
-      description:
-        "Macarrão com vegetais de primeira linha e camarão dos 7 mares.",
-      price: "25.90",
-      available: true,
-      image: `${Burger2}`,
-    },
-    {
-      image: `${Burger2}`,
-      name: "Moda Otario",
-      price: "13.90",
-      description: "Moda otario é aquele que opera e acha que vai resolve",
-      available: true,
-      id: 4,
-    },
-    {
-      image: `${Burger2}`,
-      name: "Moda Otario",
-      price: "13.90",
-      description: "Moda otario é aquele que opera e acha que vai resolve",
-      available: true,
-      id: 5,
-    },
-    {
-      image: `${Burger2}`,
-      name: "Moda Otario",
-      price: "13.90",
-      description: "Moda otario é aquele que opera e acha que vai resolve",
-      available: true,
-      id: 6,
-    },
-    {
-      image: `${Burger2}`,
-      name: "Moda Otario",
-      price: "13.90",
-      description: "Moda otario é aquele que opera e acha que vai resolve",
-      available: true,
-      id: 7,
+      name: "Cardapio de Jantar",
+      product: [
+        {
+          image: `${Burger2}`,
+          name: "Veggie",
+          price: "21.89",
+          description:
+            "Macarrão com pimentão, ervilha e ervas finas colhidas no himalaia.",
+          id: 2,
+          available: true,
+        },
+        {
+          id: 3,
+          name: "A la Camarón",
+          description:
+            "Macarrão com vegetais de primeira linha e camarão dos 7 mares.",
+          price: "25.90",
+          available: true,
+          image: `${Burger2}`,
+        },
+        {
+          id: 1,
+          name: "A la Camarón",
+          description:
+            "Macarrão com vegetais de primeira linha e camarão dos 7 mares.",
+          price: "25.90",
+          available: true,
+          image: `${Burger2}`,
+        },
+      ],
     },
   ];
 
@@ -187,11 +210,19 @@ const Shop: React.FC = () => {
           </Slider>
         </CarouselProvider>
       </FilterContainer>
-      <FoodContainer>
-        {foods.map((food, index) => (
-          <Food key={index} food={food} />
-        ))}
-      </FoodContainer>
+
+      {menu.map((card, index) => (
+        <FoodContainer key={index}>
+          <Title>
+            <h2>{card.name}</h2>
+          </Title>
+          <div className="food-item">
+            {card.product.map((food) => (
+              <Food key={food.id} food={food} />
+            ))}
+          </div>
+        </FoodContainer>
+      ))}
     </>
   );
 };

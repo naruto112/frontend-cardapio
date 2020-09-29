@@ -94,14 +94,28 @@ export const FilterContainer = styled.div`
   }
 `;
 
+export const Title = styled.header`
+  display: flex;
+  width: 100%;
+`;
+
 export const FoodContainer = styled.div`
   width: 100%;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 40px 0;
+  padding: 30px 40px 40px 40px;
+  background: #fff;
+  border-radius: 6px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #dcdcdc;
 
-  display: grid;
-
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 32px;
+  .food-item {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 32px;
+  }
 `;
