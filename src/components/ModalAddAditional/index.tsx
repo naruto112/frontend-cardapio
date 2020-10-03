@@ -1,10 +1,9 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import Modal from "../Modal";
 
-import Dropzone from "../../components/Dropzone";
-import { FiCheckSquare } from "react-icons/fi";
 import { FormHandles } from "@unform/core";
 import InputRow from "../InputRow";
+import { FiCheckSquare } from "react-icons/fi";
 import { Form } from "./styles";
 
 interface ICreateProductData {
@@ -15,30 +14,24 @@ interface ICreateProductData {
 interface IModalProps {
   isOpen: boolean;
   setIsOpen: () => void;
-  handleAddCategory: (food: ICreateProductData) => void;
+  handleAddAditional: (food: ICreateProductData) => void;
 }
 
-const ModalAddCategory: React.FC<IModalProps> = ({
+const ModalAddAditional: React.FC<IModalProps> = ({
   isOpen,
   setIsOpen,
-  handleAddCategory,
+  handleAddAditional,
 }) => {
   const formRef = useRef<FormHandles>(null);
-  const [, setSelectedFile] = useState<File>();
 
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
       <Form ref={formRef} onSubmit={() => {}}>
         <h1>Nova Categoria</h1>
-        <Dropzone
-          title="SVG Categoria"
-          width="100%"
-          height="241px"
-          onFileUploaded={setSelectedFile}
-        />
-        <InputRow name="description" placeholder="Ex: Lanches" />
+        <InputRow name="name" placeholder="Ex: Bacon" />
+        <InputRow name="price" placeholder="Ex: R$ 12,90" />
         <button type="submit">
-          <p className="text">Criar categoria</p>
+          <p className="text">Criar</p>
           <div className="icon">
             <FiCheckSquare size={24} />
           </div>
@@ -48,4 +41,4 @@ const ModalAddCategory: React.FC<IModalProps> = ({
   );
 };
 
-export default ModalAddCategory;
+export default ModalAddAditional;

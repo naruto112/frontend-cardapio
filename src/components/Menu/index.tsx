@@ -1,9 +1,9 @@
 import React, { useRef } from "react";
 import { useDrag, useDrop, DropTargetMonitor } from "react-dnd";
 import { Shimmer } from "react-shimmer";
-import { FiEdit, FiEyeOff } from "react-icons/fi";
+import { FiEdit, FiEyeOff, FiLogIn } from "react-icons/fi";
 
-import { CardMenu, View, GroupOrder, PanelView } from "./styles";
+import { CardMenu, View, GroupOrder, PanelView, TitleMenu } from "./styles";
 import { Link } from "react-router-dom";
 
 interface DragItem {
@@ -14,15 +14,14 @@ interface DragItem {
 
 interface IMenu {
   index: number;
-  id: number;
+  id: string;
   title: string;
-  quantity: string;
-  moveCard: (dragIndex: number, hoverIndex: number) => void;
+  product: number;
+  moveCard: (dragIndex: number, hoverIndex: number, id: string) => void;
 }
 
-const Menu: React.FC<IMenu> = ({ index, title, quantity, moveCard }) => {
+const Menu: React.FC<IMenu> = ({ index, title, product, moveCard, id }) => {
   const ref = useRef<HTMLDivElement>(null);
-
   const [{ isDragging }, dragRef] = useDrag({
     item: { type: "MENU", index },
     collect: (monitor) => ({
@@ -56,7 +55,7 @@ const Menu: React.FC<IMenu> = ({ index, title, quantity, moveCard }) => {
             return;
           }
 
-          moveCard(draggedIndex, targetIndex);
+          moveCard(draggedIndex, targetIndex, id);
 
           item.index = targetIndex;
         }
@@ -76,20 +75,25 @@ const Menu: React.FC<IMenu> = ({ index, title, quantity, moveCard }) => {
         <i></i>
       </GroupOrder>
       <View>
-        <strong>{!title ? <Shimmer width={100} height={15} /> : title}</strong>
+        <TitleMenu>
+          <strong>
+            {!title ? <Shimmer width={100} height={15} /> : title}
+          </strong>
+          <FiEdit size={15} />
+        </TitleMenu>
         <PanelView>
-          {!quantity ? (
+          {product === null ? (
             <Shimmer width={100} height={15} />
           ) : (
-            <span>{quantity} itens</span>
+            <span>{product} itens</span>
           )}
           <span className="edit-itens">
-            <Link to="/itens/1">
-              <FiEdit size={14} />
-            </Link>
+            <FiEyeOff size={14} />
           </span>
           <span className="edit-itens">
-            <FiEyeOff size={14} />
+            <Link to="/itens/1">
+              <FiLogIn size={14} />
+            </Link>
           </span>
         </PanelView>
       </View>
