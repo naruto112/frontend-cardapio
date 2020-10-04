@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { useDrag, useDrop, DropTargetMonitor } from "react-dnd";
 import { Shimmer } from "react-shimmer";
-import { FiEdit, FiEyeOff, FiLogIn } from "react-icons/fi";
+import { FiEdit, FiEyeOff } from "react-icons/fi";
 
 import { CardMenu, View, GroupOrder, PanelView, TitleMenu } from "./styles";
 import { Link } from "react-router-dom";
@@ -91,9 +91,7 @@ const Menu: React.FC<IMenu> = ({ index, title, product, moveCard, id }) => {
             <FiEyeOff size={14} />
           </span>
           <span className="edit-itens">
-            <Link to="/itens/1">
-              <FiLogIn size={14} />
-            </Link>
+            <Link to={`/itens/${id}`}>Ver Produtos</Link>
           </span>
         </PanelView>
       </View>

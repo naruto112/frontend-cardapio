@@ -1,9 +1,8 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { CarouselProvider, Slider } from "pure-react-carousel";
 import "pure-react-carousel/dist/react-carousel.es.css";
 
-import { useHistory } from "react-router-dom";
-import update from "immutability-helper";
+import { useHistory, useParams } from "react-router-dom";
 import { FiPlus } from "react-icons/fi";
 
 import {
@@ -26,127 +25,42 @@ import ModalAddAditional from "../../components/ModalAddAditional";
 import FilterCategory from "../../components/FilterCategory";
 
 import LancheImg from "../../assets/lanche.svg";
-import BebidasImg from "../../assets/bebidas.svg";
-import SobremesaImg from "../../assets/sobremesa.svg";
+import { api } from "../../services/api";
 
 interface ICardProduct {
   id: number;
   name: string;
-  quantity: string;
+  stock: string;
   description: string;
   price: string;
 }
 
-const Itens: React.FC = () => {
-  const CardByProduct: ICardProduct[] = [
-    {
-      id: 1,
-      name: "Mister 1",
-      quantity: "12 itens",
-      description: "Ovo de 150gm com cebola caramelizada e um toque de pimenta",
-      price: "28.90",
-    },
-    {
-      id: 2,
-      name: "Mister 2",
-      quantity: "17 itens",
-      description:
-        "Carne de 150gm com cebola caramelizada e um toque de pimenta",
-      price: "17.80",
-    },
-    {
-      id: 3,
-      name: "Mister 3",
-      quantity: "17 itens",
-      description:
-        "Carne de 150gm com cebola caramelizada e um toque de pimenta",
-      price: "17.80",
-    },
-    {
-      id: 4,
-      name: "Mister 4",
-      quantity: "17 itens",
-      description:
-        "Carne de 150gm com cebola caramelizada e um toque de pimenta",
-      price: "17.80",
-    },
-    {
-      id: 5,
-      name: "Mister 5",
-      quantity: "17 itens",
-      description:
-        "Carne de 150gm com cebola caramelizada e um toque de pimenta",
-      price: "17.80",
-    },
-    {
-      id: 6,
-      name: "Mister 6",
-      quantity: "17 itens",
-      description:
-        "Carne de 150gm com cebola caramelizada e um toque de pimenta",
-      price: "17.80",
-    },
-    {
-      id: 7,
-      name: "Mister 7",
-      quantity: "17 itens",
-      description:
-        "Carne de 150gm com cebola caramelizada e um toque de pimenta",
-      price: "17.80",
-    },
-    {
-      id: 8,
-      name: "Mister 8",
-      quantity: "17 itens",
-      description:
-        "Carne de 150gm com cebola caramelizada e um toque de pimenta",
-      price: "17.80",
-    },
-    {
-      id: 9,
-      name: "Mister 9",
-      quantity: "17 itens",
-      description:
-        "Carne de 150gm com cebola caramelizada e um toque de pimenta",
-      price: "17.80",
-    },
-    {
-      id: 10,
-      name: "Mister 10",
-      quantity: "17 itens",
-      description:
-        "Carne de 150gm com cebola caramelizada e um toque de pimenta",
-      price: "17.80",
-    },
-    {
-      id: 11,
-      name: "Mister 11",
-      quantity: "17 itens",
-      description:
-        "Carne de 150gm com cebola caramelizada e um toque de pimenta",
-      price: "17.80",
-    },
-  ];
+interface ICategory {
+  id: string;
+  name: string;
+}
 
-  const [list, setLists] = useState(CardByProduct);
+interface IParams {
+  id: string;
+}
+
+const Itens: React.FC = () => {
+  const [list, setLists] = useState<ICardProduct[]>([]);
+  const [categories, setCategories] = useState<ICategory[]>();
   const [modalOpenCategory, setModalOpenCategory] = useState(false);
   const [modalOpenAditional, setModalOpenAditional] = useState(false);
   const history = useHistory();
+  const { id } = useParams<IParams>();
 
-  const moveCard = useCallback(
-    (dragIndex: number, hoverIndex: number) => {
-      const dragCard = list[dragIndex];
-      setLists(
-        update(list, {
-          $splice: [
-            [dragIndex, 1],
-            [hoverIndex, 0, dragCard],
-          ],
-        })
-      );
-    },
-    [list]
-  );
+  useEffect(() => {
+    api.get(`menu/${id}`).then((response) => {
+      setLists(response.data[0].products);
+    });
+
+    api.get("categories").then((response) => {
+      setCategories(response.data);
+    });
+  }, [id]);
 
   const location = useCallback(
     (href: string) => {
@@ -209,62 +123,19 @@ const Itens: React.FC = () => {
           totalSlides={4}
         >
           <Slider className="filter-category">
-            <FilterCategory
-              img={LancheImg}
-              title="Lanches"
-              style={{ marginRight: 30 }}
-            />
-            <FilterCategory
-              img={BebidasImg}
-              title="Bebidas"
-              style={{ marginRight: 30 }}
-            />
-            <FilterCategory
-              img={SobremesaImg}
-              title="Sobremesa"
-              style={{ marginRight: 30 }}
-            />
-            <FilterCategory
-              img={BebidasImg}
-              title="Bebidas"
-              style={{ marginRight: 30 }}
-            />
-            <FilterCategory
-              img={BebidasImg}
-              title="Bebidas"
-              style={{ marginRight: 30 }}
-            />
-            <FilterCategory
-              img={SobremesaImg}
-              title="Sobremesa"
-              style={{ marginRight: 30 }}
-            />
-            <FilterCategory
-              img={BebidasImg}
-              title="Bebidas"
-              style={{ marginRight: 30 }}
-            />
-            <FilterCategory
-              img={SobremesaImg}
-              title="Sobremesa"
-              style={{ marginRight: 30 }}
-            />
-            <FilterCategory
-              img={SobremesaImg}
-              title="Sobremesa"
-              style={{ marginRight: 30 }}
-            />
-            <FilterCategory
-              img={BebidasImg}
-              title="Bebidas"
-              style={{ marginRight: 30 }}
-            />
+            {categories?.map((category) => (
+              <FilterCategory
+                key={category.id}
+                img={LancheImg}
+                title={category.name}
+                style={{ marginRight: 30 }}
+              />
+            ))}
           </Slider>
         </CarouselProvider>
       </FilterContainer>
       <Section>
         <Category>
-          <h1>Lanches</h1>
           <Product>
             {list.map((product, index) => (
               <CardProduct
@@ -272,10 +143,9 @@ const Itens: React.FC = () => {
                 id={product.id}
                 key={product.id}
                 name={product.name}
-                quantity={product.quantity}
+                quantity={product.stock}
                 description={product.description}
                 price={product.price}
-                moveCard={moveCard}
               />
             ))}
           </Product>

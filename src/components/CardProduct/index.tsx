@@ -13,7 +13,6 @@ interface ICardProduct {
   quantity: string;
   description: string;
   price: string;
-  moveCard: (dragIndex: number, hoverIndex: number) => void;
 }
 
 interface DragItem {
