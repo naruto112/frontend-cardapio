@@ -22,6 +22,7 @@ import Button from "../../components/Button";
 import SearchInput from "../../components/SearchInput";
 import CardProduct from "../../components/CardProduct";
 import ModalAddCategory from "../../components/ModalAddCategory";
+import ModalAddAditional from "../../components/ModalAddAditional";
 import FilterCategory from "../../components/FilterCategory";
 
 import LancheImg from "../../assets/lanche.svg";
@@ -128,7 +129,8 @@ const Itens: React.FC = () => {
   ];
 
   const [list, setLists] = useState(CardByProduct);
-  const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpenCategory, setModalOpenCategory] = useState(false);
+  const [modalOpenAditional, setModalOpenAditional] = useState(false);
   const history = useHistory();
 
   const moveCard = useCallback(
@@ -153,25 +155,34 @@ const Itens: React.FC = () => {
     [history]
   );
 
-  const toggleModal = (): void => {
-    setModalOpen(!modalOpen);
+  const toggleModalCategory = (): void => {
+    setModalOpenCategory(!modalOpenCategory);
+  };
+
+  const toggleModalAditional = (): void => {
+    setModalOpenAditional(!modalOpenAditional);
   };
 
   return (
     <Container>
       <Header route="dashboard" />
       <ModalAddCategory
-        isOpen={modalOpen}
-        setIsOpen={toggleModal}
-        handleAddProduct={() => {}}
+        isOpen={modalOpenCategory}
+        setIsOpen={toggleModalCategory}
+        handleAddCategory={() => {}}
+      />
+      <ModalAddAditional
+        isOpen={modalOpenAditional}
+        setIsOpen={toggleModalAditional}
+        handleAddAditional={() => {}}
       />
       <ContentButtonHeader>
         <div>
-          <Button onClick={() => setModalOpen(true)}>
+          <Button onClick={() => setModalOpenCategory(true)}>
             <FiPlus size={20} />
             <span>Categoria</span>
           </Button>
-          <Button onClick={() => setModalOpen(true)}>
+          <Button onClick={() => setModalOpenAditional(true)}>
             <FiPlus size={20} />
             <span>Adicionais</span>
           </Button>

@@ -14,8 +14,14 @@ export const CardMenu = styled.div`
 
 export const View = styled.div`
   margin-left: 10px;
-  width: 200px;
+  width: 100%;
   height: 100%;
+`;
+
+export const TitleMenu = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 `;
 
 export const GroupOrder = styled.div`
@@ -60,7 +66,7 @@ export const PanelView = styled.div`
     font-size: 0.8em;
     line-height: 1.3em;
     margin-bottom: 2px;
-    margin-left: 5px;
+    margin-left: 20px;
     border: 1px solid #ccc;
   }
 `;

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import update from "immutability-helper";
 import "pure-react-carousel/dist/react-carousel.es.css";
 
@@ -8,113 +8,50 @@ import { FiPlus } from "react-icons/fi";
 import Button from "../../components/Button";
 import ModalAddMenu from "../../components/ModalAddMenu";
 import Menu from "../../components/Menu";
+import { api } from "../../services/api";
 
 interface IMenu {
-  id: number;
+  id: string;
+  owner: string;
   name: string;
-  quantity: string;
-  description: string;
+  sequence: number;
+  visible: number;
+  products: string;
 }
 
 const Dashboard: React.FC = () => {
   const [modalOpen, setModalOpen] = useState(false);
 
-  const ListMenu: IMenu[] = [
-    {
-      id: 1,
-      name: "Mister 1",
-      quantity: "12 itens",
-      description: "Ovo de 150gm com cebola caramelizada e um toque de pimenta",
-    },
-    {
-      id: 2,
-      name: "Mister 2",
-      quantity: "17 itens",
-      description:
-        "Carne de 150gm com cebola caramelizada e um toque de pimenta",
-    },
-    {
-      id: 3,
-      name: "Mister 3",
-      quantity: "17 itens",
-      description:
-        "Carne de 150gm com cebola caramelizada e um toque de pimenta",
-    },
-    {
-      id: 4,
-      name: "Mister 4",
-      quantity: "17 itens",
-      description:
-        "Carne de 150gm com cebola caramelizada e um toque de pimenta",
-    },
-    {
-      id: 5,
-      name: "Mister 5",
-      quantity: "17 itens",
-      description:
-        "Carne de 150gm com cebola caramelizada e um toque de pimenta",
-    },
-    {
-      id: 6,
-      name: "Mister 6",
-      quantity: "17 itens",
-      description:
-        "Carne de 150gm com cebola caramelizada e um toque de pimenta",
-    },
-    {
-      id: 7,
-      name: "Mister 7",
-      quantity: "17 itens",
-      description:
-        "Carne de 150gm com cebola caramelizada e um toque de pimenta",
-    },
-    {
-      id: 8,
-      name: "Mister 8",
-      quantity: "17 itens",
-      description:
-        "Carne de 150gm com cebola caramelizada e um toque de pimenta",
-    },
-    {
-      id: 9,
-      name: "Mister 9",
-      quantity: "17 itens",
-      description:
-        "Carne de 150gm com cebola caramelizada e um toque de pimenta",
-    },
-    {
-      id: 10,
-      name: "Mister 10",
-      quantity: "17 itens",
-      description:
-        "Carne de 150gm com cebola caramelizada e um toque de pimenta",
-    },
-    {
-      id: 11,
-      name: "Mister 11",
-      quantity: "17 itens",
-      description:
-        "Carne de 150gm com cebola caramelizada e um toque de pimenta",
-    },
-  ];
+  const [list, setLists] = useState<IMenu[]>([]);
 
-  const [list, setLists] = useState(ListMenu);
+  useEffect(() => {
+    api.get("menu").then((response) => {
+      setLists(response.data);
+    });
+  }, []);
 
   const toggleModal = (): void => {
     setModalOpen(!modalOpen);
   };
 
   const moveCard = useCallback(
-    (dragIndex: number, hoverIndex: number) => {
+    (dragIndex: number, hoverIndex: number, id: string) => {
       const dragCard = list[dragIndex];
-      setLists(
-        update(list, {
-          $splice: [
-            [dragIndex, 1],
-            [hoverIndex, 0, dragCard],
-          ],
-        })
-      );
+
+      const data = update(list, {
+        $splice: [
+          [dragIndex, 1],
+          [hoverIndex, 0, dragCard],
+        ],
+      });
+
+      data.forEach((value, index) => {
+        value.sequence = index;
+      });
+
+      api.put("menu/sequence", data);
+
+      setLists(data);
     },
     [list]
   );
@@ -145,7 +82,7 @@ const Dashboard: React.FC = () => {
               id={menu.id}
               key={menu.id}
               title={menu.name}
-              quantity={menu.quantity}
+              product={menu.products.length}
               moveCard={moveCard}
             />
           ))}
