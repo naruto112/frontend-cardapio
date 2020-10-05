@@ -73,9 +73,8 @@ const Detail: React.FC = () => {
                   containerStyle={{ width: 370, height: 53, marginLeft: 10 }}
                   value={[
                     {
-                      id: 1,
-                      nome: "Lanches",
-                      sigla: "lanches",
+                      id: "1",
+                      name: "Lanches",
                     },
                   ]}
                 />

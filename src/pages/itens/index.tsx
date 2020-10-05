@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { CarouselProvider, Slider } from "pure-react-carousel";
 import "pure-react-carousel/dist/react-carousel.es.css";
-
+import * as Yup from "yup";
 import { useHistory, useParams } from "react-router-dom";
 import { FiPlus } from "react-icons/fi";
 
@@ -17,6 +17,7 @@ import {
   Product,
 } from "./styles";
 import Header from "../../components/Header";
+import { useToast } from "../../components/Toast";
 import Button from "../../components/Button";
 import SearchInput from "../../components/SearchInput";
 import CardProduct from "../../components/CardProduct";
@@ -32,6 +33,7 @@ interface ICardProduct {
   name: string;
   stock: string;
   description: string;
+  visible: number;
   price: string;
 }
 
@@ -50,6 +52,7 @@ const Itens: React.FC = () => {
   const [modalOpenCategory, setModalOpenCategory] = useState(false);
   const [modalOpenAditional, setModalOpenAditional] = useState(false);
   const history = useHistory();
+  const { addToast } = useToast();
   const { id } = useParams<IParams>();
 
   useEffect(() => {
@@ -77,13 +80,57 @@ const Itens: React.FC = () => {
     setModalOpenAditional(!modalOpenAditional);
   };
 
+  const handleAddCategory = useCallback(
+    async (category: ICategory) => {
+      try {
+        const schema = Yup.object().shape({
+          name: Yup.string().required("Digite o nome da categoria"),
+        });
+
+        await schema.validate(category, {
+          abortEarly: false,
+        });
+
+        const { name } = category;
+
+        const formData = Object.assign({
+          id: Math.random(),
+          name,
+        });
+
+        await api.post("/categories", formData);
+
+        categories?.push(formData);
+
+        addToast({
+          type: "success",
+          title: "Categoria adicionada!",
+          description:
+            "Sua informações do perfil foram atualizadas com sucesso!",
+        });
+      } catch (err) {
+        if (err instanceof Yup.ValidationError) {
+          return;
+        }
+
+        addToast({
+          type: "error",
+          title: "Erro ao adicionar",
+          description:
+            "Ocorreu um erro ao adicionar a categoria, tente novamente",
+        });
+      }
+    },
+    [addToast, categories]
+  );
+
   return (
     <Container>
       <Header route="dashboard" />
       <ModalAddCategory
         isOpen={modalOpenCategory}
         setIsOpen={toggleModalCategory}
-        handleAddCategory={() => {}}
+        handleAddCategory={handleAddCategory}
       />
       <ModalAddAditional
         isOpen={modalOpenAditional}
@@ -100,10 +147,12 @@ const Itens: React.FC = () => {
             <FiPlus size={20} />
             <span>Adicionais</span>
           </Button>
-          <Button onClick={() => location("/product/new")}>
-            <FiPlus size={20} />
-            <span>Produto</span>
-          </Button>
+          {categories?.length !== 0 ? (
+            <Button onClick={() => location(`/product/new/${id}`)}>
+              <FiPlus size={20} />
+              <span>Produto</span>
+            </Button>
+          ) : null}
         </div>
       </ContentButtonHeader>
       <TitlePage>
@@ -128,7 +177,13 @@ const Itens: React.FC = () => {
                 key={category.id}
                 img={LancheImg}
                 title={category.name}
-                style={{ marginRight: 30 }}
+                style={{
+                  marginRight: 30,
+                  display: "flex",
+                  alignItems: "center",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                }}
               />
             ))}
           </Slider>
@@ -140,6 +195,7 @@ const Itens: React.FC = () => {
             {list.map((product, index) => (
               <CardProduct
                 index={index}
+                visible={product.visible === 1 ? true : false}
                 id={product.id}
                 key={product.id}
                 name={product.name}
