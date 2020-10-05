@@ -5,6 +5,7 @@ import Burger2 from "../../assets/bg.jpg";
 import { Container, ContentProduct } from "./styles";
 import { Link } from "react-router-dom";
 import { FiEdit2 } from "react-icons/fi";
+import { api } from "../../services/api";
 
 interface ICardProduct {
   index: number;
@@ -12,6 +13,7 @@ interface ICardProduct {
   name: string;
   quantity: string;
   description: string;
+  visible: boolean;
   price: string;
 }
 
@@ -23,14 +25,28 @@ interface DragItem {
 
 const CardProduct: React.FC<ICardProduct> = ({
   index,
+  id,
   name,
   quantity,
   description,
   price,
+  visible,
 }) => {
-  const [isAvailable, setIsAvailable] = useState(true);
+  const [isAvailable, setIsAvailable] = useState(visible);
 
   async function toggleAvailable(): Promise<void> {
+    if (isAvailable) {
+      await api.put("products", {
+        id,
+        visible: 0,
+      });
+    } else {
+      await api.put("products", {
+        id,
+        visible: 1,
+      });
+    }
+
     setIsAvailable(!isAvailable);
   }
 
