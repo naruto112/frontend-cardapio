@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Image, { Shimmer } from "react-shimmer";
-import Burger2 from "../../assets/bg.jpg";
+import Comida from "../../assets/comida.svg";
 
 import { Container, ContentProduct } from "./styles";
 import { Link } from "react-router-dom";
@@ -15,12 +15,7 @@ interface ICardProduct {
   description: string;
   visible: boolean;
   price: string;
-}
-
-interface DragItem {
-  index: number;
-  id: string;
-  type: string;
+  url: string | false;
 }
 
 const CardProduct: React.FC<ICardProduct> = ({
@@ -31,6 +26,7 @@ const CardProduct: React.FC<ICardProduct> = ({
   description,
   price,
   visible,
+  url,
 }) => {
   const [isAvailable, setIsAvailable] = useState(visible);
 
@@ -53,7 +49,7 @@ const CardProduct: React.FC<ICardProduct> = ({
   return (
     <Container>
       <header>
-        <Image src={Burger2} fallback={<Shimmer width={800} height={600} />} />
+        <Image src={url ? url : Comida} fallback={<Shimmer width={800} height={600} />} />
       </header>
       <ContentProduct>
         <div className="top-card">
@@ -81,7 +77,7 @@ const CardProduct: React.FC<ICardProduct> = ({
               <span className="slider" />
             </label>
           </div>
-          <Link to="/product/detail">
+          <Link to={`/product/detail/${id}`}>
             <FiEdit2 size={20} />
           </Link>
         </div>

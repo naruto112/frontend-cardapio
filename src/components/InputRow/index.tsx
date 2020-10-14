@@ -17,6 +17,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   mask?: string;
   containerStyle?: object;
+  subtitle?: string;
   icon?: React.ComponentType<IconBaseProps>;
 }
 
@@ -24,6 +25,7 @@ const InputRow: React.FC<InputProps> = ({
   mask,
   size,
   name,
+  subtitle,
   containerStyle = {},
   icon: Icon,
   ...rest

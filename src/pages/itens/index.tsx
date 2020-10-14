@@ -25,8 +25,12 @@ import ModalAddCategory from "../../components/ModalAddCategory";
 import ModalAddAditional from "../../components/ModalAddAditional";
 import FilterCategory from "../../components/FilterCategory";
 
-import LancheImg from "../../assets/lanche.svg";
+import Interrogacao from "../../assets/interrogacao.svg";
 import { api } from "../../services/api";
+
+interface IAttachment {
+  url: string;
+}
 
 interface ICardProduct {
   id: number;
@@ -35,11 +39,20 @@ interface ICardProduct {
   description: string;
   visible: number;
   price: string;
+  attachment: IAttachment[];
 }
 
 interface ICategory {
   id: string;
   name: string;
+  attachment: IAttachment[];
+}
+
+interface IAditional {
+  id: string;
+  name: string;
+  quantity: number;
+  price: number;
 }
 
 interface IParams {
@@ -56,8 +69,8 @@ const Itens: React.FC = () => {
   const { id } = useParams<IParams>();
 
   useEffect(() => {
-    api.get(`menu/${id}`).then((response) => {
-      setLists(response.data[0].products);
+    api.get(`products/${id}`).then((response) => {
+      setLists(response.data);
     });
 
     api.get("categories").then((response) => {
@@ -80,33 +93,39 @@ const Itens: React.FC = () => {
     setModalOpenAditional(!modalOpenAditional);
   };
 
+  const handleAddAditional = useCallback(
+    async (aditional: IAditional) => {
+      try {
+        addToast({
+          type: "success",
+          title: "Adicionais Feito!",
+          description: "Seus adicionais foram incluidos com sucesso!",
+        });
+      } catch (err) {
+        if (err instanceof Yup.ValidationError) {
+          return;
+        }
+
+        addToast({
+          type: "error",
+          title: "Erro ao adicionar",
+          description:
+            "Ocorreu um erro ao incluir os adicionais, tente novamente",
+        });
+      }
+    },
+    [addToast]
+  );
+
   const handleAddCategory = useCallback(
     async (category: ICategory) => {
       try {
-        const schema = Yup.object().shape({
-          name: Yup.string().required("Digite o nome da categoria"),
-        });
-
-        await schema.validate(category, {
-          abortEarly: false,
-        });
-
-        const { name } = category;
-
-        const formData = Object.assign({
-          id: Math.random(),
-          name,
-        });
-
-        await api.post("/categories", formData);
-
-        categories?.push(formData);
+        categories?.push(category);
 
         addToast({
           type: "success",
           title: "Categoria adicionada!",
-          description:
-            "Sua informações do perfil foram atualizadas com sucesso!",
+          description: "Categoria criada com sucesso!",
         });
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
@@ -124,6 +143,8 @@ const Itens: React.FC = () => {
     [addToast, categories]
   );
 
+  console.log(categories);
+
   return (
     <Container>
       <Header route="dashboard" />
@@ -135,7 +156,7 @@ const Itens: React.FC = () => {
       <ModalAddAditional
         isOpen={modalOpenAditional}
         setIsOpen={toggleModalAditional}
-        handleAddAditional={() => {}}
+        handleAddAditional={handleAddAditional}
       />
       <ContentButtonHeader>
         <div>
@@ -162,7 +183,7 @@ const Itens: React.FC = () => {
         <SearchInput placeholder="Qual produto deseja pesquisar?" />
       </SearchContainer>
       <FilterTitle>
-        <strong>Filtros</strong>
+        <strong>Categorias</strong>
       </FilterTitle>
       <FilterContainer>
         <CarouselProvider
@@ -175,7 +196,12 @@ const Itens: React.FC = () => {
             {categories?.map((category) => (
               <FilterCategory
                 key={category.id}
-                img={LancheImg}
+                img={
+                  category.attachment[0]
+                    ? category.attachment[0].url
+                    : Interrogacao
+                }
+                // img={LancheImg}
                 title={category.name}
                 style={{
                   marginRight: 30,
@@ -199,6 +225,9 @@ const Itens: React.FC = () => {
                 id={product.id}
                 key={product.id}
                 name={product.name}
+                url={
+                  product.attachment.length ? product.attachment[0].url : false
+                }
                 quantity={product.stock}
                 description={product.description}
                 price={product.price}

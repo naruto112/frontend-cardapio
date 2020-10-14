@@ -7,11 +7,17 @@ import { FiCheckSquare } from "react-icons/fi";
 import { FormHandles } from "@unform/core";
 import InputRow from "../InputRow";
 import { Form } from "./styles";
+import { api } from "../../services/api";
+
+interface IAttachment {
+  url: string;
+}
 
 interface ICreateCategorytData {
   id: string;
   image?: string;
   name: string;
+  attachment: IAttachment[];
 }
 
 interface IModalProps {
@@ -25,15 +31,42 @@ const ModalAddCategory: React.FC<IModalProps> = ({
   setIsOpen,
   handleAddCategory,
 }) => {
-  const [, setSelectedFile] = useState<File>();
+  const [selectedFile, setSelectedFile] = useState<File>();
   const formRef = useRef<FormHandles>(null);
+  const [buttonSave, setButtonSave] = useState("Criar");
 
   const handleSubmit = useCallback(
     async (data: ICreateCategorytData) => {
-      setIsOpen();
-      handleAddCategory(data);
+      setButtonSave("Criando...");
+      const { name } = data;
+
+      const formData = Object.assign({
+        name,
+      });
+
+      const response = await api.post("categories", formData);
+
+      if (selectedFile) {
+        const dataImage = new FormData();
+        dataImage.append("file", selectedFile);
+        dataImage.append("id", response.data.id);
+
+        const responseImage = await api.patch(
+          "categories/attachment",
+          dataImage
+        );
+
+        const result = {
+          id: response.data.id,
+          name: response.data.name,
+          attachment: [{ url: responseImage.data.url }],
+        };
+
+        setIsOpen();
+        handleAddCategory(result);
+      }
     },
-    [handleAddCategory, setIsOpen]
+    [handleAddCategory, setIsOpen, selectedFile]
   );
 
   return (
@@ -48,7 +81,7 @@ const ModalAddCategory: React.FC<IModalProps> = ({
         />
         <InputRow name="name" placeholder="Ex: Lanches" />
         <button type="submit">
-          <p className="text">Criar categoria</p>
+          <p className="text">{buttonSave}</p>
           <div className="icon">
             <FiCheckSquare size={24} />
           </div>

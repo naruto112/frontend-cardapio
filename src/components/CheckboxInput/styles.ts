@@ -17,9 +17,6 @@ export const Container = styled.div<ContainerProps>`
   border: 2px solid #b5b5b5;
   color: #312e38;
 
-  display: flex;
-  align-items: center;
-
   margin-bottom: 20px;
   margin-right: 10px;
 
@@ -43,12 +40,14 @@ export const Container = styled.div<ContainerProps>`
     `}
 
   input {
+    cursor: pointer;
     flex: 1;
     background: transparent;
     border: 0;
     color: #312e38;
     font-weight: 600;
     font-size: 14px;
+    margin-right: 20px;
 
     &::placeholder {
       color: #312e38;
@@ -65,6 +64,7 @@ export const Container = styled.div<ContainerProps>`
 export const Error = styled(Tooltip)`
   height: 20px;
   margin-left: 11px;
+  display: inline-block;
   svg {
     margin: 0;
   }

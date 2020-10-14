@@ -78,9 +78,6 @@ export const FilterContainer = styled.div`
       width: 100%;
 
       div {
-        width: 100%;
-        display: flex;
-
         ul {
           display: flex;
         }

@@ -1,8 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
 import update from "immutability-helper";
 import "pure-react-carousel/dist/react-carousel.es.css";
+import * as Yup from "yup";
 
 import { Container, BodyContainer, HeaderBody, BodyMenu } from "./styles";
+
+import { useToast } from "../../components/Toast";
 import Header from "../../components/Header";
 import { FiPlus } from "react-icons/fi";
 import Button from "../../components/Button";
@@ -21,8 +24,8 @@ interface IMenu {
 
 const Dashboard: React.FC = () => {
   const [modalOpen, setModalOpen] = useState(false);
-
   const [list, setLists] = useState<IMenu[]>([]);
+  const { addToast } = useToast();
 
   useEffect(() => {
     api.get("menu").then((response) => {
@@ -56,13 +59,55 @@ const Dashboard: React.FC = () => {
     [list]
   );
 
+  const handleAddmenu = useCallback(
+    async (menu: IMenu) => {
+      try {
+        const schema = Yup.object().shape({
+          name: Yup.string().required("Digite o nome da categoria"),
+        });
+
+        await schema.validate(menu, {
+          abortEarly: false,
+        });
+
+        const { name } = menu;
+
+        const formData = Object.assign({
+          name,
+          visible: 1,
+        });
+
+        const response = await api.post("menu", formData);
+
+        list.push(response.data[0]);
+
+        addToast({
+          type: "success",
+          title: "Menu adicionado!",
+          description: "Seu menu foi incluido com sucesso!",
+        });
+      } catch (err) {
+        if (err instanceof Yup.ValidationError) {
+          return;
+        }
+
+        addToast({
+          type: "error",
+          title: "Erro ao adicionar",
+          description: "Ocorreu um erro ao incluir o menu, tente novamente",
+        });
+      }
+    },
+    [addToast, list]
+  );
+
   return (
     <Container>
       <Header route="dashboard" />
       <ModalAddMenu
         isOpen={modalOpen}
         setIsOpen={toggleModal}
-        handleAddProduct={() => {}}
+        handleAddMenu={handleAddmenu}
       />
       <BodyContainer>
         <HeaderBody>
