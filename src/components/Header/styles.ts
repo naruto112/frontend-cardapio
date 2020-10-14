@@ -16,10 +16,17 @@ export const HeaderContent = styled.div`
     display: flex;
     align-items: center;
     aside {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       svg {
         width: 30px;
         height: 30px;
         color: #c9ced6;
+      }
+      button {
+        background: none;
+        border: none;
       }
     }
 

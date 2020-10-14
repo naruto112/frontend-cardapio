@@ -10,6 +10,7 @@ import {
   ContentProduct,
   ProductDetail,
   ProductFooter,
+  AditionalBar,
 } from "./styles";
 
 import Header from "../../components/Header";
@@ -20,6 +21,7 @@ import Select from "../../components/Select";
 import TextArea from "../../components/Textarea";
 import { useToast } from "../../components/Toast";
 import getValidationErrors from "../../utils/getValidationErros";
+import CheckboxInput from "../../components/CheckboxInput";
 
 import { api } from "../../services/api";
 
@@ -31,9 +33,15 @@ interface IProduct {
   stock: number;
   menu_id: string;
   category: string;
+  checkbox: string[];
 }
 
 interface ICategory {
+  id: string;
+  name: string;
+}
+
+interface IAditional {
   id: string;
   name: string;
 }
@@ -44,8 +52,12 @@ interface IParams {
 
 const NewProduct: React.FC = () => {
   const FormRef = useRef<FormHandles>(null);
-  const [, setSelectedFile] = useState<File>();
+  const [selectedFileOne, setSelectedFileOne] = useState<File>();
+  const [selectedFileTwo, setSelectedFileTwo] = useState<File>();
+  const [selectedFileThree, setSelectedFileThree] = useState<File>();
   const [categories, setCategories] = useState<ICategory[]>([]);
+  const [aditionals, setAditionals] = useState<IAditional[]>([]);
+  const [buttonSave, setButtonSave] = useState("Salvar");
   const history = useHistory();
   const { id } = useParams<IParams>();
   const { addToast } = useToast();
@@ -53,6 +65,10 @@ const NewProduct: React.FC = () => {
   useEffect(() => {
     api.get("categories").then((response) => {
       setCategories(response.data);
+    });
+
+    api.get("aditionals").then((response) => {
+      setAditionals(response.data);
     });
   }, []);
 
@@ -74,7 +90,15 @@ const NewProduct: React.FC = () => {
           abortEarly: false,
         });
 
-        const { name, price, stock, description, category } = data;
+        setButtonSave("Salvando...");
+
+        const { name, price, stock, description, category, checkbox } = data;
+
+        let obj = [];
+
+        for (let i = 0; checkbox.length > i; i++) {
+          obj.push({ id: checkbox[i] });
+        }
 
         const formData = Object.assign({
           name,
@@ -84,9 +108,31 @@ const NewProduct: React.FC = () => {
           description,
           menu_id: id,
           category_id: category,
+          aditionals: obj,
         });
 
-        await api.post("/products", formData);
+        const response = await api.post("/products", formData);
+
+        if (selectedFileOne) {
+          const dataOne = new FormData();
+          dataOne.append("file", selectedFileOne);
+          dataOne.append("id", response.data.id);
+          await api.patch("products/attachment", dataOne);
+        }
+
+        if (selectedFileTwo) {
+          const dataTwo = new FormData();
+          dataTwo.append("file", selectedFileTwo);
+          dataTwo.append("id", response.data.id);
+          await api.patch("products/attachment", dataTwo);
+        }
+
+        if (selectedFileThree) {
+          const dataThree = new FormData();
+          dataThree.append("file", selectedFileThree);
+          dataThree.append("id", response.data.id);
+          await api.patch("products/attachment", dataThree);
+        }
 
         history.goBack();
 
@@ -105,7 +151,7 @@ const NewProduct: React.FC = () => {
         }
       }
     },
-    [addToast, history, id]
+    [addToast, history, id, selectedFileOne, selectedFileTwo, selectedFileThree]
   );
 
   return (
@@ -113,75 +159,85 @@ const NewProduct: React.FC = () => {
       <Header route="detail" />
       <ContentProduct>
         <ProductDetail>
-          <div className="dropzone">
-            <Dropzone
-              title="Imagem do Produto"
-              width="353px"
-              height="241px"
-              onFileUploaded={setSelectedFile}
-            />
-            <Dropzone
-              title="Imagem do Produto"
-              width="353px"
-              height="241px"
-              onFileUploaded={setSelectedFile}
-            />
-            <Dropzone
-              title="Imagem do Produto"
-              width="353px"
-              height="241px"
-              onFileUploaded={setSelectedFile}
-            />
-          </div>
-          <div className="product-detail">
-            <Form ref={FormRef} onSubmit={handleSubmitProduct}>
+          <Form ref={FormRef} onSubmit={handleSubmitProduct}>
+            <div className="dropzone">
+              <Dropzone
+                title="Imagem do Produto"
+                width="353px"
+                height="241px"
+                onFileUploaded={setSelectedFileOne}
+              />
+              <Dropzone
+                title="Imagem do Produto"
+                width="353px"
+                height="241px"
+                onFileUploaded={setSelectedFileTwo}
+              />
+              <Dropzone
+                title="Imagem do Produto"
+                width="353px"
+                height="241px"
+                onFileUploaded={setSelectedFileThree}
+              />
+            </div>
+            <div className="product-field">
+              <InputRow
+                size={60}
+                containerStyle={{ width: 400 }}
+                name="name"
+                placeholder="Nome do Produto"
+              />
+              <InputRow
+                size={60}
+                containerStyle={{ width: 200 }}
+                name="price"
+                placeholder="R$"
+              />
+              <InputRow
+                size={60}
+                containerStyle={{ width: 200 }}
+                name="stock"
+                placeholder="Qtd."
+              />
+              <Select
+                name="category"
+                placeholder="Categoria..."
+                containerStyle={{ width: 270, height: 53 }}
+                value={categories}
+              />
+            </div>
+            <div className="product-aditional">
+              <AditionalBar>
+                <header>
+                  <strong>Adicionais:</strong>
+                </header>
+                <CheckboxInput
+                  defaultChecked={false}
+                  name="checkbox"
+                  options={aditionals}
+                />
+              </AditionalBar>
+            </div>
+            <div className="product-description">
+              <TextArea
+                containerStyle={{ width: 1100, height: 170 }}
+                name="description"
+                placeholder="Digite a descrição do produto."
+              />
+            </div>
+            <ProductFooter>
               <div>
-                <InputRow
-                  size={60}
-                  containerStyle={{ width: 400 }}
-                  name="name"
-                  placeholder="Nome do Produto"
-                />
-                <InputRow
-                  size={60}
-                  containerStyle={{ width: 200 }}
-                  name="price"
-                  placeholder="R$"
-                />
-                <InputRow
-                  size={60}
-                  containerStyle={{ width: 200 }}
-                  name="stock"
-                  placeholder="Qtd."
-                />
-                <Select
-                  name="category"
-                  placeholder="Categoria..."
-                  containerStyle={{ width: 270, height: 53, marginLeft: 10 }}
-                  value={categories}
-                />
+                <Button className="btn-trash">
+                  <FiTrash size={20} />
+                  <span>Descartar</span>
+                </Button>
+                <Button className="btn-save" type="submit">
+                  <FiSave size={20} />
+                  <span>{buttonSave}</span>
+                </Button>
               </div>
-              <div>
-                <TextArea
-                  containerStyle={{ marginLeft: 10, width: 1100, height: 170 }}
-                  name="description"
-                  placeholder="Digite a descrição do produto."
-                />
-              </div>
-              <ProductFooter>
-                <div>
-                  <Button className="btn-trash">
-                    <FiTrash size={20} />
-                    <span>Descartar</span>
-                  </Button>
-                  <Button className="btn-save" type="submit">
-                    <FiSave size={20} />
-                    <span>Salvar</span>
-                  </Button>
-                </div>
-              </ProductFooter>
-            </Form>
-          </div>
+            </ProductFooter>
+          </Form>
         </ProductDetail>
       </ContentProduct>
     </Container>

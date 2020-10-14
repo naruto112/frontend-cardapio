@@ -19,7 +19,7 @@ export const ProductDetail = styled.div`
   display: flex;
   flex-direction: column;
   width: 1200px;
-  height: 600px;
+  height: auto;
   background: #f0f0f5;
   border-radius: 8px 8px 0px 0px;
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.05);
@@ -32,14 +32,22 @@ export const ProductDetail = styled.div`
     height: 300px;
   }
 
-  .product-detail {
+  .product-field {
     width: 100%;
     display: flex;
+    justify-content: center;
+  }
 
-    div {
-      display: flex;
-      padding-left: 40px;
-    }
+  .product-description {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .product-aditional {
+    display: flex;
+    width: 100%;
+    justify-content: center;
   }
 `;
 
@@ -85,6 +93,25 @@ export const ProductFooter = styled.footer`
       span {
         margin-left: 10px;
       }
+    }
+  }
+`;
+
+export const AditionalBar = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  height: auto;
+  width: 1100px;
+  margin-bottom: 10px;
+
+  header {
+    margin-bottom: 10px;
+  }
+
+  div {
+    label {
+      margin-left: 10px;
     }
   }
 `;

@@ -9,7 +9,7 @@ import logoImg from "../../assets/logo.svg";
 import PlaceholderUser from "../../assets/placeholder.svg";
 
 import { FiArrowLeft, FiLogOut, FiLink } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 interface IProps {
   route: string;
@@ -22,6 +22,7 @@ interface IClipBoard {
 
 const Header: React.FC<IProps> = ({ route }) => {
   const { signOut, user } = useAuth();
+  const history = useHistory();
   const [copyToClipBoard, setCopyToClipBoard] = useState<IClipBoard>({
     value: user.shop
       ? process.env.REACT_APP_URL + user.shop
@@ -33,18 +34,26 @@ const Header: React.FC<IProps> = ({ route }) => {
     signOut();
   }, [signOut]);
 
+  const handleGoBack = useCallback(() => {
+    history.goBack();
+  }, [history])
+
   return (
     <HeaderBody>
       <HeaderContent>
         <div>
           <img className="logo" src={logoImg} alt="Cardapio" />
           {route === "dashboard" ? (
-            <aside />
-          ) : (
             <aside>
               <Link to="/">
-                <FiArrowLeft />
+                Cardapios
               </Link>
+            </aside >
+          ) : (
+            <aside>
+              <button onClick={handleGoBack}>
+                <FiArrowLeft />
+              </button>
             </aside>
           )}
           <div className="link-cardapio">
