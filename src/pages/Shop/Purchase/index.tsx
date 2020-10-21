@@ -1,12 +1,7 @@
 import React, { useRef } from "react";
-import { useHistory } from "react-router-dom";
 import { FormHandles } from "@unform/core";
 import { Form } from "@unform/web";
 import {
-  Container,
-  Header,
-  HeaderContent,
-  HeaderFooter,
   Content,
   OrderData,
   Orderyou,
@@ -14,47 +9,53 @@ import {
   OrderFooter,
 } from "./styles";
 
-import LogoShop from "../../../assets/logoShop.png";
 import Entrega from "../../../assets/entrega.svg";
 import addCarrinho from "../../../assets/addCarrinho.svg";
 import Garfo from "../../../assets/garfo.svg";
 
 import ButtonShop from "../../../components/ButtonShop";
-import { FiCheckCircle, FiHome, FiMapPin } from "react-icons/fi";
+import { FiCheckCircle } from "react-icons/fi";
 import InputRow from "../../../components/InputRow";
 import FilterCategory from "../../../components/FilterCategory";
+import ModalOrderShop from "../../../components/ModalOrderShop";
+import { useSelector } from "react-redux";
+import { IState } from "../../../store";
+import { ICartItem } from "../../../store/modules/cart/types";
 
-interface MatchProps {
-  shop: string;
+interface ICreateAddtionalData {
+  id?: string;
+  name?: string;
+  aditionals?: {
+    name: string;
+    quantity: number;
+    price: number;
+  };
+  observation?: string;
+  price?: number;
+  numberProduct?: number;
 }
 
-const Purchase: React.FC = () => {
-  const history = useHistory();
+interface IModalProps {
+  id: string;
+  isOpen: boolean;
+  setIsOpen: () => void;
+  handleOrderPurchase: (addttional: ICreateAddtionalData) => void;
+}
+
+const Purchase: React.FC<IModalProps> = ({
+  id,
+  isOpen,
+  setIsOpen,
+  handleOrderPurchase,
+}) => {
   const FormRef = useRef<FormHandles>(null);
 
+  const cart = useSelector<IState, ICartItem[]>((state) => state.cart.items);
+
+  console.log(cart);
+
   return (
-    <>
-      <Container>
-        <Header>
-          <HeaderContent>
-            <div>
-              <img src={LogoShop} alt="Logo Shop" />
-              <h1>I Love Burger</h1>
-            </div>
-            <div>
-              <ButtonShop icon={FiHome} title="Voltar" click={history.goBack} />
-            </div>
-          </HeaderContent>
-          <HeaderFooter>
-            <div>
-              <span className="delivery-top">ENTREGAR EM</span>
-              <span>
-                <FiMapPin size={20} /> Av. Carlos klein, 314
-              </span>
-            </div>
-          </HeaderFooter>
-        </Header>
-      </Container>
+    <ModalOrderShop isOpen={isOpen} setIsOpen={setIsOpen}>
       <Content>
         <OrderData>
           <h3>Preencha seu dados</h3>
@@ -188,7 +189,7 @@ const Purchase: React.FC = () => {
           </OrderFooter>
         </Orderyou>
       </Content>
-    </>
+    </ModalOrderShop>
   );
 };
 

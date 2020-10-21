@@ -1,16 +1,24 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { FiShoppingCart } from "react-icons/fi";
 import { Container } from "./styles";
-
+import { useDispatch } from "react-redux";
 import ModalShopAddtional from "../ModalShopAdditional";
 
+import { addProductToCart } from "../../store/modules/cart/actions";
+import formatValue from "../../utils/formatValue";
+
+interface IAttachment {
+  id: string;
+  url: string;
+}
+
 interface IFoodPlate {
-  id: number;
+  id: string;
   name: string;
-  image: string;
   price: string;
   description: string;
-  available: boolean;
+  visible: boolean;
+  attachment: IAttachment[];
 }
 
 interface IProps {
@@ -18,28 +26,39 @@ interface IProps {
 }
 
 const Food: React.FC<IProps> = ({ food }: IProps) => {
-  const [isAvailable] = useState(food.available);
+  const [isAvailable] = useState(food.visible);
   const [modalOpen, setModalOpen] = useState(false);
+
+  const dispatch = useDispatch();
 
   const toggleModal = (): void => {
     setModalOpen(!modalOpen);
   };
 
+  const toggleIncrement = useCallback(
+    (data) => {
+      setModalOpen(!modalOpen);
+      dispatch(addProductToCart(data));
+    },
+    [dispatch, modalOpen]
+  );
+
   return (
     <Container available={isAvailable}>
       <ModalShopAddtional
+        id={food.id}
         isOpen={modalOpen}
         setIsOpen={toggleModal}
-        handleAddAddtional={() => {}}
+        handleAddAddtional={toggleIncrement}
       />
       <header>
-        <img src={food.image} alt={food.name} />
+        <img src={food.attachment[0].url} alt={food.name} />
       </header>
       <section className="body">
         <h2>{food.name}</h2>
         <p>{food.description}</p>
         <p className="price">
-          R$ <b>{food.price}</b>
+          <b>{formatValue(parseFloat(food.price))}</b>
         </p>
       </section>
       <section className="footer">
@@ -50,7 +69,7 @@ const Food: React.FC<IProps> = ({ food }: IProps) => {
             <input
               id={`available-switch-${food.id}`}
               type="checkbox"
-              checked={isAvailable}
+              defaultChecked={isAvailable}
             />
             <span className="slider" />
           </label>

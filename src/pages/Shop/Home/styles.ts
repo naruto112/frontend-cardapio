@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+interface IPropsHeader {
+  background?: string;
+}
+
 export const Container = styled.div`
   display: flex;
   margin-bottom: 100px;
@@ -7,65 +11,10 @@ export const Container = styled.div`
   height: 100%;
 `;
 
-export const Header = styled.header`
+export const Header = styled.header<IPropsHeader>`
   width: 100%;
   height: 180px;
-  background: #c72828;
-`;
-
-export const HeaderContent = styled.div`
-  display: flex;
-  margin-top: 60px;
-
-  align-items: center;
-  justify-content: space-around;
-
-  div {
-    display: flex;
-    align-items: center;
-
-    h1 {
-      margin-left: 40px;
-      color: #fff;
-    }
-  }
-`;
-
-export const ItemCart = styled.div`
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  position: absolute;
-  margin-left: 177px;
-  margin-top: -55px;
-  min-width: 26px;
-  height: 18px;
-  line-height: 16px;
-  background: #ffe600;
-  border-radius: 12px;
-
-  font-size: 14px;
-  font-weight: bold;
-`;
-
-export const HeaderFooter = styled.div`
-  display: flex;
-  width: 100%;
-  align-items: center;
-  flex-direction: column;
-  padding: 12px;
-
-  background: #c72828;
-  color: #fff;
-
-  .delivery-top {
-    font-weight: 700;
-  }
-
-  span {
-    display: flex;
-    align-items: center;
-  }
+  background: ${(props) => props.background};
 `;
 
 export const FilterContainer = styled.div`
@@ -83,7 +32,6 @@ export const FilterContainer = styled.div`
       width: 100%;
 
       div {
-        width: 100%;
         display: flex;
 
         ul {

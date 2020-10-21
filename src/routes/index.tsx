@@ -12,7 +12,7 @@ import ResetPassword from "../pages/ResetPassword";
 import Dashboard from "../pages/Dashboard";
 import NewProduct from "../pages/NewProduct";
 import Shop from "../pages/Shop/Home";
-import Purchase from "../pages/Shop/Purchase";
+// import Purchase from "../pages/Shop/Purchase";
 
 import NotFound from "../components/NotFound";
 import Itens from "../pages/itens";
@@ -27,7 +27,7 @@ const Routes: React.FC = () => {
       <Route path="/reset-password" component={ResetPassword} />
 
       <Route path="/cardapio/:shop" exact component={Shop} isPath />
-      <Route path="/cardapio/:shop/order" component={Purchase} isPath />
+      {/* <Route path="/cardapio/:shop/order" component={Purchase} isPath /> */}
 
       <Route path="/dashboard" component={Dashboard} isPrivate />
       <Route path="/itens/:id" component={Itens} isPrivate />

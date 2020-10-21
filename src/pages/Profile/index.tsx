@@ -11,6 +11,7 @@ import {
   FiPhone,
   FiCamera,
   FiLink,
+  FiCoffee,
 } from "react-icons/fi";
 import { FormHandles } from "@unform/core";
 import { Form } from "@unform/web";
@@ -27,6 +28,7 @@ import { Content, AvatarInput, ColorPick } from "./styles";
 import InputRow from "../../components/InputRow";
 import Button from "../../components/Button";
 import Header from "../../components/Header";
+import InputMask from "../../components/InputMask";
 
 interface ProfileFormData {
   first_name: string;
@@ -39,6 +41,8 @@ interface ProfileFormData {
   number: string;
   neighborhood: string;
   shop: string;
+  fantasy_name: string;
+  color: Object;
   address: string;
   complement?: string;
   password: string;
@@ -49,17 +53,14 @@ interface ProfileFormData {
 const Profile: React.FC = () => {
   const FormRef = useRef<FormHandles>(null);
   const [displayColorPicker, setDisplayColorPicker] = useState(false);
-  const [color, setColor] = useState<RGBColor>({
-    r: 241,
-    g: 112,
-    b: 19,
-    a: 1,
-  });
+  const { user, updateUser } = useAuth();
+
+  const colorRgba = JSON.parse(user.color);
+
+  const [color, setColor] = useState<RGBColor>(colorRgba);
   const [loading, setLoading] = useState("Confirmar mudanças");
   const { addToast } = useToast();
   const history = useHistory();
-
-  const { user, updateUser } = useAuth();
 
   const handleAvatarChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -80,9 +81,20 @@ const Profile: React.FC = () => {
     [addToast, updateUser]
   );
 
-  const handleColorChange = useCallback((color: ColorResult) => {
-    setColor(color.rgb);
-  }, []);
+  const handleColorChange = useCallback(
+    async (color: ColorResult) => {
+      api.post("profile/color", { color: color.rgb }).then((response) => {
+        updateUser(response.data);
+        setColor(color.rgb);
+        addToast({
+          type: "success",
+          title: "Cor atualizada!",
+          description: "Sua cor foi atualizada com sucesso!",
+        });
+      });
+    },
+    [updateUser, addToast]
+  );
 
   const handleColorClick = useCallback(() => {
     setDisplayColorPicker(!displayColorPicker);
@@ -110,7 +122,8 @@ const Profile: React.FC = () => {
           number: Yup.string().required(),
           complement: Yup.string(),
           neighborhood: Yup.string(),
-          shop: Yup.string().required("Coloque o nome de seu cardápio"),
+          shop: Yup.string().required("Coloque o link para seu cardápio"),
+          fantasy_name: Yup.string().required("Coloque o nome de seu cardápio"),
           old_password: Yup.string(),
           password: Yup.string().when("old_password", {
             is: (val) => !!val.length,
@@ -145,6 +158,7 @@ const Profile: React.FC = () => {
           complement,
           neighborhood,
           shop,
+          fantasy_name,
           old_password,
           password,
           confirmation_password,
@@ -164,6 +178,7 @@ const Profile: React.FC = () => {
             complement,
             neighborhood,
             shop,
+            fantasy_name,
           },
           old_password
             ? {
@@ -248,6 +263,8 @@ const Profile: React.FC = () => {
             complement: user.complement,
             neighborhood: user.neighborhood,
             shop: user.shop,
+            fantasy_name: user.fantasy_name,
+            color: user.color,
           }}
           onSubmit={handleSubmit}
         >
@@ -318,7 +335,7 @@ const Profile: React.FC = () => {
               icon={FiMail}
               placeholder="E-mail"
             />
-            <InputRow
+            <InputMask
               mask="99999-999"
               size={20}
               containerStyle={{ width: 300 }}
@@ -356,24 +373,31 @@ const Profile: React.FC = () => {
             />
             <InputRow
               size={8}
-              containerStyle={{ width: 290 }}
+              containerStyle={{ width: 220 }}
               name="complement"
               icon={FiHome}
               placeholder="Complemento"
             />
             <InputRow
               size={20}
-              containerStyle={{ width: 260 }}
+              containerStyle={{ width: 220 }}
               name="neighborhood"
               icon={FiMap}
               placeholder="Bairro"
             />
             <InputRow
               size={8}
-              containerStyle={{ width: 300 }}
+              containerStyle={{ width: 200 }}
               name="shop"
               icon={FiLink}
-              placeholder="Nome Cardapio"
+              placeholder="link"
+            />
+            <InputRow
+              size={8}
+              containerStyle={{ width: 200 }}
+              name="fantasy_name"
+              icon={FiCoffee}
+              placeholder="Ex: Loja Burgers"
             />
           </div>
           <div>

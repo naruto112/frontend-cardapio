@@ -13,9 +13,11 @@ interface User {
   address: string;
   neighborhood: string;
   shop: string;
+  fantasy_name: string;
   number: string;
   complement: string;
   avatar_url: string;
+  color: string;
 }
 
 interface AuthState {
@@ -38,7 +40,7 @@ interface AuthContextData {
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC = ({ children }) => {
-    const [data, setData] = useState<AuthState>(() => {
+  const [data, setData] = useState<AuthState>(() => {
     const token = localStorage.getItem("@Cardapio:token");
     const user = localStorage.getItem("@Cardapio:user");
 

@@ -23,6 +23,7 @@ import { api, apiCep } from "../../services/api";
 import LogoImg from "../../assets/logo.svg";
 
 import InputRow from "../../components/InputRow";
+import InputMask from "../../components/InputMask";
 import Button from "../../components/Button";
 
 interface SignUpFormData {
@@ -34,6 +35,7 @@ interface SignUpFormData {
   city: string;
   cep: string;
   address: string;
+  neighborhood: string;
   number: string;
   complement?: string;
   password: string;
@@ -78,9 +80,10 @@ const SignUp: React.FC = () => {
           password: data.password,
           phone: data.contact,
           city: data.city,
-          f: data.uf,
+          uf: data.uf,
           cep: data.cep,
           address: data.address,
+          neighborhood: data.neighborhood,
           number: data.number,
           complement: data.complement,
         };
@@ -122,12 +125,12 @@ const SignUp: React.FC = () => {
         return;
       }
 
-      if (event.target.value.length >= 9) {
-        const cepValue = event.target.value.replace("-", "");
+      const patterCep = /^[0-9]{8}$/;
+      const cepValue = event.target.value.replace("-", "");
 
+      if (patterCep.test(cepValue)) {
         const response = await apiCep.get(`${cepValue}/json`);
         const { bairro, localidade, logradouro, uf } = response.data;
-
         FormRef.current?.setFieldValue("neighborhood", bairro);
         FormRef.current?.setFieldValue("city", localidade);
         FormRef.current?.setFieldValue("address", logradouro);
@@ -173,7 +176,7 @@ const SignUp: React.FC = () => {
                 icon={FiMail}
                 placeholder="E-mail"
               />
-              <InputRow
+              <InputMask
                 mask="99999-999"
                 size={20}
                 containerStyle={{ width: 300 }}

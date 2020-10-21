@@ -143,8 +143,6 @@ const Itens: React.FC = () => {
     [addToast, categories]
   );
 
-  console.log(categories);
-
   return (
     <Container>
       <Header route="dashboard" />
