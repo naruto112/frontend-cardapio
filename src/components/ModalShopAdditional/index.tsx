@@ -42,11 +42,12 @@ interface IProducts {
 interface ICreateAddtionalData {
   id?: string;
   name?: string;
+  quantity: number;
   aditionals?: {
     name: string;
     quantity: number;
     price: number;
-  };
+  }[];
   observation?: string;
   price?: number;
   numberProduct?: number;
@@ -66,11 +67,11 @@ const ModalShopAdditional: React.FC<IModalProps> = ({
   handleAddAddtional,
 }) => {
   const formRef = useRef<FormHandles>(null);
-  const [addAddtional, setAddAddtional] = useState(0);
+  const [aditionals, setAditionals] = useState<IAditionals[]>([]);
+  const [observation, setObservation] = useState("");
   const [addProduct, setAddProduct] = useState(1);
   const [priceProduct, setPriceProduct] = useState<number>(0);
   const [product, setProduct] = useState<IProducts>();
-  const [aditionals, setAditionals] = useState<IAditionals>();
 
   useEffect(() => {
     api.post("shop/products", { id }).then((response) => {
@@ -78,26 +79,33 @@ const ModalShopAdditional: React.FC<IModalProps> = ({
     });
   }, [id, product]);
 
-  const toggleAddAdtional = (
-    item: number,
+  const toggleAdtional = (
+    e: boolean,
     id: string,
     name: string,
-    price: number
+    price: number,
+    quantity: number
   ) => {
-    setAditionals({
-      id,
-      name,
-      price,
-      quantity: item,
-    });
-    setAddAddtional(++item);
-  };
-
-  const toggleMinusAdtional = (item: number) => {
-    if (item === 0) {
-      return false;
+    if (e) {
+      setAditionals([...aditionals, { id, name, price, quantity }]);
+      if (priceProduct) {
+        const totalPrice = Number(priceProduct) + Number(price);
+        setPriceProduct(totalPrice);
+      } else {
+        if (product?.price) {
+          const totalPrice = Number(product?.price) + Number(price);
+          setPriceProduct(totalPrice);
+        }
+      }
     }
-    setAddAddtional(--item);
+    if (!e) {
+      const aditional = aditionals.filter((ad) => ad.id !== id);
+      if (product?.price) {
+        const totalPrice = Number(priceProduct) - Number(price);
+        setPriceProduct(totalPrice);
+      }
+      setAditionals(aditional);
+    }
   };
 
   const toggleAddProduct = useCallback(
@@ -142,33 +150,27 @@ const ModalShopAdditional: React.FC<IModalProps> = ({
           <span>Adicionais</span>
         </TicketInfo>
         <div className="additional">
-          {product?.aditionals.map((aditional) => (
+          {product?.aditionals.map((aditional, index) => (
             <div className="add-subcategory" key={aditional.id}>
               <div className="label-subcategory">
                 <span>{aditional.name}</span>
                 <label>+ R$ {aditional.price}</label>
               </div>
               <div className="btn-subcategory">
-                <button onClick={() => toggleMinusAdtional(addAddtional)}>
-                  <FiMinus size={16} color="#ea1d2c" />
-                </button>
-                {aditionals?.id === aditional.id ? (
-                  <span>{addAddtional}</span>
-                ) : (
-                  <span>0</span>
-                )}
-                <button
-                  onClick={() =>
-                    toggleAddAdtional(
-                      addAddtional,
+                <input
+                  onChange={(e) =>
+                    toggleAdtional(
+                      e.target.checked,
                       aditional.id,
                       aditional.name,
-                      aditional.price
+                      aditional.price,
+                      addProduct
                     )
                   }
-                >
-                  <FiPlus size={16} color="#50a773" />
-                </button>
+                  type="checkbox"
+                  value={aditional.name}
+                  id={aditional.id}
+                />
               </div>
             </div>
           ))}
@@ -177,7 +179,10 @@ const ModalShopAdditional: React.FC<IModalProps> = ({
           <span>Alguma observação?</span>
         </TicketInfo>
         <Observation>
-          <textarea placeholder="Ex: tirar a cebola, maionese ou alface"></textarea>
+          <textarea
+            onChange={(e) => setObservation(e.target.value)}
+            placeholder="Ex: tirar a cebola, maionese ou alface"
+          ></textarea>
         </Observation>
         <Footer>
           <div className="btn-subcategory-footer">
@@ -204,6 +209,8 @@ const ModalShopAdditional: React.FC<IModalProps> = ({
               handleSubmit({
                 id: product?.id,
                 name: product?.name,
+                quantity: addProduct,
+                observation: observation && observation,
                 price: priceProduct ? priceProduct : product?.price,
                 aditionals,
               })

@@ -51,6 +51,18 @@ export const Container = styled.div<ContainerProps>`
     font-size: 16px;
   }
 
+  input {
+    flex: 1;
+    background: transparent;
+    border: 0;
+    color: #312e38;
+    margin-left: 10px;
+
+    &::placeholder {
+      color: #312e38;
+    }
+  }
+
   svg {
     margin-right: 16px;
   }

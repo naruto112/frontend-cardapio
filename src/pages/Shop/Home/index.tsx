@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { CarouselProvider, Slider } from "pure-react-carousel";
 import "pure-react-carousel/dist/react-carousel.es.css";
 import { useParams } from "react-router";
@@ -31,7 +31,7 @@ interface IAttachment {
 interface IFoodPlate {
   id: string;
   name: string;
-  price: string;
+  price: number;
   description: string;
   visible: boolean;
   attachment: IAttachment[];
@@ -46,6 +46,7 @@ interface IMenu {
 const Shop: React.FC = () => {
   const { shop } = useParams<MatchProps>();
   const [categories, setCategories] = useState<ICategory[]>([]);
+  const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [menu, setMenu] = useState<IMenu[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -63,14 +64,23 @@ const Shop: React.FC = () => {
     setModalOpen(!modalOpen);
   };
 
+  const handleSelectItem = useCallback(
+    (id: number) => {
+      const alreadySelected = selectedItems.findIndex((item) => item === id);
+
+      if (alreadySelected >= 0) {
+        const filteredItems = selectedItems.filter((item) => item !== id);
+        setSelectedItems(filteredItems);
+      } else {
+        setSelectedItems([id]);
+      }
+    },
+    [selectedItems]
+  );
+
   return (
     <>
-      <Purchase
-        id={"1"}
-        isOpen={modalOpen}
-        setIsOpen={toggleModal}
-        handleOrderPurchase={() => {}}
-      />
+      <Purchase isOpen={modalOpen} setIsOpen={toggleModal} />
       <Container>
         <HeaderShop
           icon={FiShoppingCart}
@@ -86,12 +96,14 @@ const Shop: React.FC = () => {
           totalSlides={4}
         >
           <Slider className="filter-category">
-            {categories.map((category) => (
+            {categories.map((category, index) => (
               <FilterCategory
+                className={selectedItems.includes(index) ? "selected" : ""}
                 key={category.id}
                 img={category.url}
                 title={category.name}
                 style={{ marginRight: 30 }}
+                onClick={() => handleSelectItem(index)}
               />
             ))}
           </Slider>

@@ -83,6 +83,22 @@ export const Container = styled.div<IFoodPlateProps>`
       }
     }
 
+    div.btn-cart-available {
+      button {
+        cursor: default;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        width: 122px;
+        height: 40px;
+        opacity: 0.8;
+        border-radius: 5px;
+        border: none;
+        background: rgba(255, 255, 255, 0.8);
+        opacity: 0.3;
+      }
+    }
+
     div.availability-container {
       display: flex;
       align-items: center;

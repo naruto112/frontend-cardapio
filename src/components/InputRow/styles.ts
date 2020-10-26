@@ -20,7 +20,7 @@ export const Container = styled.div<ContainerProps>`
   display: flex;
   align-items: center;
 
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   margin-right: 10px;
 
   ${(props) =>

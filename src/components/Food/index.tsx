@@ -15,7 +15,7 @@ interface IAttachment {
 interface IFoodPlate {
   id: string;
   name: string;
-  price: string;
+  price: number;
   description: string;
   visible: boolean;
   attachment: IAttachment[];
@@ -58,7 +58,7 @@ const Food: React.FC<IProps> = ({ food }: IProps) => {
         <h2>{food.name}</h2>
         <p>{food.description}</p>
         <p className="price">
-          <b>{formatValue(parseFloat(food.price))}</b>
+          {isAvailable ? <b>{formatValue(food.price)}</b> : <b>R$ 0,00</b>}
         </p>
       </section>
       <section className="footer">
@@ -67,6 +67,7 @@ const Food: React.FC<IProps> = ({ food }: IProps) => {
 
           <label htmlFor={`available-switch-${food.id}`} className="switch">
             <input
+              disabled={true}
               id={`available-switch-${food.id}`}
               type="checkbox"
               defaultChecked={isAvailable}
@@ -75,8 +76,8 @@ const Food: React.FC<IProps> = ({ food }: IProps) => {
           </label>
         </div>
 
-        <div className="btn-cart">
-          <button onClick={() => setModalOpen(true)}>
+        <div className={isAvailable ? "btn-cart" : "btn-cart-available"}>
+          <button onClick={() => setModalOpen(isAvailable ? true : false)}>
             <FiShoppingCart size={20} />
             <span>Comprar</span>
           </button>

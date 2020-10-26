@@ -20,7 +20,8 @@ interface InputProps {
   placeholder: string;
   size?: number;
   value: IStates[];
-  changed?: boolean;
+  handleChanged?: () => void;
+  refInput?: HTMLInputElement;
 }
 
 const Select: React.FC<InputProps> = ({
@@ -30,7 +31,8 @@ const Select: React.FC<InputProps> = ({
   icon: Icon,
   placeholder: Placeholder,
   value: Value,
-  changed: Changed,
+  handleChanged,
+  refInput,
   ...rest
 }) => {
   const selectRef = useRef<HTMLSelectElement>(null);
@@ -55,44 +57,48 @@ const Select: React.FC<InputProps> = ({
     setIsFocused(true);
   }, []);
 
-  const handleChanged = useCallback(() => {}, []);
-
   return (
-    <Container style={containerStyle} isFocused={isFocused} isFilled={isFilled}>
-      {Icon && <Icon size={20} />}
-      {mask ? (
-        <InputMask
-          style={{ width: 200 }}
-          onFocus={handleInputFocus}
-          onBlur={handleInputBlur}
-          defaultValue="Selecione uma categoria"
-          {...rest}
-          mask={mask}
-        />
-      ) : (
-        <select
-          style={containerStyle}
-          onFocus={handleInputFocus}
-          onBlur={handleInputBlur}
-          defaultValue={Placeholder}
-          ref={selectRef}
-          onChange={handleChanged}
-          {...rest}
-        >
-          <option>{Placeholder}</option>
-          {Value.map((item) => (
-            <option key={item.id} value={item.id}>
-              {item.name}
-            </option>
-          ))}
-        </select>
-      )}
-      {error && (
-        <Error title={error}>
-          <FiAlertCircle color="#c53030" size={20} />
-        </Error>
-      )}
-    </Container>
+    <>
+      <Container
+        style={containerStyle}
+        isFocused={isFocused}
+        isFilled={isFilled}
+      >
+        {Icon && <Icon size={20} />}
+        {mask ? (
+          <InputMask
+            style={{ width: 200 }}
+            onFocus={handleInputFocus}
+            onBlur={handleInputBlur}
+            defaultValue="Selecione uma categoria"
+            {...rest}
+            mask={mask}
+          />
+        ) : (
+          <select
+            style={containerStyle}
+            onFocus={handleInputFocus}
+            onBlur={handleInputBlur}
+            defaultValue={Placeholder}
+            ref={selectRef}
+            onChange={handleChanged}
+            {...rest}
+          >
+            <option>{Placeholder}</option>
+            {Value.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.name}
+              </option>
+            ))}
+          </select>
+        )}
+        {error && (
+          <Error title={error}>
+            <FiAlertCircle color="#c53030" size={20} />
+          </Error>
+        )}
+      </Container>
+    </>
   );
 };
 

@@ -82,6 +82,10 @@ export const FilterContainer = styled.div`
           display: flex;
         }
       }
+      .selected {
+        background: #e1faec;
+        border: 2px solid #34cb79;
+      }
     }
   }
 `;
