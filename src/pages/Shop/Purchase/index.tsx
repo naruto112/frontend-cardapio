@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { format } from "date-fns";
 import ptBr from "date-fns/locale/pt-BR";
+import { useSelector } from "react-redux";
 import { FormHandles } from "@unform/core";
 import { Form } from "@unform/web";
 import {
@@ -17,6 +18,8 @@ import {
   OrderFooter,
 } from "./styles";
 
+import { apiCep } from "../../../services/api";
+
 import Entrega from "../../../assets/entrega.svg";
 import addCarrinho from "../../../assets/addCarrinho.svg";
 import Garfo from "../../../assets/garfo.svg";
@@ -26,11 +29,12 @@ import { FiCheckCircle } from "react-icons/fi";
 import InputRow from "../../../components/InputRow";
 import FilterCategory from "../../../components/FilterCategory";
 import ModalOrderShop from "../../../components/ModalOrderShop";
-import { useSelector } from "react-redux";
+
 import { IState } from "../../../store";
 import { ICartItem } from "../../../store/modules/cart/types";
 import formatValue from "../../../utils/formatValue";
 import Select from "../../../components/Select";
+import InputMask from "../../../components/InputMask";
 
 interface IOrder {
   cart: ICartItem[];
@@ -71,6 +75,8 @@ interface IModalProps {
 
 const Purchase: React.FC<IModalProps> = ({ isOpen, setIsOpen }) => {
   const FormRef = useRef<FormHandles>(null);
+
+  const [cep, setCep] = useState("");
   const [priceTotal, setPriceTotal] = useState(0);
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [shipping, setShipping] = useState(0);
@@ -107,6 +113,27 @@ const Purchase: React.FC<IModalProps> = ({ isOpen, setIsOpen }) => {
     [selectedItems]
   );
 
+  const handleCep = useCallback(
+    async (event: React.ChangeEvent<HTMLInputElement>) => {
+      const value = event.target.value.replace("_", "");
+      if (value.length >= 9) {
+        const cepValue = value.replace("-", "");
+        const response = await apiCep.get(`${cepValue}/json`);
+
+        const { bairro, localidade, logradouro, uf, cep } = response.data;
+        if (!bairro) {
+          throw new Error("");
+        }
+        FormRef.current?.setFieldValue("neighborhood", bairro);
+        FormRef.current?.setFieldValue("city", localidade);
+        FormRef.current?.setFieldValue("address", logradouro);
+        FormRef.current?.setFieldValue("uf", uf);
+        setCep(cep);
+      }
+    },
+    []
+  );
+
   const handleClosedOrder = () => {
     let shipping = "";
     switch (Number(selectedItems)) {
@@ -128,7 +155,7 @@ const Purchase: React.FC<IModalProps> = ({ isOpen, setIsOpen }) => {
       client: {
         name: FormRef.current?.getFieldValue("name"),
         document: FormRef.current?.getFieldValue("document"),
-        codepostal: FormRef.current?.getFieldValue("codepostal"),
+        codepostal: cep,
         uf: FormRef.current?.getFieldValue("uf"),
         city: FormRef.current?.getFieldValue("city"),
         neighborhood: FormRef.current?.getFieldValue("neighborhood"),
@@ -139,7 +166,6 @@ const Purchase: React.FC<IModalProps> = ({ isOpen, setIsOpen }) => {
         exchange: FormRef.current?.getFieldValue("exchange"),
       },
     };
-
     toggleCupomFiscal(data);
   };
 
@@ -226,26 +252,29 @@ const Purchase: React.FC<IModalProps> = ({ isOpen, setIsOpen }) => {
           <Form ref={FormRef} onSubmit={() => {}}>
             <InputRow
               size={20}
-              containerStyle={{ width: 400, marginLeft: 0 }}
+              containerStyle={{ width: 400, marginLeft: 0, marginRight: 0 }}
               name="name"
               placeholder="Digite seu nome"
             />
-            <InputRow
+            <InputMask
+              mask="999.999.999-99"
               size={20}
-              containerStyle={{ width: 400, marginLeft: 0 }}
+              containerStyle={{ width: 400, marginLeft: 0, marginRight: 0 }}
               name="document"
-              placeholder="CPF/CNPJ na nota"
+              placeholder="CPF na nota"
             />
             <div>
               <InputRow
+                mask="99999-999"
                 size={20}
-                containerStyle={{ width: 220, marginLeft: 0 }}
+                containerStyle={{ width: 220, marginLeft: 0, marginRight: 0 }}
                 name="codepostal"
                 placeholder="CEP"
+                onChange={(e) => handleCep(e)}
               />
               <InputRow
                 size={20}
-                containerStyle={{ width: 150, marginLeft: 0 }}
+                containerStyle={{ width: 160, marginLeft: 0, marginRight: 0 }}
                 name="uf"
                 placeholder="UF"
               />
@@ -253,38 +282,37 @@ const Purchase: React.FC<IModalProps> = ({ isOpen, setIsOpen }) => {
             <div>
               <InputRow
                 size={20}
-                containerStyle={{ width: 200, marginLeft: 0 }}
+                containerStyle={{ width: 200, marginLeft: 0, marginRight: 0 }}
                 name="city"
                 placeholder="Cidade"
               />
               <InputRow
                 size={20}
-                containerStyle={{ width: 180, marginLeft: 0 }}
+                containerStyle={{ width: 180, marginLeft: 0, marginRight: 0 }}
                 name="neighborhood"
                 placeholder="Bairro"
               />
             </div>
             <InputRow
               size={20}
-              containerStyle={{ width: 400, marginLeft: 0 }}
+              containerStyle={{ width: 400, marginLeft: 0, marginRight: 0 }}
               name="address"
               placeholder="Endereço"
             />
             <div>
               <InputRow
                 size={20}
-                containerStyle={{ width: 100, marginLeft: 0 }}
+                containerStyle={{ width: 100, marginLeft: 0, marginRight: 0 }}
                 name="number"
                 placeholder="N.º"
               />
               <InputRow
                 size={20}
-                containerStyle={{ width: 280, marginLeft: 0 }}
+                containerStyle={{ width: 280, marginLeft: 0, marginRight: 0 }}
                 name="complement"
                 placeholder="Complemento"
               />
             </div>
-
             <Select
               name="pay"
               placeholder="Qual a forma de pagamento?"
@@ -304,7 +332,7 @@ const Purchase: React.FC<IModalProps> = ({ isOpen, setIsOpen }) => {
             {exchangePay && (
               <InputRow
                 size={20}
-                containerStyle={{ width: 400, marginLeft: 0 }}
+                containerStyle={{ width: 400, marginLeft: 0, marginRight: 0 }}
                 name="exchange"
                 placeholder="Troco? qual valor..."
               />
