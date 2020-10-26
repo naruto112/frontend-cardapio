@@ -17,7 +17,7 @@ const ModalPhotoDetail: React.FC<IModalProps> = ({
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
       <Container>
-        <img src={url} alt={url} />
+        <img src={url} alt={url} style={{ width: "100%", height: "100%" }} />
       </Container>
     </Modal>
   );

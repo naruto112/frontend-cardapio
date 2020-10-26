@@ -80,9 +80,9 @@ const NewProduct: React.FC = () => {
           name: Yup.string().required("Nome obrigatório"),
           price: Yup.string().required("Preço do produto"),
           stock: Yup.string().required("Deve colocar 1 produto no minínimo"),
-          description: Yup.string().required(
-            "Crie uma descrição para seu produto"
-          ),
+          description: Yup.string()
+            .required("Crie uma descrição para seu produto")
+            .min(50),
           category: Yup.string().required("Selecione uma categoria"),
         });
 
@@ -222,7 +222,7 @@ const NewProduct: React.FC = () => {
               <TextArea
                 containerStyle={{ width: 1100, height: 170 }}
                 name="description"
-                placeholder="Digite a descrição do produto."
+                placeholder="Digite a descrição do produto. (minimo de 50 caracteres)"
               />
             </div>
             <ProductFooter>

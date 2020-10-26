@@ -54,6 +54,7 @@ export const HeaderFooter = styled.div`
 export const Content = styled.div`
   display: flex;
   justify-content: space-around;
+  align-items: center;
   width: 100%;
   height: 100%;
 `;
@@ -85,18 +86,13 @@ export const OrderData = styled.div`
   }
 `;
 
-export const SelecteDelivery = styled.div`
+export const SelectDelivery = styled.div`
   display: flex;
   justify-content: space-between;
 
-  .change-selecte-delivery img {
-    width: 60px;
-  }
-
-  .change-selecte-delivery span {
-    font-weight: 500;
-    font-size: 15px;
-    color: #6c6c80;
+  .selected {
+    background: #e1faec;
+    border: 2px solid #34cb79;
   }
 `;
 

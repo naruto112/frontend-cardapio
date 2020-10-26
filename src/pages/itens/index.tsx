@@ -62,6 +62,7 @@ interface IParams {
 const Itens: React.FC = () => {
   const [list, setLists] = useState<ICardProduct[]>([]);
   const [categories, setCategories] = useState<ICategory[]>();
+  const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [modalOpenCategory, setModalOpenCategory] = useState(false);
   const [modalOpenAditional, setModalOpenAditional] = useState(false);
   const history = useHistory();
@@ -93,29 +94,26 @@ const Itens: React.FC = () => {
     setModalOpenAditional(!modalOpenAditional);
   };
 
-  const handleAddAditional = useCallback(
-    async (aditional: IAditional) => {
-      try {
-        addToast({
-          type: "success",
-          title: "Adicionais Feito!",
-          description: "Seus adicionais foram incluidos com sucesso!",
-        });
-      } catch (err) {
-        if (err instanceof Yup.ValidationError) {
-          return;
-        }
-
-        addToast({
-          type: "error",
-          title: "Erro ao adicionar",
-          description:
-            "Ocorreu um erro ao incluir os adicionais, tente novamente",
-        });
+  const handleAddAditional = useCallback(async () => {
+    try {
+      addToast({
+        type: "success",
+        title: "Adicionais Feito!",
+        description: "Seus adicionais foram incluidos com sucesso!",
+      });
+    } catch (err) {
+      if (err instanceof Yup.ValidationError) {
+        return;
       }
-    },
-    [addToast]
-  );
+
+      addToast({
+        type: "error",
+        title: "Erro ao adicionar",
+        description:
+          "Ocorreu um erro ao incluir os adicionais, tente novamente",
+      });
+    }
+  }, [addToast]);
 
   const handleAddCategory = useCallback(
     async (category: ICategory) => {
@@ -143,7 +141,19 @@ const Itens: React.FC = () => {
     [addToast, categories]
   );
 
-  console.log(categories);
+  const handleSelectItem = useCallback(
+    (id: number) => {
+      const alreadySelected = selectedItems.findIndex((item) => item === id);
+
+      if (alreadySelected >= 0) {
+        const filteredItems = selectedItems.filter((item) => item !== id);
+        setSelectedItems(filteredItems);
+      } else {
+        setSelectedItems([id]);
+      }
+    },
+    [selectedItems]
+  );
 
   return (
     <Container>
@@ -193,15 +203,15 @@ const Itens: React.FC = () => {
           totalSlides={4}
         >
           <Slider className="filter-category">
-            {categories?.map((category) => (
+            {categories?.map((category, index) => (
               <FilterCategory
                 key={category.id}
+                className={selectedItems.includes(index) ? "selected" : ""}
                 img={
                   category.attachment[0]
                     ? category.attachment[0].url
                     : Interrogacao
                 }
-                // img={LancheImg}
                 title={category.name}
                 style={{
                   marginRight: 30,
@@ -210,6 +220,7 @@ const Itens: React.FC = () => {
                   flexDirection: "column",
                   justifyContent: "center",
                 }}
+                onClick={() => handleSelectItem(index)}
               />
             ))}
           </Slider>

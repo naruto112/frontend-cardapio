@@ -1,153 +1,92 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { CarouselProvider, Slider } from "pure-react-carousel";
 import "pure-react-carousel/dist/react-carousel.es.css";
-import { Link } from "react-router-dom";
 import { useParams } from "react-router";
-import { FiMapPin, FiShoppingCart } from "react-icons/fi";
+import { FiShoppingCart } from "react-icons/fi";
 
-import {
-  Container,
-  Header,
-  HeaderContent,
-  ItemCart,
-  HeaderFooter,
-  FilterContainer,
-  FoodContainer,
-  Title,
-} from "./styles";
+import { Container, FilterContainer, FoodContainer, Title } from "./styles";
 
-import ButtonShop from "../../../components/ButtonShop";
 import FilterCategory from "../../../components/FilterCategory";
 import Food from "../../../components/Food";
+import HeaderShop from "../../../components/HeaderShop/";
 
-import LogoShop from "../../../assets/logoShop.png";
-import LancheImg from "../../../assets/lanche.svg";
-import BebidasImg from "../../../assets/bebidas.svg";
-import SobremesaImg from "../../../assets/sobremesa.svg";
-import Burger2 from "../../../assets/bg.jpg";
+import { api } from "../../../services/api";
+import Purchase from "../Purchase";
 
 interface MatchProps {
   shop: string;
 }
 
-interface IFoodPlate {
-  id: number;
+interface ICategory {
+  id: string;
   name: string;
-  image: string;
-  price: string;
+  url: string;
+}
+
+interface IAttachment {
+  id: string;
+  url: string;
+}
+
+interface IFoodPlate {
+  id: string;
+  name: string;
+  price: number;
   description: string;
-  available: boolean;
+  visible: boolean;
+  attachment: IAttachment[];
 }
 
 interface IMenu {
-  id: number;
+  id: string;
   name: string;
-  product: IFoodPlate[];
+  products: IFoodPlate[];
 }
 
 const Shop: React.FC = () => {
   const { shop } = useParams<MatchProps>();
+  const [categories, setCategories] = useState<ICategory[]>([]);
+  const [selectedItems, setSelectedItems] = useState<number[]>([]);
+  const [menu, setMenu] = useState<IMenu[]>([]);
+  const [modalOpen, setModalOpen] = useState(false);
 
-  const menu: IMenu[] = [
-    {
-      id: 1,
-      name: "Cardapio mês",
-      product: [
-        {
-          image: `${Burger2}`,
-          name: "Veggie",
-          price: "21.89",
-          description:
-            "Macarrão com pimentão, ervilha e ervas finas colhidas no himalaia.",
-          id: 2,
-          available: true,
-        },
-        {
-          id: 3,
-          name: "A la Camarón",
-          description:
-            "Macarrão com vegetais de primeira linha e camarão dos 7 mares.",
-          price: "25.90",
-          available: true,
-          image: `${Burger2}`,
-        },
-        {
-          id: 1,
-          name: "A la Camarón",
-          description:
-            "Macarrão com vegetais de primeira linha e camarão dos 7 mares.",
-          price: "25.90",
-          available: true,
-          image: `${Burger2}`,
-        },
-      ],
+  useEffect(() => {
+    api.get(`shop/categories/${shop}`).then((response) => {
+      setCategories(response.data);
+    });
+
+    api.get(`shop/menu/${shop}`).then((response) => {
+      setMenu(response.data);
+    });
+  }, [shop]);
+
+  const toggleModal = (): void => {
+    setModalOpen(!modalOpen);
+  };
+
+  const handleSelectItem = useCallback(
+    (id: number) => {
+      const alreadySelected = selectedItems.findIndex((item) => item === id);
+
+      if (alreadySelected >= 0) {
+        const filteredItems = selectedItems.filter((item) => item !== id);
+        setSelectedItems(filteredItems);
+      } else {
+        setSelectedItems([id]);
+      }
     },
-    {
-      id: 2,
-      name: "Cardapio de Jantar",
-      product: [
-        {
-          image: `${Burger2}`,
-          name: "Veggie",
-          price: "21.89",
-          description:
-            "Macarrão com pimentão, ervilha e ervas finas colhidas no himalaia.",
-          id: 2,
-          available: true,
-        },
-        {
-          id: 3,
-          name: "A la Camarón",
-          description:
-            "Macarrão com vegetais de primeira linha e camarão dos 7 mares.",
-          price: "25.90",
-          available: true,
-          image: `${Burger2}`,
-        },
-        {
-          id: 1,
-          name: "A la Camarón",
-          description:
-            "Macarrão com vegetais de primeira linha e camarão dos 7 mares.",
-          price: "25.90",
-          available: true,
-          image: `${Burger2}`,
-        },
-      ],
-    },
-  ];
+    [selectedItems]
+  );
 
   return (
     <>
+      <Purchase isOpen={modalOpen} setIsOpen={toggleModal} />
       <Container>
-        <Header>
-          <HeaderContent>
-            <div>
-              <img src={LogoShop} alt="Logo Shop" />
-              <h1>I Love Burger</h1>
-            </div>
-            <div>
-              <Link
-                to={{
-                  pathname: `${shop}/order`,
-                }}
-              >
-                <ButtonShop icon={FiShoppingCart} title="Ver pedido" />
-              </Link>
-              <ItemCart>
-                <span>8</span>
-              </ItemCart>
-            </div>
-          </HeaderContent>
-          <HeaderFooter>
-            <div>
-              <span className="delivery-top">ENTREGAR EM</span>
-              <span>
-                <FiMapPin size={20} /> Av. Carlos klein, 314
-              </span>
-            </div>
-          </HeaderFooter>
-        </Header>
+        <HeaderShop
+          icon={FiShoppingCart}
+          title="Ver pedido"
+          onClick={() => setModalOpen(true)}
+        />
       </Container>
       <FilterContainer>
         <CarouselProvider
@@ -157,56 +96,16 @@ const Shop: React.FC = () => {
           totalSlides={4}
         >
           <Slider className="filter-category">
-            <FilterCategory
-              img={LancheImg}
-              title="Lanches"
-              style={{ marginRight: 30 }}
-            />
-            <FilterCategory
-              img={BebidasImg}
-              title="Bebidas"
-              style={{ marginRight: 30 }}
-            />
-            <FilterCategory
-              img={SobremesaImg}
-              title="Sobremesa"
-              style={{ marginRight: 30 }}
-            />
-            <FilterCategory
-              img={BebidasImg}
-              title="Bebidas"
-              style={{ marginRight: 30 }}
-            />
-            <FilterCategory
-              img={BebidasImg}
-              title="Bebidas"
-              style={{ marginRight: 30 }}
-            />
-            <FilterCategory
-              img={SobremesaImg}
-              title="Sobremesa"
-              style={{ marginRight: 30 }}
-            />
-            <FilterCategory
-              img={BebidasImg}
-              title="Bebidas"
-              style={{ marginRight: 30 }}
-            />
-            <FilterCategory
-              img={SobremesaImg}
-              title="Sobremesa"
-              style={{ marginRight: 30 }}
-            />
-            <FilterCategory
-              img={SobremesaImg}
-              title="Sobremesa"
-              style={{ marginRight: 30 }}
-            />
-            <FilterCategory
-              img={BebidasImg}
-              title="Bebidas"
-              style={{ marginRight: 30 }}
-            />
+            {categories.map((category, index) => (
+              <FilterCategory
+                className={selectedItems.includes(index) ? "selected" : ""}
+                key={category.id}
+                img={category.url}
+                title={category.name}
+                style={{ marginRight: 30 }}
+                onClick={() => handleSelectItem(index)}
+              />
+            ))}
           </Slider>
         </CarouselProvider>
       </FilterContainer>
@@ -217,7 +116,7 @@ const Shop: React.FC = () => {
             <h2>{card.name}</h2>
           </Title>
           <div className="food-item">
-            {card.product.map((food) => (
+            {card.products.map((food) => (
               <Food key={food.id} food={food} />
             ))}
           </div>

@@ -46,7 +46,7 @@ export const Form = styled(Unform)`
         display: flex;
         align-items: center;
 
-        button {
+        input {
           align-items: center;
           margin-left: 10px;
           margin-right: 10px;
