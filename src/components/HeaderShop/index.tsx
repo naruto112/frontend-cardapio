@@ -112,7 +112,7 @@ const HeaderShop: React.FC<Props> = ({ icon, title, onClick }) => {
             <div>
               <span className="delivery-top">ENTREGAR EM</span>
               <span>
-                <FiMapPin size={20} /> Av. Carlos klein, 314
+                <FiMapPin size={20} /> Av. Debunio, 3140
               </span>
             </div>
           </HeaderFooter>
