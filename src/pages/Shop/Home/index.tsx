@@ -45,6 +45,7 @@ interface IMenu {
 
 const Shop: React.FC = () => {
   const { shop } = useParams<MatchProps>();
+
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [menu, setMenu] = useState<IMenu[]>([]);

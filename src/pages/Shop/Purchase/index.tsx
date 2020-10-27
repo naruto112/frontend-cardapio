@@ -10,6 +10,7 @@ import ptBr from "date-fns/locale/pt-BR";
 import { useSelector } from "react-redux";
 import { FormHandles } from "@unform/core";
 import { Form } from "@unform/web";
+import { useHistory } from "react-router-dom";
 import {
   Content,
   OrderData,
@@ -32,6 +33,7 @@ import ModalOrderShop from "../../../components/ModalOrderShop";
 
 import { IState } from "../../../store";
 import { ICartItem } from "../../../store/modules/cart/types";
+import { IShopState } from "../../../store/modules/profile/types";
 import formatValue from "../../../utils/formatValue";
 import Select from "../../../components/Select";
 import InputMask from "../../../components/InputMask";
@@ -75,13 +77,14 @@ interface IModalProps {
 
 const Purchase: React.FC<IModalProps> = ({ isOpen, setIsOpen }) => {
   const FormRef = useRef<FormHandles>(null);
-
+  const history = useHistory();
   const [cep, setCep] = useState("");
   const [priceTotal, setPriceTotal] = useState(0);
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [shipping, setShipping] = useState(0);
   const [exchangePay, setExchangePay] = useState(false);
   const cart = useSelector<IState, ICartItem[]>((state) => state.cart.items);
+  const shopProfile = useSelector<IState, IShopState>((state) => state.shop);
 
   useEffect(() => {
     const res = cart.reduce((acc, current) => {
@@ -235,13 +238,15 @@ const Purchase: React.FC<IModalProps> = ({ isOpen, setIsOpen }) => {
       window.encodeURIComponent(cupomFiscal);
       window.open(
         "https://web.whatsapp.com/send?phone=" +
-          5511987474136 +
+          `5511${shopProfile.items[0].phone}` +
           "&text=" +
           cupomFiscal,
         "_blank"
       );
+
+      history.go(0);
     },
-    [cart, priceTotal, shipping]
+    [cart, priceTotal, shipping, history, shopProfile.items]
   );
 
   return (
