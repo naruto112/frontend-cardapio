@@ -168,7 +168,7 @@ const Profile: React.FC = () => {
           {
             first_name,
             second_name,
-            contact,
+            phone: contact,
             cep,
             email,
             uf,

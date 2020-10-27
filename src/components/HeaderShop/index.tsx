@@ -5,7 +5,8 @@ import { useParams } from "react-router";
 import ButtonShop from "../ButtonShop";
 import { FiMapPin } from "react-icons/fi";
 
-import { useSelector } from "react-redux";
+import { addProfileToShop } from "../../store/modules/profile/actions";
+import { useSelector, useDispatch } from "react-redux";
 import { IState } from "../../store";
 
 import { api } from "../../services/api";
@@ -46,6 +47,8 @@ interface IShop {
 }
 
 const HeaderShop: React.FC<Props> = ({ icon, title, onClick }) => {
+  const dispatch = useDispatch();
+
   const { shop } = useParams<MatchProps>();
   const [profileShop, setProfileShop] = useState<IShop>();
   const [rgba, setRgba] = useState<IColor>();
@@ -54,10 +57,11 @@ const HeaderShop: React.FC<Props> = ({ icon, title, onClick }) => {
 
   useEffect(() => {
     api.get(`shop/${shop}`).then((response) => {
+      dispatch(addProfileToShop(response.data.phone));
       setProfileShop(response.data);
       setRgba(JSON.parse(response.data.color));
     });
-  }, [shop]);
+  }, [shop, dispatch]);
 
   return (
     <Container>
