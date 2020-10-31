@@ -238,7 +238,7 @@ const Purchase: React.FC<IModalProps> = ({ isOpen, setIsOpen }) => {
       window.encodeURIComponent(cupomFiscal);
       window.open(
         "https://web.whatsapp.com/send?phone=" +
-          `5511${shopProfile.items[0].phone}` +
+          `55${shopProfile.items[0].phone}` +
           "&text=" +
           cupomFiscal,
         "_blank"

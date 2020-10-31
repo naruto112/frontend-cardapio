@@ -8,14 +8,14 @@ import React, {
 import { IconBaseProps } from "react-icons";
 import { FiAlertCircle } from "react-icons/fi";
 import ReactInputMask from "react-input-mask";
-
+import { isLetters, isPhone } from "../../utils/typeMask";
 import { useField } from "@unform/core";
-
 import { Container, Error } from "./styles";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   mask?: string;
+  typeMask?: "isLetter" | "isPhone";
   containerStyle?: object;
   subtitle?: string;
   icon?: React.ComponentType<IconBaseProps>;
@@ -23,6 +23,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 const InputRow: React.FC<InputProps> = ({
   mask,
+  typeMask,
   size,
   name,
   subtitle,
@@ -43,6 +44,19 @@ const InputRow: React.FC<InputProps> = ({
   const handleInputFocus = useCallback(() => {
     setIsFocused(true);
   }, []);
+
+  const toggleKeydownLetter = useCallback(
+    (e: React.FormEvent<HTMLInputElement>) => {
+      if (typeMask === "isLetter") {
+        isLetters(e);
+      }
+
+      if (typeMask === "isPhone") {
+        isPhone(e);
+      }
+    },
+    [typeMask]
+  );
 
   useEffect(() => {
     registerField({
@@ -77,6 +91,7 @@ const InputRow: React.FC<InputProps> = ({
           onFocus={handleInputFocus}
           onBlur={handleInputBlur}
           defaultValue={defaultValue}
+          onKeyUp={toggleKeydownLetter}
           ref={inputRef}
           {...rest}
         />

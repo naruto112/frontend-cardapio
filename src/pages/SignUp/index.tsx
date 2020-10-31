@@ -25,6 +25,7 @@ import LogoImg from "../../assets/logo.svg";
 import InputRow from "../../components/InputRow";
 import InputMask from "../../components/InputMask";
 import Button from "../../components/Button";
+import InputCheckBox from "../../components/InputCheckBox";
 
 interface SignUpFormData {
   first_name: string;
@@ -38,8 +39,14 @@ interface SignUpFormData {
   neighborhood: string;
   number: string;
   complement?: string;
+  term: boolean;
   password: string;
   confirmation_password: string;
+}
+
+interface CheckboxOption {
+  id: string;
+  name: string;
 }
 
 const SignUp: React.FC = () => {
@@ -59,6 +66,14 @@ const SignUp: React.FC = () => {
           email: Yup.string()
             .required("E-mail obrigatório")
             .email("Digite um e-mail válido"),
+          cep: Yup.string().required("Digite o CEP"),
+          uf: Yup.string().required("Digite o CEP para buscar o estado"),
+          city: Yup.string().required("Digite o CEP para buscar a cidade"),
+          number: Yup.string().required("Digite o número do endereço"),
+          address: Yup.string().required("Digite o CEP para buscar o endereço"),
+          neighborhood: Yup.string().required(
+            "Digite o CEP para buscar do bairro"
+          ),
           password: Yup.string()
             .required("Senha obrigatória")
             .min(8, "Mínimo de 8 caracteres"),
@@ -66,6 +81,7 @@ const SignUp: React.FC = () => {
             .required("Deve confirmar a senha")
             .oneOf([Yup.ref("password")], "Senha não confere")
             .min(8, "Mínimo de 8 caracteres"),
+          term: Yup.boolean().oneOf([true], "Deve aceitar os termos"),
         });
         await schema.validate(data, {
           abortEarly: false,
@@ -78,7 +94,7 @@ const SignUp: React.FC = () => {
           second_name: data.second_name,
           email: data.email,
           password: data.password,
-          phone: data.contact,
+          phone: data.contact.replace(/\D/g, ""),
           city: data.city,
           uf: data.uf,
           cep: data.cep,
@@ -86,6 +102,7 @@ const SignUp: React.FC = () => {
           neighborhood: data.neighborhood,
           number: data.number,
           complement: data.complement,
+          term: data.term ? true : false,
         };
 
         await api.post("users", users);
@@ -109,7 +126,7 @@ const SignUp: React.FC = () => {
         addToast({
           title: "Erro",
           description:
-            "Não foi possível cadastrar, contate o suporte sistema@dstudium",
+            "Não foi possível cadastrar, contate o suporte sistema@dstudium.com",
           type: "error",
         });
       }
@@ -125,20 +142,29 @@ const SignUp: React.FC = () => {
         return;
       }
 
-      const patterCep = /^[0-9]{8}$/;
       const cepValue = event.target.value.replace("-", "");
 
-      if (patterCep.test(cepValue)) {
-        const response = await apiCep.get(`${cepValue}/json`);
-        const { bairro, localidade, logradouro, uf } = response.data;
-        FormRef.current?.setFieldValue("neighborhood", bairro);
-        FormRef.current?.setFieldValue("city", localidade);
-        FormRef.current?.setFieldValue("address", logradouro);
-        FormRef.current?.setFieldValue("uf", uf);
+      if (/^[0-9]{8}$/.test(cepValue)) {
+        await apiCep.get(`${cepValue}/json`).then((response) => {
+          if (response.data.erro) {
+            addToast({
+              title: "Erro",
+              description: "CEP incorreto, digite outro cep",
+              type: "error",
+            });
+            return;
+          }
+          const { bairro, localidade, logradouro, uf } = response.data;
+          FormRef.current?.setFieldValue("neighborhood", bairro);
+          FormRef.current?.setFieldValue("city", localidade);
+          FormRef.current?.setFieldValue("address", logradouro);
+          FormRef.current?.setFieldValue("uf", uf);
+        });
+
         return;
       }
     },
-    []
+    [addToast]
   );
 
   return (
@@ -151,23 +177,26 @@ const SignUp: React.FC = () => {
             <div>
               <InputRow
                 size={20}
+                typeMask="isLetter"
                 containerStyle={{ width: 270 }}
                 name="first_name"
                 icon={FiUser}
                 placeholder="Primeiro nome"
               />
               <InputRow
+                typeMask="isLetter"
                 containerStyle={{ width: 340 }}
                 name="second_name"
                 icon={FiUser}
                 placeholder="Segundo nome"
               />
               <InputRow
+                typeMask="isPhone"
                 size={20}
                 containerStyle={{ width: 240 }}
                 name="contact"
                 icon={FiPhone}
-                placeholder="Contato"
+                placeholder="Ex: (11) 99999-9999"
               />
               <InputRow
                 size={20}
@@ -241,6 +270,31 @@ const SignUp: React.FC = () => {
                 icon={FiLock}
                 type="password"
                 placeholder="Confirme a senha"
+              />
+            </div>
+            <div className="accep-terms">
+              <InputCheckBox
+                name="term"
+                options={[
+                  {
+                    id: "1",
+                    label: (
+                      <span>
+                        Eu aceito os{" "}
+                        <a
+                          href="https://www.ticket.com.br/shop/assets/pdfs/Politica-de-Privacidade-e-Termo-de-Uso.pdf"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {" "}
+                          Termos e Política Privacidade{" "}
+                        </a>{" "}
+                        do site{" "}
+                      </span>
+                    ),
+                    value: true,
+                  },
+                ]}
               />
             </div>
             <Button containerStyle={{ width: 300 }} type="submit">

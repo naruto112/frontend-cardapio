@@ -52,15 +52,24 @@ export const AnimationContainer = styled.div`
       justify-content: center;
     }
 
+    .accep-terms {
+      width: auto;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      margin-bottom: 30px;
+
+      span {
+        margin-top: 2px;
+        margin-left: 10px;
+      }
+    }
+
     a {
-      color: #f4ede8;
-      display: block;
-      margin-top: 24px;
-      text-decoration: none;
-      transition: color 0.2s;
+      color: #4e9cff;
 
       &:hover {
-        color: ${shade(0.2, "#f4ede8")};
+        color: ${shade(0.2, "#4e9cff")};
       }
     }
   }
