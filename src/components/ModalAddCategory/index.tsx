@@ -3,7 +3,7 @@ import React, { useRef, useState, useCallback } from "react";
 import Modal from "../Modal";
 
 import Dropzone from "../../components/Dropzone";
-import { FiCheckSquare } from "react-icons/fi";
+import { FiCheckSquare, FiInfo } from "react-icons/fi";
 import { FormHandles } from "@unform/core";
 import InputRow from "../InputRow";
 import { Form } from "./styles";
@@ -63,6 +63,8 @@ const ModalAddCategory: React.FC<IModalProps> = ({
         };
 
         setIsOpen();
+        setButtonSave("Criar");
+        setSelectedFile(undefined);
         handleAddCategory(result);
       }
     },
@@ -73,10 +75,19 @@ const ModalAddCategory: React.FC<IModalProps> = ({
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
       <Form ref={formRef} onSubmit={handleSubmit}>
         <h1>Nova Categoria</h1>
+        {selectedFile && (
+          <div className="alert-upload">
+            <div>
+              <FiInfo size={20} />
+              <span>Para trocar a foto clique na área da propria foto</span>
+            </div>
+          </div>
+        )}
         <Dropzone
-          title="SVG Categoria"
+          title="Upload de Categoria em SVG"
           width="100%"
           height="241px"
+          containerStyle={{ marginLeft: 0 }}
           onFileUploaded={setSelectedFile}
         />
         <InputRow name="name" placeholder="Ex: Lanches" />

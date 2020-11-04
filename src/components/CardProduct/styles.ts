@@ -160,4 +160,30 @@ export const ContentProduct = styled.div`
       }
     }
   }
+
+  .tooltip {
+    background: transparent;
+    position: relative;
+    display: inline-block;
+  }
+
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    font-size: 14px;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+
+    position: absolute;
+    z-index: 1;
+    top: -17px;
+    left: 107%;
+  }
+
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }
 `;
