@@ -2,7 +2,7 @@ import React, { useCallback, useState } from "react";
 import Image, { Shimmer } from "react-shimmer";
 import CopyToClipboard from "react-copy-to-clipboard";
 
-import { HeaderBody, HeaderContent, Profile, Division } from "./styles";
+import { HeaderBody, HeaderContent, Profile, Division, Alert } from "./styles";
 import { useAuth } from "../../hooks/auth";
 
 import logoImg from "../../assets/logo.svg";
@@ -36,7 +36,7 @@ const Header: React.FC<IProps> = ({ route }) => {
 
   const handleGoBack = useCallback(() => {
     history.goBack();
-  }, [history])
+  }, [history]);
 
   return (
     <HeaderBody>
@@ -45,10 +45,8 @@ const Header: React.FC<IProps> = ({ route }) => {
           <img className="logo" src={logoImg} alt="Cardapio" />
           {route === "dashboard" ? (
             <aside>
-              <Link to="/">
-                Cardapios
-              </Link>
-            </aside >
+              <Link to="/">Cardapios</Link>
+            </aside>
           ) : (
             <aside>
               <button onClick={handleGoBack}>
@@ -56,34 +54,45 @@ const Header: React.FC<IProps> = ({ route }) => {
               </button>
             </aside>
           )}
-          <div className="link-cardapio">
-            <FiLink />
-            <div
-              onChange={() =>
-                setCopyToClipBoard({
-                  value: process.env.REACT_APP_URL + user.shop,
-                  copied: false,
-                })
-              }
-            >
-              <CopyToClipboard
-                text={copyToClipBoard.value}
-                onCopy={() =>
+          {user.shop && (
+            <div className="link-cardapio">
+              <FiLink />
+              <div
+                onChange={() =>
                   setCopyToClipBoard({
                     value: process.env.REACT_APP_URL + user.shop,
-                    copied: true,
+                    copied: false,
                   })
                 }
               >
-                <span>Link do seu cardápio</span>
-              </CopyToClipboard>
+                <CopyToClipboard
+                  text={copyToClipBoard.value}
+                  onCopy={() =>
+                    setCopyToClipBoard({
+                      value: process.env.REACT_APP_URL + user.shop,
+                      copied: true,
+                    })
+                  }
+                >
+                  <span>Link do seu cardápio</span>
+                </CopyToClipboard>
+              </div>
+              {copyToClipBoard.copied && (
+                <span style={{ color: "green", fontSize: 12 }}>Copiado!</span>
+              )}
             </div>
-            {copyToClipBoard.copied && (
-              <span style={{ color: "green", fontSize: 12 }}>Copiado!</span>
-            )}
-          </div>
+          )}
         </div>
-
+        {!user.shop && route !== "profile" ? (
+          <Alert>
+            <span className="triangule"></span>
+            <div>
+              <span>Complete o cadastro do seu cardápio clicando aqui.</span>
+            </div>
+          </Alert>
+        ) : (
+          ""
+        )}
         <Profile>
           <div>
             <span>Bem-vindo,</span>

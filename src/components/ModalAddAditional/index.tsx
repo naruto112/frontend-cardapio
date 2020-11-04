@@ -53,7 +53,7 @@ const ModalAddAditional: React.FC<IModalProps> = ({
       <Form ref={formRef} onSubmit={handleSubmit}>
         <h1>Adicionais</h1>
         <InputRow name="name" placeholder="Ex: Bacon" />
-        <InputRow name="quantity" placeholder="Ex: 2 quantidade" />
+        <InputRow name="quantity" type="number" placeholder="Ex: 2 qtd." />
         <InputRow name="price" placeholder="Ex: R$ 12,90" />
         <button type="submit">
           <p className="text">{buttonSave}</p>

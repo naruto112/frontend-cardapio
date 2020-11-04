@@ -8,6 +8,7 @@ interface Props {
   title: string;
   width: string;
   height: string;
+  containerStyle?: object;
   onFileUploaded: (file: File) => void;
 }
 
@@ -16,6 +17,7 @@ const Dropzone: React.FC<Props> = ({
   width,
   height,
   title,
+  containerStyle = {},
 }) => {
   const [selectedFileUrl, setSelectedFileUrl] = useState("");
 
@@ -37,7 +39,12 @@ const Dropzone: React.FC<Props> = ({
   });
 
   return (
-    <Container width={width} height={height} {...getRootProps()}>
+    <Container
+      width={width}
+      height={height}
+      {...getRootProps()}
+      style={containerStyle}
+    >
       <input {...getInputProps()} accept="image/*" />
 
       {selectedFileUrl ? (

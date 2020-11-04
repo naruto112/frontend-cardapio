@@ -101,3 +101,36 @@ export const Division = styled.div`
   margin-right: 20px;
   border: 1px solid #eff4f7;
 `;
+
+export const Alert = styled.div`
+  div {
+    width: 300px;
+    position: absolute;
+    display: flex;
+    right: 140px;
+    top: 90px;
+    z-index: 1;
+    background: #fca311;
+    border-radius: 3px;
+    padding: 14px;
+    box-shadow: 0px 16px 4px rgba(0, 0, 0, 0.05);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    justify-content: center;
+  }
+
+  .triangule {
+    position: absolute;
+    display: flex;
+    right: 250px;
+    top: 68px;
+    z-index: 0;
+    width: 0;
+    height: 0;
+    border-left: 25px solid transparent;
+    border-right: 25px solid transparent;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.05);
+    border-bottom: 25px solid #fca311;
+  }
+`;

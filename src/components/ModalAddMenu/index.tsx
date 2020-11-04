@@ -39,7 +39,7 @@ const ModalAddMenu: React.FC<IModalProps> = ({
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
       <Form ref={formRef} onSubmit={handleSubmit}>
-        <h1>Nova Cardapio</h1>
+        <h1>Novo Cardápio</h1>
         <InputRow name="name" placeholder="Ex: Almoço do mês" />
         <button type="submit">
           <p className="text">Criar</p>

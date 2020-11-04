@@ -8,6 +8,34 @@ export const Form = styled(Unform)`
   justify-content: center;
   flex-direction: column;
 
+  .alert-upload {
+    width: 100%;
+    margin-bottom: -30px;
+    display: flex;
+    justify-content: right;
+    opacity: 0.7;
+
+    div {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #2d82d6;
+      border-radius: 3px;
+      padding-top: 8px;
+      padding-bottom: 8px;
+    }
+
+    span {
+      margin-left: 10px;
+      color: #fff;
+    }
+
+    svg {
+      color: #fff;
+    }
+  }
+
   div {
     margin-bottom: 20px;
   }
@@ -22,6 +50,13 @@ export const Form = styled(Unform)`
   button {
     margin-top: 48px;
     align-self: flex-end;
+  }
+
+  img {
+    width: 28%;
+    height: 90%;
+    border-radius: 10px;
+    object-fit: cover;
   }
 
   button {

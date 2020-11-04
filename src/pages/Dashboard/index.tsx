@@ -115,7 +115,7 @@ const Dashboard: React.FC = () => {
             <h2>Cardápios</h2>
             <Button onClick={() => setModalOpen(true)}>
               <FiPlus size={20} />
-              <span>Cardapio</span>
+              <span>Cardápio</span>
             </Button>
           </div>
         </HeaderBody>

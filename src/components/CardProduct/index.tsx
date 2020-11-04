@@ -49,7 +49,10 @@ const CardProduct: React.FC<ICardProduct> = ({
   return (
     <Container>
       <header>
-        <Image src={url ? url : Comida} fallback={<Shimmer width={800} height={600} />} />
+        <Image
+          src={url ? url : Comida}
+          fallback={<Shimmer width={800} height={600} />}
+        />
       </header>
       <ContentProduct>
         <div className="top-card">
@@ -67,8 +70,9 @@ const CardProduct: React.FC<ICardProduct> = ({
           <span>
             {!price ? <Shimmer width={70} height={20} /> : `R$ ${price}`}{" "}
           </span>
-          <div className="availability-container">
-            <label className="switch">
+          <div className="availability-container ">
+            <label className="switch tooltip">
+              <span className="tooltiptext">Clique e desative o produto</span>
               <input
                 type="checkbox"
                 checked={isAvailable}
