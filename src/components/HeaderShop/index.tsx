@@ -4,6 +4,7 @@ import Shimmer from "react-shimmer-effect";
 import { useParams } from "react-router";
 import ButtonShop from "../ButtonShop";
 import { FiMapPin } from "react-icons/fi";
+import { useHistory } from "react-router-dom";
 
 import { addProfileToShop } from "../../store/modules/profile/actions";
 import { useSelector, useDispatch } from "react-redux";
@@ -48,6 +49,7 @@ interface IShop {
 
 const HeaderShop: React.FC<Props> = ({ icon, title, onClick }) => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const { shop } = useParams<MatchProps>();
   const [profileShop, setProfileShop] = useState<IShop>();
@@ -56,12 +58,17 @@ const HeaderShop: React.FC<Props> = ({ icon, title, onClick }) => {
   const cart = useSelector<IState, ICartItem[]>((state) => state.cart.items);
 
   useEffect(() => {
-    api.get(`shop/${shop}`).then((response) => {
-      dispatch(addProfileToShop(response.data.phone));
-      setProfileShop(response.data);
-      setRgba(JSON.parse(response.data.color));
-    });
-  }, [shop, dispatch]);
+    api
+      .get(`shop/${shop}`)
+      .then((response) => {
+        dispatch(addProfileToShop(response.data.phone));
+        setProfileShop(response.data);
+        setRgba(JSON.parse(response.data.color));
+      })
+      .catch(() => {
+        history.push("/notfound");
+      });
+  }, [shop, dispatch, history]);
 
   return (
     <Container>
