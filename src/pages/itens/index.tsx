@@ -167,7 +167,7 @@ const Itens: React.FC = () => {
         description: "Categoria deletada com sucesso!",
       });
     },
-    [categories]
+    [categories, addToast]
   );
 
   return (
