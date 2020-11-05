@@ -1,6 +1,6 @@
 export const isLetters = (e: React.FormEvent<HTMLInputElement>) => {
   let value = e.currentTarget.value;
-  value = value.replace(/[^a-zA-Z]+/g, "");
+  value = value.replace(/[^\D]/g, "");
   e.currentTarget.value = value;
 };
 export const isPhone = (e: React.FormEvent<HTMLInputElement>) => {

@@ -92,7 +92,7 @@ const SignIn: React.FC = () => {
           </Form>
 
           <Version>
-            <span>Versão 1.0.0</span>
+            <span>Versão {process.env.REACT_APP_VERSION}</span>
           </Version>
 
           <Link to="/signup">
