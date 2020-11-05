@@ -23,4 +23,21 @@ export const Container = styled.div`
       background: ${shade(0.02, "#fff")};
     }
   }
+
+  .img-delete {
+    background: #ff1e1e;
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    margin-left: 104px;
+    border-radius: 50px;
+    border: none;
+    top: 0px;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.05);
+    transition: 0.2s;
+
+    &:hover {
+      background: #ce0000;
+    }
+  }
 `;

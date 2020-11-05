@@ -76,3 +76,8 @@ export const AnimationContainer = styled.div`
     }
   }
 `;
+
+export const Version = styled.div`
+  width: auto;
+  margin-bottom: 40px;
+`;

@@ -155,6 +155,21 @@ const Itens: React.FC = () => {
     [selectedItems]
   );
 
+  const handleDeleteCategory = useCallback(
+    async (id: string) => {
+      const category = categories?.filter((item) => item.id !== id);
+
+      await api.delete(`categories/${id}`);
+      setCategories(category);
+      addToast({
+        type: "success",
+        title: "Categoria Deletada!",
+        description: "Categoria deletada com sucesso!",
+      });
+    },
+    [categories, addToast]
+  );
+
   return (
     <Container>
       <Header route="dashboard" />
@@ -198,9 +213,9 @@ const Itens: React.FC = () => {
       <FilterContainer>
         <CarouselProvider
           className="carosel"
-          naturalSlideWidth={1}
+          naturalSlideWidth={2}
           naturalSlideHeight={2}
-          totalSlides={4}
+          totalSlides={2}
         >
           <Slider className="filter-category">
             {categories?.map((category, index) => (
@@ -213,6 +228,8 @@ const Itens: React.FC = () => {
                     : Interrogacao
                 }
                 title={category.name}
+                handleDeletedCategory={() => handleDeleteCategory(category.id)}
+                deleted={true}
                 style={{
                   marginRight: 30,
                   display: "flex",

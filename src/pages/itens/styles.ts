@@ -71,17 +71,20 @@ export const FilterContainer = styled.div`
   .carosel {
     display: flex;
     flex-direction: row;
-    width: 50%;
+    width: 650px;
 
     .filter-category {
       display: flex;
       width: 100%;
 
       div {
+        display: flex;
+
         ul {
           display: flex;
         }
       }
+
       .selected {
         background: #e1faec;
         border: 2px solid #34cb79;

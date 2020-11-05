@@ -5,7 +5,7 @@ import { Form } from "@unform/web";
 import { FormHandles } from "@unform/core";
 import { Link, useHistory } from "react-router-dom";
 
-import { Container, Content, AnimationContainer } from "./styles";
+import { Container, Content, AnimationContainer, Version } from "./styles";
 
 import LogoImg from "../../assets/logo.svg";
 
@@ -90,6 +90,10 @@ const SignIn: React.FC = () => {
             <Button type="submit">{loading}</Button>
             <Link to="/forgot-password">Esqueci minha senha</Link>
           </Form>
+
+          <Version>
+            <span>Versão 1.0.0</span>
+          </Version>
 
           <Link to="/signup">
             <FiLogIn />
