@@ -102,6 +102,7 @@ const SignUp: React.FC = () => {
           neighborhood: data.neighborhood,
           number: data.number,
           complement: data.complement,
+          color: '{"r":105,"g":103,"b":103,"a":100}',
           term: data.term ? true : false,
         };
 
