@@ -92,9 +92,9 @@ const Shop: React.FC = () => {
       <FilterContainer>
         <CarouselProvider
           className="carosel"
-          naturalSlideWidth={1}
+          naturalSlideWidth={2}
           naturalSlideHeight={2}
-          totalSlides={4}
+          totalSlides={2}
         >
           <Slider className="filter-category">
             {categories.map((category, index) => (
