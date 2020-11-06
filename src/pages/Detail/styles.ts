@@ -29,6 +29,7 @@ export const ProductDetail = styled.div`
     justify-content: center;
 
     img {
+      object-fit: cover;
       cursor: pointer;
       width: 150px;
       height: 90px;

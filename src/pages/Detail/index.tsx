@@ -237,9 +237,10 @@ const Detail: React.FC = () => {
             <div className="product-field">
               <InputRow
                 size={60}
+                maxLength={22}
                 containerStyle={{ width: 400 }}
                 name="name"
-                placeholder="Nome do Produto"
+                placeholder="Nome do Produto. (máximo 22 caracteres)"
               />
               <InputRow
                 size={60}
