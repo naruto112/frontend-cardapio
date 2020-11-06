@@ -39,6 +39,7 @@ interface ICardProduct {
   description: string;
   visible: number;
   price: string;
+  category: ICategory;
   attachment: IAttachment[];
 }
 
@@ -46,13 +47,6 @@ interface ICategory {
   id: string;
   name: string;
   attachment: IAttachment[];
-}
-
-interface IAditional {
-  id: string;
-  name: string;
-  quantity: number;
-  price: number;
 }
 
 interface IParams {
@@ -141,19 +135,18 @@ const Itens: React.FC = () => {
     [addToast, categories]
   );
 
-  const handleSelectItem = useCallback(
-    (id: number) => {
-      const alreadySelected = selectedItems.findIndex((item) => item === id);
+  const handleSelectItem = (id: number, key: string) => {
+    const alreadySelected = selectedItems.findIndex((item) => item === id);
 
-      if (alreadySelected >= 0) {
-        const filteredItems = selectedItems.filter((item) => item !== id);
-        setSelectedItems(filteredItems);
-      } else {
-        setSelectedItems([id]);
-      }
-    },
-    [selectedItems]
-  );
+    if (alreadySelected >= 0) {
+      const filteredItems = selectedItems.filter((item) => item !== id);
+      setSelectedItems(filteredItems);
+    } else {
+      setSelectedItems([id]);
+    }
+
+    handleFilterProduct(key);
+  };
 
   const handleDeleteCategory = useCallback(
     async (id: string) => {
@@ -168,6 +161,14 @@ const Itens: React.FC = () => {
       });
     },
     [categories, addToast]
+  );
+
+  const handleFilterProduct = useCallback(
+    (id: string) => {
+      const product = list.filter((item) => item.category.name === "Lanches");
+      console.log(product);
+    },
+    [list]
   );
 
   return (
@@ -237,7 +238,7 @@ const Itens: React.FC = () => {
                   flexDirection: "column",
                   justifyContent: "center",
                 }}
-                onClick={() => handleSelectItem(index)}
+                onClick={() => handleSelectItem(index, id)}
               />
             ))}
           </Slider>
