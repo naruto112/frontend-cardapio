@@ -135,21 +135,18 @@ const Itens: React.FC = () => {
     [addToast, categories]
   );
 
-  const handleSelectItem = useCallback(
-    (id: number, key: string) => {
-      const alreadySelected = selectedItems.findIndex((item) => item === id);
+  const handleSelectItem = (id: number, key: string) => {
+    const alreadySelected = selectedItems.findIndex((item) => item === id);
 
-      if (alreadySelected >= 0) {
-        const filteredItems = selectedItems.filter((item) => item !== id);
-        setSelectedItems(filteredItems);
-      } else {
-        setSelectedItems([id]);
-      }
+    if (alreadySelected >= 0) {
+      const filteredItems = selectedItems.filter((item) => item !== id);
+      setSelectedItems(filteredItems);
+    } else {
+      setSelectedItems([id]);
+    }
 
-      handleFilterProduct(key);
-    },
-    [selectedItems]
-  );
+    handleFilterProduct(key);
+  };
 
   const handleDeleteCategory = useCallback(
     async (id: string) => {
