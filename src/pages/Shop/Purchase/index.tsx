@@ -56,20 +56,6 @@ interface IOrder {
   };
 }
 
-interface ICreateAddtionalData {
-  id?: string;
-  name?: string;
-  quantity: number;
-  aditionals?: {
-    name: string;
-    quantity: number;
-    price: number;
-  }[];
-  observation?: string;
-  price?: number;
-  numberProduct?: number;
-}
-
 interface IModalProps {
   isOpen: boolean;
   setIsOpen: () => void;
