@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { IconBaseProps } from "react-icons";
 import Shimmer from "react-shimmer-effect";
 import { useParams } from "react-router";
 import ButtonShop from "../ButtonShop";
-import { FiMapPin } from "react-icons/fi";
+import { FiChevronDown, FiMapPin } from "react-icons/fi";
 import { useHistory } from "react-router-dom";
 
 import { addProfileToShop } from "../../store/modules/profile/actions";
@@ -22,6 +22,7 @@ import {
   ShimmerEffectLine,
 } from "./styles";
 import { ICartItem } from "../../store/modules/cart/types";
+import ModalCheckin from "../ModalCheckin";
 
 interface Props {
   icon: React.ComponentType<IconBaseProps>;
@@ -40,6 +41,12 @@ interface IColor {
   a: string;
 }
 
+interface ILocation {
+  adress: string;
+  number: string;
+  complement?: string;
+}
+
 interface IShop {
   id: string;
   avatar_url: string;
@@ -50,7 +57,8 @@ interface IShop {
 const HeaderShop: React.FC<Props> = ({ icon, title, onClick }) => {
   const dispatch = useDispatch();
   const history = useHistory();
-
+  const [modal, setModal] = useState(true);
+  const [adressLocation, setAdressLocation] = useState<ILocation>();
   const { shop } = useParams<MatchProps>();
   const [profileShop, setProfileShop] = useState<IShop>();
   const [rgba, setRgba] = useState<IColor>();
@@ -68,10 +76,40 @@ const HeaderShop: React.FC<Props> = ({ icon, title, onClick }) => {
       .catch(() => {
         history.push("/notfound");
       });
+
+    const location = localStorage.getItem("@Cardapio:location");
+    if (!location) {
+      setModal(true);
+    } else {
+      setModal(false);
+      setAdressLocation(JSON.parse(location));
+    }
   }, [shop, dispatch, history]);
+
+  const handleLocationAdress = () => {
+    const location = localStorage.getItem("@Cardapio:location");
+    if (location) {
+      setAdressLocation(JSON.parse(location));
+    }
+    setModal(false);
+  };
+
+  const handleAdressLocal = useCallback((local: ILocation) => {
+    setAdressLocation({
+      adress: local.adress,
+      number: local.number,
+      complement: local.complement,
+    });
+  }, []);
 
   return (
     <Container>
+      <ModalCheckin
+        isOpen={modal}
+        setIsOpen={() => true}
+        handleAddAditional={handleLocationAdress}
+        handleLocation={handleAdressLocal}
+      />
       {rgba ? (
         <Header
           background={`rgba(${rgba?.r},${rgba?.g},${rgba?.b},${rgba?.a})`}
@@ -123,7 +161,16 @@ const HeaderShop: React.FC<Props> = ({ icon, title, onClick }) => {
             <div>
               <span className="delivery-top">ENTREGAR EM</span>
               <span>
-                <FiMapPin size={20} /> Av. Debunio, 3140
+                <FiMapPin size={20} /> {adressLocation?.adress},{" "}
+                {adressLocation?.number}{" "}
+                {adressLocation?.complement
+                  ? "-" + adressLocation.complement
+                  : ""}
+                <FiChevronDown
+                  size={20}
+                  onClick={() => setModal(true)}
+                  style={{ cursor: "pointer" }}
+                />
               </span>
             </div>
           </HeaderFooter>

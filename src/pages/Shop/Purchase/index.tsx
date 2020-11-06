@@ -92,6 +92,8 @@ const Purchase: React.FC<IModalProps> = ({ isOpen, setIsOpen }) => {
       return acc;
     }, 0);
 
+    const location = localStorage.getItem("@Cardapio:location");
+
     setPriceTotal(res);
   }, [cart]);
 
