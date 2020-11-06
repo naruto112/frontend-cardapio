@@ -56,20 +56,6 @@ interface IOrder {
   };
 }
 
-interface ICreateAddtionalData {
-  id?: string;
-  name?: string;
-  quantity: number;
-  aditionals?: {
-    name: string;
-    quantity: number;
-    price: number;
-  }[];
-  observation?: string;
-  price?: number;
-  numberProduct?: number;
-}
-
 interface IModalProps {
   isOpen: boolean;
   setIsOpen: () => void;
@@ -91,8 +77,6 @@ const Purchase: React.FC<IModalProps> = ({ isOpen, setIsOpen }) => {
       acc = Number(current.product.price) + acc;
       return acc;
     }, 0);
-
-    const location = localStorage.getItem("@Cardapio:location");
 
     setPriceTotal(res);
   }, [cart]);
