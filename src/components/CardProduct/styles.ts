@@ -68,7 +68,7 @@ export const ContentProduct = styled.div`
 
   .middle-card {
     margin-left: 13px;
-    width: 230px;
+    width: 210px;
     height: 50px;
     article {
       font-style: normal;
