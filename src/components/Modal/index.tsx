@@ -27,11 +27,12 @@ const Modal: React.FC<IModalProps> = ({ children, isOpen, setIsOpen }) => {
           left: "50%",
           right: "auto",
           bottom: "auto",
+          padding: 0,
           transform: "translate(-50%, -50%)",
           background: "#F0F0F5",
           color: "#000000",
           borderRadius: "8px",
-          width: "800px",
+          width: "700px",
           border: "none",
         },
         overlay: {
