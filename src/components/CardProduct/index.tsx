@@ -81,7 +81,7 @@ const CardProduct: React.FC<ICardProduct> = ({
               <span className="slider" />
             </label>
           </div>
-          <Link to={`/product/detail/${id}`}>
+          <Link to={`/detail/${id}`}>
             <FiEdit2 size={20} />
           </Link>
         </div>
