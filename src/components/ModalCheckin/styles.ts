@@ -78,13 +78,5 @@ export const Form = styled(Unform)`
         margin-right: 30px;
       }
     }
-
-    /* .icon {
-      display: flex;
-      padding: 16px 16px;
-      background: #464b52;
-      border-radius: 0 8px 8px 0;
-      margin: 0 auto;
-    } */
   }
 `;

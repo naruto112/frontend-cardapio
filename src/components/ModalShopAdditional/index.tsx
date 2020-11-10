@@ -77,7 +77,7 @@ const ModalShopAdditional: React.FC<IModalProps> = ({
     api.post("shop/products", { id }).then((response) => {
       setProduct(response.data);
     });
-  }, [id, product]);
+  }, [id]);
 
   const toggleAdtional = (
     e: boolean,

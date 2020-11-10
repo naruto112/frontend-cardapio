@@ -2,6 +2,8 @@ import styled from "styled-components";
 import { Form as Unform } from "@unform/web";
 
 export const Form = styled(Unform)`
+  padding: 20px;
+
   img {
     object-fit: cover;
     width: 100%;

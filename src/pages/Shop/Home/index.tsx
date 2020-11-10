@@ -55,7 +55,6 @@ const Shop: React.FC = () => {
     api.get(`shop/categories/${shop}`).then((response) => {
       setCategories(response.data);
     });
-
     api.get(`shop/menu/${shop}`).then((response) => {
       setMenu(response.data);
     });

@@ -16,6 +16,7 @@ interface InputProps {
   mask?: string;
   containerStyle?: object;
   name: string;
+  idValue?: string;
   icon?: React.ComponentType<IconBaseProps>;
   placeholder: string;
   size?: number;
@@ -26,6 +27,7 @@ interface InputProps {
 
 const Select: React.FC<InputProps> = ({
   name,
+  idValue,
   mask,
   containerStyle = {},
   icon: Icon,
@@ -84,7 +86,7 @@ const Select: React.FC<InputProps> = ({
             onChange={handleChanged}
             {...rest}
           >
-            <option>{Placeholder}</option>
+            <option value={idValue}>{Placeholder}</option>
             {Value.map((item) => (
               <option key={item.id} value={item.id}>
                 {item.name}

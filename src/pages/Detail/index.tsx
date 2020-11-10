@@ -113,6 +113,7 @@ const Detail: React.FC = () => {
         setButtonSave("Gravando...");
 
         const { name, price, stock, description, category, aditionals } = data;
+
         let obj = [];
         for (let i = 0; aditionals.length > i; i++) {
           obj.push({ id: aditionals[i] });
@@ -256,6 +257,7 @@ const Detail: React.FC = () => {
               />
               <Select
                 name="category"
+                idValue={product?.category.id}
                 placeholder={product ? product.category.name : "Categorias..."}
                 containerStyle={{ width: 270, height: 53 }}
                 value={categories.filter(
