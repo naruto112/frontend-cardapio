@@ -75,6 +75,9 @@ const ModalAddCategory: React.FC<IModalProps> = ({
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
       <Form ref={formRef} onSubmit={handleSubmit}>
         <h1>Nova Categoria</h1>
+        <a href="https://www.flaticon.com/" target="_blank">
+          Imagens para baixar em SVG
+        </a>
         {selectedFile && (
           <div className="alert-upload">
             <div>
