@@ -195,7 +195,7 @@ const Itens: React.FC = () => {
             <span>Adicionais</span>
           </Button>
           {categories?.length !== 0 ? (
-            <Button onClick={() => location(`/product/new/${id}`)}>
+            <Button onClick={() => location(`/new/${id}`)}>
               <FiPlus size={20} />
               <span>Produto</span>
             </Button>
