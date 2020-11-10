@@ -41,7 +41,7 @@ const ModalAddAditional: React.FC<IModalProps> = ({
       });
 
       await api.post("aditionals", formData);
-
+      setButtonSave("Criar");
       setIsOpen();
       handleAddAditional(data);
     },
