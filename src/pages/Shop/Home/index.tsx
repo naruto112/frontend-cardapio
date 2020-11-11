@@ -1,10 +1,11 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CarouselProvider, Slider } from "pure-react-carousel";
 import "pure-react-carousel/dist/react-carousel.es.css";
 import { useParams } from "react-router";
 import { FiShoppingCart } from "react-icons/fi";
 
 import { Container, FilterContainer, FoodContainer, Title } from "./styles";
+import ComidaSvg from "../../../assets/comida.svg";
 
 import FilterCategory from "../../../components/FilterCategory";
 import Food from "../../../components/Food";
@@ -32,6 +33,7 @@ interface IFoodPlate {
   id: string;
   name: string;
   price: number;
+  category: ICategory;
   description: string;
   visible: boolean;
   attachment: IAttachment[];
@@ -58,25 +60,33 @@ const Shop: React.FC = () => {
     api.get(`shop/menu/${shop}`).then((response) => {
       setMenu(response.data);
     });
-  }, [shop]);
+  }, [shop, menu]);
 
   const toggleModal = (): void => {
     setModalOpen(!modalOpen);
   };
 
-  const handleSelectItem = useCallback(
-    (id: number) => {
-      const alreadySelected = selectedItems.findIndex((item) => item === id);
+  const handleSelectItem = (id: number, name: string) => {
+    const alreadySelected = selectedItems.findIndex((item) => item === id);
 
-      if (alreadySelected >= 0) {
-        const filteredItems = selectedItems.filter((item) => item !== id);
-        setSelectedItems(filteredItems);
-      } else {
-        setSelectedItems([id]);
-      }
-    },
-    [selectedItems]
-  );
+    if (alreadySelected >= 0) {
+      const filteredItems = selectedItems.filter((item) => item !== id);
+      setSelectedItems(filteredItems);
+    } else {
+      setSelectedItems([id]);
+    }
+
+    handleFilterProduct(name);
+  };
+
+  const handleFilterProduct = (name: string) => {
+    const product = menu.filter((item) =>
+      item.products.filter(
+        (product) => product.category.name === "Refrigerantes"
+      )
+    );
+    console.log(product);
+  };
 
   return (
     <>
@@ -100,10 +110,10 @@ const Shop: React.FC = () => {
               <FilterCategory
                 className={selectedItems.includes(index) ? "selected" : ""}
                 key={category.id}
-                img={category.url}
+                img={category.url ? category.url : ComidaSvg}
                 title={category.name}
                 style={{ marginRight: 30 }}
-                onClick={() => handleSelectItem(index)}
+                onClick={() => handleSelectItem(index, category.name)}
               />
             ))}
           </Slider>
