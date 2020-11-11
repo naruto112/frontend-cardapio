@@ -60,7 +60,7 @@ const Shop: React.FC = () => {
     api.get(`shop/menu/${shop}`).then((response) => {
       setMenu(response.data);
     });
-  }, [shop, menu]);
+  }, [shop]);
 
   const toggleModal = (): void => {
     setModalOpen(!modalOpen);
@@ -76,17 +76,17 @@ const Shop: React.FC = () => {
       setSelectedItems([id]);
     }
 
-    handleFilterProduct(name);
+    // handleFilterProduct(name);
   };
 
-  const handleFilterProduct = (name: string) => {
-    const product = menu.filter((item) =>
-      item.products.filter(
-        (product) => product.category.name === "Refrigerantes"
-      )
-    );
-    console.log(product);
-  };
+  // const handleFilterProduct = (name: string) => {
+  //   const product = menu.filter((item) =>
+  //     item.products.filter(
+  //       (product) => product.category.name === "Refrigerantes"
+  //     )
+  //   );
+  //   console.log(product);
+  // };
 
   return (
     <>
