@@ -14,7 +14,7 @@ import ButtonShop from "../../components/ButtonShop";
 
 import formatValue from "../../utils/formatValue";
 
-import Burger2 from "../../assets/bg.jpg";
+import ComidaSvg from "../../assets/comida.svg";
 import { api } from "../../services/api";
 
 interface IAditionals {
@@ -141,7 +141,18 @@ const ModalShopAdditional: React.FC<IModalProps> = ({
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
       <Form ref={formRef} onSubmit={() => {}}>
-        <img src={product?.attachment[0].url} alt={Burger2} />
+        {product?.attachment !== undefined ? (
+          <img
+            src={
+              product.attachment.length > 0
+                ? product.attachment[0].url
+                : ComidaSvg
+            }
+            alt={ComidaSvg}
+          />
+        ) : (
+          <img src={ComidaSvg} alt={ComidaSvg} />
+        )}
         <ContentInformation>
           <strong>{product?.name}</strong>
           <main>{product?.description}</main>

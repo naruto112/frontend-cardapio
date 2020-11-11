@@ -54,10 +54,11 @@ const Food: React.FC<IProps> = ({ food }: IProps) => {
         handleAddAddtional={toggleIncrement}
       />
       <header>
-        <img
-          src={food.attachment[0].url ? food.attachment[0].url : ComidaSvg}
-          alt={food.name}
-        />
+        {food.attachment.length > 0 ? (
+          <img src={food.attachment[0].url} alt={food.name} />
+        ) : (
+          <img src={ComidaSvg} alt="Comida" />
+        )}
       </header>
       <section className="body">
         <h2>{food.name}</h2>
