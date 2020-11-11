@@ -7,6 +7,8 @@ import ModalShopAddtional from "../ModalShopAdditional";
 import { addProductToCart } from "../../store/modules/cart/actions";
 import formatValue from "../../utils/formatValue";
 
+import ComidaSvg from "../../assets/comida.svg";
+
 interface IAttachment {
   id: string;
   url: string;
@@ -52,7 +54,10 @@ const Food: React.FC<IProps> = ({ food }: IProps) => {
         handleAddAddtional={toggleIncrement}
       />
       <header>
-        <img src={food.attachment[0].url} alt={food.name} />
+        <img
+          src={food.attachment[0].url ? food.attachment[0].url : ComidaSvg}
+          alt={food.name}
+        />
       </header>
       <section className="body">
         <h2>{food.name}</h2>
