@@ -82,7 +82,7 @@ const NewProduct: React.FC = () => {
           stock: Yup.string().required("Deve colocar 1 produto no minínimo"),
           description: Yup.string()
             .required("Crie uma descrição para seu produto")
-            .min(50),
+            .min(8),
           category: Yup.string().required("Selecione uma categoria"),
         });
 

@@ -61,17 +61,17 @@ const Itens: React.FC = () => {
   const [modalOpenAditional, setModalOpenAditional] = useState(false);
   const history = useHistory();
   const { addToast } = useToast();
-  const { id } = useParams<IParams>();
+  const idParams = useParams<IParams>();
 
   useEffect(() => {
-    api.get(`products/${id}`).then((response) => {
+    api.get(`products/${idParams.id}`).then((response) => {
       setLists(response.data);
     });
 
     api.get("categories").then((response) => {
       setCategories(response.data);
     });
-  }, [id]);
+  }, [idParams.id]);
 
   const location = useCallback(
     (href: string) => {
@@ -135,17 +135,27 @@ const Itens: React.FC = () => {
     [addToast, categories]
   );
 
-  const handleSelectItem = (id: number, key: string) => {
+  const handleSelectItem = (id: number, name: string) => {
     const alreadySelected = selectedItems.findIndex((item) => item === id);
 
     if (alreadySelected >= 0) {
       const filteredItems = selectedItems.filter((item) => item !== id);
       setSelectedItems(filteredItems);
+
+      api.get(`products/${idParams.id}`).then((response) => {
+        setLists(response.data);
+      });
     } else {
+      api.get(`products/${idParams.id}`).then((response) => {
+        setLists(response.data);
+        const product = list.filter((item) => item.category.name === name);
+        setLists(product);
+      });
+
       setSelectedItems([id]);
     }
 
-    handleFilterProduct(key);
+    handleFilterProduct(name);
   };
 
   const handleDeleteCategory = useCallback(
@@ -164,9 +174,9 @@ const Itens: React.FC = () => {
   );
 
   const handleFilterProduct = useCallback(
-    (id: string) => {
-      const product = list.filter((item) => item.category.name === "Lanches");
-      console.log(product);
+    (name: string) => {
+      const product = list.filter((item) => item.category.name === name);
+      setLists(product);
     },
     [list]
   );
@@ -195,7 +205,7 @@ const Itens: React.FC = () => {
             <span>Adicionais</span>
           </Button>
           {categories?.length !== 0 ? (
-            <Button onClick={() => location(`/new/${id}`)}>
+            <Button onClick={() => location(`/new/${idParams.id}`)}>
               <FiPlus size={20} />
               <span>Produto</span>
             </Button>
@@ -238,7 +248,7 @@ const Itens: React.FC = () => {
                   flexDirection: "column",
                   justifyContent: "center",
                 }}
-                onClick={() => handleSelectItem(index, id)}
+                onClick={() => handleSelectItem(index, category.name)}
               />
             ))}
           </Slider>
