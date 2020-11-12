@@ -9,9 +9,7 @@ import {
   Container,
   ContentButtonHeader,
   TitlePage,
-  SearchContainer,
   FilterContainer,
-  FilterTitle,
   Section,
   Category,
   Product,
@@ -19,7 +17,6 @@ import {
 import Header from "../../components/Header";
 import { useToast } from "../../components/Toast";
 import Button from "../../components/Button";
-import SearchInput from "../../components/SearchInput";
 import CardProduct from "../../components/CardProduct";
 import ModalAddCategory from "../../components/ModalAddCategory";
 import ModalAddAditional from "../../components/ModalAddAditional";
@@ -215,12 +212,6 @@ const Itens: React.FC = () => {
       <TitlePage>
         <h1>Lista de produtos</h1>
       </TitlePage>
-      <SearchContainer>
-        <SearchInput placeholder="Qual produto deseja pesquisar?" />
-      </SearchContainer>
-      <FilterTitle>
-        <strong>Categorias</strong>
-      </FilterTitle>
       <FilterContainer>
         <CarouselProvider
           className="carosel"
