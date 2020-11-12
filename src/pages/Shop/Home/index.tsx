@@ -33,6 +33,7 @@ interface IFoodPlate {
   id: string;
   name: string;
   price: number;
+  category_id: string;
   category: ICategory;
   description: string;
   visible: boolean;
@@ -51,6 +52,8 @@ const Shop: React.FC = () => {
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [menu, setMenu] = useState<IMenu[]>([]);
+  const [filtered, setFiltered] = useState(0);
+  const [products, setProducts] = useState<IFoodPlate[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
@@ -66,27 +69,30 @@ const Shop: React.FC = () => {
     setModalOpen(!modalOpen);
   };
 
-  const handleSelectItem = (id: number, name: string) => {
+  const handleSelectItem = (id: number, key: string) => {
     const alreadySelected = selectedItems.findIndex((item) => item === id);
 
     if (alreadySelected >= 0) {
       const filteredItems = selectedItems.filter((item) => item !== id);
       setSelectedItems(filteredItems);
+      setFiltered(0);
+      setProducts([]);
     } else {
       setSelectedItems([id]);
+      handleFilterProduct(key);
     }
-
-    // handleFilterProduct(name);
   };
 
-  // const handleFilterProduct = (name: string) => {
-  //   const product = menu.filter((item) =>
-  //     item.products.filter(
-  //       (product) => product.category.name === "Refrigerantes"
-  //     )
-  //   );
-  //   console.log(product);
-  // };
+  const handleFilterProduct = (id: string) => {
+    api
+      .post(`shop/menufilter/${shop}`, {
+        category_id: id,
+      })
+      .then((response) => {
+        setFiltered(1);
+        setProducts(response.data);
+      });
+  };
 
   return (
     <>
@@ -113,25 +119,41 @@ const Shop: React.FC = () => {
                 img={category.url ? category.url : ComidaSvg}
                 title={category.name}
                 style={{ marginRight: 30 }}
-                onClick={() => handleSelectItem(index, category.name)}
+                onClick={() => handleSelectItem(index, category.id)}
               />
             ))}
           </Slider>
         </CarouselProvider>
       </FilterContainer>
-
-      {menu.map((card, index) => (
-        <FoodContainer key={index}>
+      {!filtered ? (
+        menu.map((card, index) => (
+          <FoodContainer key={index}>
+            <Title>
+              <h2>{card.name}</h2>
+            </Title>
+            <div className="food-item">
+              {card.products.map((food) => (
+                <Food key={food.id} food={food} />
+              ))}
+            </div>
+          </FoodContainer>
+        ))
+      ) : (
+        <FoodContainer>
           <Title>
-            <h2>{card.name}</h2>
+            <h2>
+              {products.length === 0
+                ? "Nenhum produto encontrado"
+                : "Filtrados"}
+            </h2>
           </Title>
           <div className="food-item">
-            {card.products.map((food) => (
+            {products.map((food) => (
               <Food key={food.id} food={food} />
             ))}
           </div>
         </FoodContainer>
-      ))}
+      )}
     </>
   );
 };
